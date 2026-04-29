@@ -1,0 +1,73 @@
+export const mockFilms = [
+  {
+    id: 1,
+    title: "Liwanag sa Dilim",
+    creator: "Maria Santos",
+    studentId: "2024-00145",
+    category: "Drama",
+    tags: ["Drama", "Inspiring", "Student Work"],
+    thumbnail: "/liwanag.jpg",
+    previewUrl: "/liwanag.mp4",
+    duration: "15:32",
+    views: 1247,
+    rating: 4.8,
+    status: "approved",
+    aiScreening: "pass",
+    description:
+      "An award-winning student film following a young artist as she rediscovers hope in a city of lights.",
+  },
+  {
+    id: 2,
+    title: "Kahit Sandali",
+    creator: "Jose Reyes",
+    studentId: "2024-00089",
+    category: "Romance",
+    tags: ["Romance", "Heartfelt", "Campus"],
+    thumbnail:
+      "kahitsandali.png",
+    previewUrl: "/kahitsandali.mp4",
+    duration: "12:45",
+    views: 892,
+    rating: 4.5,
+    status: "pending",
+    aiScreening: "manual_review",
+    description:
+      "A tender short about finding love and courage during one unforgettable summer night.",
+  },
+  {
+    id: 3,
+    title: "Pulse of the City",
+    creator: "Ana Garcia",
+    studentId: "2024-00212",
+    category: "Action",
+    tags: ["Action", "Thriller", "Urban"],
+    thumbnail:
+      "pulse.png",
+    previewUrl: "pulse.mp4",
+    duration: "09:18",
+    views: 1543,
+    rating: 4.7,
+    status: "approved",
+    aiScreening: "pass",
+    description:
+      "A gripping chase through neon streets where trust and timing mean the difference between victory and defeat.",
+  },
+  {
+    id: 4,
+    title: "Canvas of Dreams",
+    creator: "Leah Cruz",
+    studentId: "2024-00308",
+    category: "Drama",
+    tags: ["Drama", "Romance", "Art"],
+    thumbnail:
+      "canvas.jpg",
+    previewUrl: "canvas.mp4",
+    duration: "18:03",
+    views: 1130,
+    rating: 4.6,
+    status: "approved",
+    aiScreening: "pass",
+    description:
+      "A poetic exploration of love, art, and the pressure to create something that lasts.",
+  },
+];
