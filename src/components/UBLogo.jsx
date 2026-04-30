@@ -1,4 +1,4 @@
-export default function UBLogo({ size = 60 }) {
+export default function UBLogo({ size = 60, titleClass = "text-white", subtitleClass = "text-gray-400" }) {
   return (
     <div className="flex items-center gap-3">
       <img
@@ -10,10 +10,8 @@ export default function UBLogo({ size = 60 }) {
       />
 
       <div className="flex flex-col">
-        <span className="text-white text-xl font-bold">UB SINING</span>
-        <span className="text-xs text-gray-400 tracking-wide">
-          STUDENT FILM SHOWCASE
-        </span>
+        <span className={`${titleClass} text-xl font-bold`}>UB SINING</span>
+        <span className={`${subtitleClass} text-xs tracking-wide`}>STUDENT FILM SHOWCASE</span>
       </div>
     </div>
   );

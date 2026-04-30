@@ -6,7 +6,7 @@ export const mockFilms = [
     studentId: "2024-00145",
     category: "Drama",
     tags: ["Drama", "Inspiring", "Student Work"],
-    thumbnail: "/liwanag.jpg",
+    thumbnail: "/liwanag.png",
     previewUrl: "/liwanag.mp4",
     duration: "15:32",
     views: 1247,
@@ -23,8 +23,7 @@ export const mockFilms = [
     studentId: "2024-00089",
     category: "Romance",
     tags: ["Romance", "Heartfelt", "Campus"],
-    thumbnail:
-      "kahitsandali.png",
+    thumbnail:"/kahitsandali.png",
     previewUrl: "/kahitsandali.mp4",
     duration: "12:45",
     views: 892,
@@ -60,7 +59,7 @@ export const mockFilms = [
     category: "Drama",
     tags: ["Drama", "Romance", "Art"],
     thumbnail:
-      "canvas.jpg",
+      "canvas.png",
     previewUrl: "canvas.mp4",
     duration: "18:03",
     views: 1130,
