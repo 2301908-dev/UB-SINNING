@@ -66,7 +66,7 @@ export default function StudentDashboard() {
     <div
       className="relative min-h-screen text-slate-900 bg-cover bg-center"
       style={{ backgroundImage: "url('/studentbackround.png')" }}
-    >
+    > 
       <div className="pointer-events-none absolute inset-0 bg-slate-950/10" />
       <div className="relative z-10">
 

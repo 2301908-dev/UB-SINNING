@@ -6,6 +6,8 @@ import AdminDashboard from "./pages/AdminDashboard";
 function AppContent() {
   const { role } = useAuth();
 
+
+
   if (!role) return <LoginPage />;
   if (role === "student") return <StudentDashboard />;
   if (role === "admin") return <AdminDashboard />;
