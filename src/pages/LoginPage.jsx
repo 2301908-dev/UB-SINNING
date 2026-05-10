@@ -33,8 +33,7 @@ const DEMO_FILMS = [
     genre: "DOCUMENTARY",
     year: null,
     rating: 4.6,
-    gradient: "linear-gradient(155deg, #cc5500 0%, #8B1500 40%, #3d0600 100%)",
-    letter: "S",
+    poster: "https://image.tmdb.org/t/p/w500/q719jXXEzOoYaps6babgKnONONX.jpg",
     w: 230, h: 320,
   },
   {
@@ -42,8 +41,7 @@ const DEMO_FILMS = [
     genre: "SHORT FILM",
     year: "2025",
     rating: 4.9,
-    gradient: "linear-gradient(155deg, #560808 0%, #2a0303 55%, #130101 100%)",
-    letter: "N",
+    poster: "https://image.tmdb.org/t/p/w500/iiZZdoQBEYBv6id8su7ImL0oCbD.jpg",
     w: 230, h: 320,
   },
   {
@@ -51,8 +49,7 @@ const DEMO_FILMS = [
     genre: "ANIMATION",
     year: "2025",
     rating: 4.7,
-    gradient: "linear-gradient(155deg, #f2b200 0%, #c97c00 48%, #7a4500 100%)",
-    letter: "M",
+    poster: "https://image.tmdb.org/t/p/w500/39wmItIWsg5sZMyRUHLkWBcuVCM.jpg",
     w: 230, h: 320,
   },
 ];
@@ -64,7 +61,7 @@ function FilmCard({ film }) {
       width: film.w,
       height: film.h,
       borderRadius: 24,
-      background: film.gradient,
+      background: "#1a0606",
       border: "1px solid rgba(255,255,255,0.09)",
       boxShadow: "0 30px 72px rgba(0,0,0,0.48), 0 8px 24px rgba(0,0,0,0.30)",
       display: "flex",
@@ -73,22 +70,34 @@ function FilmCard({ film }) {
       padding: "18px 18px 20px",
       overflow: "hidden",
     }}>
-      {/* Watermark letter */}
-      <span style={{
-        position: "absolute",
-        top: "44%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        fontFamily: "'Montserrat', sans-serif",
-        fontWeight: 900,
-        fontSize: film.w * 0.80,
-        color: "rgba(255,255,255,0.08)",
-        lineHeight: 1,
-        userSelect: "none",
-        pointerEvents: "none",
-      }}>
-        {film.letter}
-      </span>
+      {/* Poster image — fills the card */}
+      <img
+        src={film.poster}
+        alt={film.title}
+        draggable={false}
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          objectPosition: "center",
+          userSelect: "none",
+          pointerEvents: "none",
+        }}
+      />
+
+      {/* Bottom gradient overlay for legibility */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          inset: 0,
+          background:
+            "linear-gradient(180deg, rgba(0,0,0,0) 45%, rgba(0,0,0,0.55) 78%, rgba(0,0,0,0.85) 100%)",
+          pointerEvents: "none",
+        }}
+      />
 
       {/* Rating badge — top right */}
       <div style={{
