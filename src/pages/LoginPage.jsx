@@ -1,7 +1,6 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useAuth } from "../context/AuthContext";
-import { X } from "lucide-react";
-import FeaturesSection from "./FeaturesSection"; 
+import FeaturesSection from "./FeaturesSection";
 import AboutSection from "./AboutSection";
 import TeamSection from "./TeamSection";
 
@@ -28,123 +27,117 @@ function LogoIcon() {
   );
 }
 
-// ─── Login Modal ──────────────────────────────────────────────────────────────
+const DEMO_FILMS = [
+  {
+    title: "Salinlahi",
+    genre: "DOCUMENTARY",
+    year: null,
+    rating: 4.6,
+    gradient: "linear-gradient(155deg, #cc5500 0%, #8B1500 40%, #3d0600 100%)",
+    letter: "S",
+    w: 230, h: 320,
+  },
+  {
+    title: "Nightfall",
+    genre: "SHORT FILM",
+    year: "2025",
+    rating: 4.9,
+    gradient: "linear-gradient(155deg, #560808 0%, #2a0303 55%, #130101 100%)",
+    letter: "N",
+    w: 230, h: 320,
+  },
+  {
+    title: "Mga Tala",
+    genre: "ANIMATION",
+    year: "2025",
+    rating: 4.7,
+    gradient: "linear-gradient(155deg, #f2b200 0%, #c97c00 48%, #7a4500 100%)",
+    letter: "M",
+    w: 230, h: 320,
+  },
+];
 
-function LoginModal({ onClose, onLogin }) {
-  const [ubid, setUbid] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!ubid.trim() || !password.trim()) {
-      setError("Please fill in both fields.");
-      return;
-    }
-    onLogin("student");
-  };
-
+function FilmCard({ film }) {
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/25 px-4"
-      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
-    >
-      <div className="relative w-full max-w-md rounded-[28px] border border-gray-200 bg-white shadow-[0_30px_80px_rgba(0,0,0,0.13)] p-7 animate-fade-in-up">
+    <div style={{
+      position: "relative",
+      width: film.w,
+      height: film.h,
+      borderRadius: 24,
+      background: film.gradient,
+      border: "1px solid rgba(255,255,255,0.09)",
+      boxShadow: "0 30px 72px rgba(0,0,0,0.48), 0 8px 24px rgba(0,0,0,0.30)",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "flex-end",
+      padding: "18px 18px 20px",
+      overflow: "hidden",
+    }}>
+      {/* Watermark letter */}
+      <span style={{
+        position: "absolute",
+        top: "44%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        fontFamily: "'Montserrat', sans-serif",
+        fontWeight: 900,
+        fontSize: film.w * 0.80,
+        color: "rgba(255,255,255,0.08)",
+        lineHeight: 1,
+        userSelect: "none",
+        pointerEvents: "none",
+      }}>
+        {film.letter}
+      </span>
 
-        {/* Close */}
-        <button
-          onClick={onClose}
-          className="absolute right-4 top-4 rounded-full bg-gray-100 p-2 text-gray-600 transition hover:bg-gray-200"
-        >
-          <X className="h-4 w-4" />
-        </button>
+      {/* Rating badge — top right */}
+      <div style={{
+        position: "absolute",
+        top: 13,
+        right: 13,
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 4,
+        background: "rgba(12,4,0,0.78)",
+        backdropFilter: "blur(8px)",
+        WebkitBackdropFilter: "blur(8px)",
+        borderRadius: 999,
+        padding: "5px 11px 5px 8px",
+      }}>
+        <img src="/src/assets/icons/star.png" alt="star" style={{ width: 10, height: 10 }} />
+        <span style={{
+          color: "#fff",
+          fontFamily: "'Poppins', sans-serif",
+          fontWeight: 600,
+          fontSize: 11,
+          lineHeight: 1,
+        }}>{film.rating}</span>
+      </div>
 
-        {/* Header */}
-        <div className="mb-6 flex items-center gap-4 rounded-[20px] border border-gray-100 bg-[#FAFAFA] px-5 py-4">
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#8B0000]/10">
-            <LogoIcon />
-          </div>
-          <div>
-            <p
-              className="text-xs uppercase tracking-[0.22em] text-[#8B0000]"
-              style={{ fontFamily: "'Poppins', sans-serif" }}
-            >
-              University SSO
-            </p>
-            <h2
-              className="text-lg text-gray-900"
-              style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 600 }}
-            >
-              UB Login Portal
-            </h2>
-            <p className="text-xs text-gray-500" style={{ fontFamily: "'Poppins', sans-serif" }}>
-              Secure access for UB students
-            </p>
-          </div>
-        </div>
-
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label
-              className="mb-1.5 block text-sm text-gray-700"
-              style={{ fontFamily: "'Poppins', sans-serif" }}
-            >
-              UB Email
-            </label>
-            <input
-              type="text"
-              value={ubid}
-              onChange={(e) => { setUbid(e.target.value); setError(""); }}
-              placeholder="username@ub.edu.ph"
-              className="w-full rounded-2xl border border-gray-200 bg-[#FAFAFA] px-4 py-3 text-sm text-gray-900 outline-none transition focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20"
-              style={{ fontFamily: "'Poppins', sans-serif" }}
-            />
-          </div>
-
-          <div>
-            <label
-              className="mb-1.5 block text-sm text-gray-700"
-              style={{ fontFamily: "'Poppins', sans-serif" }}
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => { setPassword(e.target.value); setError(""); }}
-              placeholder="Enter your password"
-              className="w-full rounded-2xl border border-gray-200 bg-[#FAFAFA] px-4 py-3 text-sm text-gray-900 outline-none transition focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20"
-              style={{ fontFamily: "'Poppins', sans-serif" }}
-            />
-          </div>
-
-          {error && (
-            <p className="text-xs text-red-600" style={{ fontFamily: "'Poppins', sans-serif" }}>
-              {error}
-            </p>
-          )}
-
-          <button
-            type="submit"
-            className="w-full rounded-full py-3 text-sm uppercase tracking-[0.18em] text-white transition-all duration-200 hover:opacity-90 hover:scale-[1.02] active:scale-95 shadow-[0_4px_14px_rgba(139,0,0,0.3)]"
-            style={{
-              fontFamily: "'Poppins', sans-serif",
-              fontWeight: 500,
-              background: "#8B0000",
-            }}
-          >
-            Continue
-          </button>
-        </form>
-
-        <div
-          className="mt-4 flex items-center justify-between text-xs text-gray-400"
-          style={{ fontFamily: "'Poppins', sans-serif" }}
-        >
-          <span>Secure UB SSO access</span>
-          <span>Student Portal</span>
-        </div>
+      {/* Bottom meta */}
+      <div style={{ position: "relative", zIndex: 1 }}>
+        <span style={{
+          display: "block",
+          color: "rgba(255,255,255,0.68)",
+          fontFamily: "'Poppins', sans-serif",
+          fontWeight: 500,
+          fontSize: 10,
+          letterSpacing: "0.10em",
+          textTransform: "uppercase",
+          marginBottom: 6,
+        }}>
+          {film.genre}{film.year ? ` · ${film.year}` : ""}
+        </span>
+        <p style={{
+          color: "#fff",
+          fontFamily: "'Montserrat', sans-serif",
+          fontWeight: 800,
+          fontSize: 15,
+          lineHeight: 1.2,
+          margin: 0,
+        }}>
+          {film.title}
+        </p>
       </div>
     </div>
   );
@@ -154,15 +147,11 @@ function LoginModal({ onClose, onLogin }) {
 
 const NAV_LINKS = ["Home", "Features", "About", "Team"];
 
-function Navbar({ onSignInClick, onAboutClick }) {
+function Navbar({ onSignInClick }) {
   const [activeLink, setActiveLink] = useState("Home");
 
   const handleNavClick = (link) => {
     setActiveLink(link);
-    if (link === "About" && onAboutClick) {
-      onAboutClick();
-      return;
-    }
     const el = document.getElementById(link.toLowerCase());
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
@@ -248,109 +237,308 @@ function Navbar({ onSignInClick, onAboutClick }) {
 
 // ─── Hero Section ─────────────────────────────────────────────────────────────
 
-function HeroSection({ onEnterGallery, onAdminAccess }) {
+function HeroSection({ onSignInClick }) {
   return (
-    <section id="home" className="relative z-10 flex flex-col items-center justify-center text-center px-6 pt-[120px] pb-32 min-h-screen">
-
-      <h1
-        className="text-[#111] leading-[1.18] mb-5 max-w-4xl"
+    <section
+      id="home"
+      className="relative z-10 min-h-screen overflow-hidden"
+      style={{ paddingTop: 100 }}
+    >
+      {/* Ambient blob lighting */}
+      <div
+        aria-hidden="true"
         style={{
-          fontFamily: "'Montserrat', sans-serif",
-          fontWeight: 700,
-          fontSize: "clamp(36px, 5.5vw, 56px)",
-          letterSpacing: "-0.5px",
+          position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none",
         }}
       >
-        Bringing Student
-        <br />
-        <span
-          className="text-transparent bg-clip-text bg-gradient-to-r from-[#8B0000] via-[#D4AF37] to-[#8B0000]"
+        <div style={{
+          position: "absolute", top: -160, left: -120,
+          width: 480, height: 480, borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(139,0,0,0.35) 0%, transparent 70%)",
+          animation: "floatSlow 7s ease-in-out infinite",
+        }} />
+        <div style={{
+          position: "absolute", top: 60, right: -90,
+          width: 380, height: 380, borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(255,197,83,0.38) 0%, transparent 70%)",
+          animation: "floatFast 5s ease-in-out infinite",
+          animationDelay: "0.8s",
+        }} />
+        <div style={{
+          position: "absolute", bottom: 20, left: "20%",
+          width: 280, height: 280, borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(139,0,0,0.22) 0%, transparent 70%)",
+          animation: "floatSlow 9s ease-in-out infinite",
+          animationDelay: "1.5s",
+        }} />
+      </div>
+
+      <style>{`
+        @keyframes floatSlow {
+          0%, 100% { transform: translateY(0px) scale(1); }
+          50% { transform: translateY(-22px) scale(1.04); }
+        }
+        @keyframes floatFast {
+          0%, 100% { transform: translateY(0px) scale(1); }
+          50% { transform: translateY(-14px) scale(1.03); }
+        }
+        @keyframes cardFloat1 {
+          0%, 100% { transform: translateY(0px) rotate(-2deg); }
+          50% { transform: translateY(-14px) rotate(-2deg); }
+        }
+        @keyframes cardFloat2 {
+          0%, 100% { transform: translateY(0px) rotate(2deg); }
+          50% { transform: translateY(-10px) rotate(2deg); }
+        }
+        @keyframes cardFloat3 {
+          0%, 100% { transform: translateY(0px) rotate(-1deg); }
+          50% { transform: translateY(-18px) rotate(-1deg); }
+        }
+      `}</style>
+
+      <div
+        className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10"
+        style={{
+          display: "grid", gridTemplateColumns: "1fr", gap: 40, alignItems: "center",
+          minHeight: "calc(100vh - 100px)", paddingTop: 40, paddingBottom: 80,
+        }}
+      >
+        <style>{`
+          @media (min-width: 1024px) {
+            .hero-grid { grid-template-columns: 7fr 5fr !important; }
+          }
+        `}</style>
+
+        <div
+          className="hero-grid"
           style={{
-            fontFamily: "'Montserrat', sans-serif",
-            fontWeight: 600,
-            fontStyle: "italic",
-            fontSize: "clamp(38px, 5.8vw, 58px)",
+            display: "grid", gridTemplateColumns: "1fr", gap: 40, alignItems: "center",
           }}
         >
-          Creativity
-        </span>{" "}
-        to the Spotlight
-      </h1>
+          {/* ── Left: Copy ── */}
+          <div>
+            {/* Headline */}
+            <h1
+              style={{
+                fontFamily: "'Montserrat', sans-serif", fontWeight: 900, fontSize: "clamp(36px, 5.5vw, 68px)",
+                lineHeight: 1.05, letterSpacing: "-1px", color: "#111", margin: 0,
+              }}
+            >
+              Bringing Student
+              <br />
+              <span
+                style={{
+                  background: "linear-gradient(135deg, #8B0000 0%, #ffc553 100%)", WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent", backgroundClip: "text",
+                }}
+              >
+                Creativity
+              </span>{" "}
+              to the
+              <br />
+              <span style={{ position: "relative", display: "inline-block" }}>
+                <span
+                  style={{
+                    background: "linear-gradient(90deg, #8B0000, #ffc553)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                  }}
+                >
+                  Spotlight.
+                </span>
+                <svg
+                  viewBox="0 0 260 14"
+                  style={{
+                    position: "absolute",
+                    bottom: -6,
+                    left: 0,
+                    width: "100%",
+                  }}
+                  preserveAspectRatio="none"
+                >
+                  <path
+                    d="M2 9 C 70 0, 190 0, 258 8"
+                    stroke="url(#heroGrad)"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    fill="none"
+                  />
+                  <defs>
+                    <linearGradient id="heroGrad" x1="0" x2="1">
+                      <stop offset="0" stopColor="#8B0000" />
+                      <stop offset="1" stopColor="#ffc553" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </span>
+            </h1>
 
-      <p
-        className="text-[#888] leading-relaxed max-w-xl mb-10 text-[15px]"
-        style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 400 }}
-      >
-        A platform dedicated to elevating student creativity by showcasing films,
-        preserving stories, and giving every creator a voice that lasts beyond the
-        classroom.
-      </p>
+            {/* Subtext */}
+            <p
+              style={{
+                marginTop: 28,
+                maxWidth: 520,
+                fontSize: 17,
+                lineHeight: 1.7,
+                color: "#555",
+                fontFamily: "'Poppins', sans-serif",
+                fontWeight: 400,
+              }}
+            >
+              Watch, Discover, and Experience Students Creativity Through the Works of Passionate Student Artists and Filmmakers.
+            </p>
 
-      <button
-        onClick={onEnterGallery}
-        className="
-          cursor-pointer
-          text-white text-[15px] rounded-xl px-10 py-3.5
-          transition-all duration-200
-          shadow-[0_4px_18px_rgba(139,0,0,0.3)]
-          hover:shadow-[0_6px_22px_rgba(139,0,0,0.42)]
-          hover:-translate-y-0.5
-          active:scale-95
-        "
-        style={{
-          fontFamily: "'Poppins', sans-serif",
-          fontWeight: 500,
-          background: "#8B0000",
-        }}
-        onMouseEnter={(e) => (e.currentTarget.style.background = "#6b0000")}
-        onMouseLeave={(e) => (e.currentTarget.style.background = "#8B0000")}
-      >
-        Enter Gallery
-      </button>
+            {/* CTAs */}
+            <div
+              style={{
+                marginTop: 36,
+                display: "flex",
+                flexWrap: "wrap",
+                alignItems: "center",
+                gap: 12,
+              }}
+            >
+              {/* Primary CTA */}
+              <button
+                onClick={onSignInClick}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                  background: "#8B0000",
+                  color: "#fff",
+                  fontFamily: "'Poppins', sans-serif",
+                  fontWeight: 600,
+                  fontSize: 15,
+                  border: "none",
+                  borderRadius: 100,
+                  padding: "13px 28px",
+                  cursor: "pointer",
+                  boxShadow: "0 4px 18px rgba(139,0,0,0.32)",
+                  backdropFilter: "blur(12px)",
+                  WebkitBackdropFilter: "blur(12px)",
+                  transition: "all 0.2s",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "#6b0000";
+                  e.currentTarget.style.transform = "translateY(-2px)";
+                  e.currentTarget.style.boxShadow = "0 8px 28px rgba(139,0,0,0.42)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "#8B0000";
+                  e.currentTarget.style.transform = "translateY(0)";
+                  e.currentTarget.style.boxShadow = "0 4px 18px rgba(139,0,0,0.32)";
+                }}
+              >
+                Explore Films
+                <img src="/src/assets/icons/next.png" alt="arrow" style={{ width: 16, height: 16 }} />
+              </button>
 
-      {/* ✅ Faculty/Admin — calls login("admin") directly via onAdminAccess */}
-      <button
-        onClick={onAdminAccess}
-        className="mt-5 text-xs text-gray-400 underline underline-offset-2 hover:text-[#8B0000] transition-colors duration-200"
-        style={{ fontFamily: "'Poppins', sans-serif" }}
-      >
-        Faculty / Admin access →
-      </button>
+              {/* Ghost CTA — white background with blur */}
+              <button
+                onClick={onSignInClick}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                  background: "rgba(255,255,255,0.82)",
+                  color: "#8B0000",
+                  fontFamily: "'Poppins', sans-serif",
+                  fontWeight: 600,
+                  fontSize: 15,
+                  border: "1.5px solid rgba(139,0,0,0.22)",
+                  borderRadius: 100,
+                  padding: "13px 24px",
+                  cursor: "pointer",
+                  backdropFilter: "blur(12px)",
+                  WebkitBackdropFilter: "blur(12px)",
+                  boxShadow: "0 2px 12px rgba(0,0,0,0.08)",
+                  transition: "all 0.2s",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "rgba(255,255,255,0.96)";
+                  e.currentTarget.style.transform = "translateY(-2px)";
+                  e.currentTarget.style.boxShadow = "0 6px 20px rgba(0,0,0,0.12)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "rgba(255,255,255,0.82)";
+                  e.currentTarget.style.transform = "translateY(0)";
+                  e.currentTarget.style.boxShadow = "0 2px 12px rgba(0,0,0,0.08)";
+                }}
+              >
+                <img src="/src/assets/icons/play.png" alt="play" style={{ width: 16, height: 16 }} />
+                Watch Now
+              </button>
+            </div>
+          </div>
+
+          {/* ── Right: Floating Film Cards ── */}
+          <div
+            className="hidden lg:block"
+            style={{ position: "relative", height: 520, width: "100%" }}
+          >
+            <div style={{
+              position: "absolute",
+              top: 0,
+              right: 20,
+              zIndex: 1,
+              animation: "cardFloat1 7s ease-in-out infinite",
+            }}>
+              <FilmCard film={DEMO_FILMS[1]} />
+            </div>
+
+            <div style={{
+              position: "absolute",
+              top: 80,
+              left: 0,
+              zIndex: 2,
+              animation: "cardFloat2 6s ease-in-out infinite",
+              animationDelay: "0.6s",
+            }}>
+              <FilmCard film={DEMO_FILMS[0]} />
+            </div>
+
+            <div style={{
+              position: "absolute",
+              bottom: 10,
+              left: "30%",
+              zIndex: 3,
+              animation: "cardFloat3 8s ease-in-out infinite",
+              animationDelay: "1.2s",
+            }}>
+              <FilmCard film={DEMO_FILMS[2]} />
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }
 
 // ─── Root (LoginPage) ─────────────────────────────────────────────────────────
 
-export default function LoginPage({ onNavigateAbout }) {
+export default function LoginPage({ onNavigateSignIn }) {
   const { login } = useAuth();
-  const [showModal, setShowModal] = useState(false);
 
-  // Opens the student login modal
-  const handleEnterGallery = () => setShowModal(true);
-
-  // Bypasses modal — goes straight to admin dashboard via AuthContext
-  const handleAdminAccess = () => login("admin");
-
-  const handleLogin = (role) => {
-    login(role);
-    setShowModal(false);
+  const handleGoToSignIn = () => {
+    if (onNavigateSignIn) onNavigateSignIn();
   };
 
   return (
     <div className="relative w-full overflow-x-hidden bg-[#f9f9f9]">
 
-      {/* Fixed background — stays in place while page scrolls */}
+      {/* Fixed background */}
       <WaveBackground />
 
       {/* Fixed soft overlay */}
       <div className="fixed inset-0 bg-white/35 z-[1] pointer-events-none" aria-hidden="true" />
 
-      {/* Floating navbar */}
-      <Navbar onSignInClick={handleEnterGallery} onAboutClick={onNavigateAbout} />
+      {/* Navbar */}
+      <Navbar onSignInClick={handleGoToSignIn} />
 
       {/* ── Section 1: Hero ── */}
-      <HeroSection onEnterGallery={handleEnterGallery} onAdminAccess={handleAdminAccess} />
+      <HeroSection onSignInClick={handleGoToSignIn} />
 
       {/* ── Section 2: Features ── */}
       <FeaturesSection />
@@ -361,13 +549,6 @@ export default function LoginPage({ onNavigateAbout }) {
       {/* ── Section 4: Team ── */}
       <TeamSection />
 
-      {/* Login modal (student only) */}
-      {showModal && (
-        <LoginModal
-          onClose={() => setShowModal(false)}
-          onLogin={handleLogin}
-        />
-      )}
     </div>
   );
 }

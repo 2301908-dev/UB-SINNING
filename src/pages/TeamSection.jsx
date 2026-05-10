@@ -46,14 +46,14 @@ function Reveal({ children, delay = 0, className = "", style = {} }) {
 const TEAM = [
   {
     name: "Bryan James N. Villalon",
-    role: "UI/UX Designer",
+    role: "Frontend Developer",
     img: "src/assets/teampics/bryan.png",
     description: "Crafts intuitive and beautiful interfaces that bring the UB Sining vision to life.",
     gradient: "from-[#8B0000] to-[#D4AF37]",
   },
   {
     name: "Kenn Philip Nathaniel B. Silang",
-    role: "Backend Developer",
+    role: "Frontend Developer" ,
     img: "src/assets/teampics/kenn.png",
     description: "Architects the systems and logic that power every feature behind the scenes.",
     gradient: "from-[#D4AF37] to-[#8B0000]",
@@ -186,7 +186,7 @@ export default function TeamSection() {
             className="text-[11px] uppercase tracking-[0.35em] mb-3 text-center"
             style={{ color: "#8B0000", fontFamily: "'Poppins', sans-serif", fontWeight: 600 }}
           >
-            The People Behind It
+            The Team Behind UB SINING
           </p>
         </Reveal>
 
@@ -195,14 +195,14 @@ export default function TeamSection() {
             className="text-[clamp(26px,3.5vw,40px)] font-bold text-center mb-3"
             style={{ fontFamily: "'Montserrat', sans-serif", color: "#111827", letterSpacing: "-0.3px" }}
           >
-            Team{" "}
-            <span
-              style={{
-                backgroundImage: "linear-gradient(90deg,#8B0000 30%,#D4AF37 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
-            >
+              Team{" "}
+<span
+  style={{
+    backgroundImage: "linear-gradient(90deg, #d2be26 0%, #8B0000 100%)",
+    WebkitBackgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+  }}
+>
               The Sanctuary
             </span>
           </h2>
