@@ -35,7 +35,7 @@ const DEMO_FILMS = [
     rating: 4.6,
     gradient: "linear-gradient(155deg, #cc5500 0%, #8B1500 40%, #3d0600 100%)",
     poster: "/src/assets/icons/Poster1.jpg",
-    w: 230, h: 320,
+    w: 265, h: 375,
   },
   {
     title: "Nightfall",
@@ -44,7 +44,7 @@ const DEMO_FILMS = [
     rating: 4.9,
     gradient: "linear-gradient(155deg, #560808 0%, #2a0303 55%, #130101 100%)",
     poster: "/src/assets/icons/Poster2.jpg",
-    w: 230, h: 320,
+    w: 265, h: 375,
   },
   {
     title: "Mga Tala",
@@ -53,7 +53,7 @@ const DEMO_FILMS = [
     rating: 4.7,
     gradient: "linear-gradient(155deg, #f2b200 0%, #c97c00 48%, #7a4500 100%)",
     poster: "/src/assets/icons/Poster3.jpeg",
-    w: 230, h: 320,
+    w: 265, h: 375,
   },
 ];
 
@@ -334,25 +334,13 @@ function HeroSection({ onSignInClick }) {
             >
               Bringing Student
               <br />
-              <span
-                style={{
-                  background: "linear-gradient(135deg, #8B0000 0%, #ffc553 100%)", WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent", backgroundClip: "text",
-                }}
-              >
+              <span className="gradient-text">
                 Creativity
               </span>{" "}
               to the
               <br />
               <span style={{ position: "relative", display: "inline-block" }}>
-                <span
-                  style={{
-                    background: "linear-gradient(90deg, #8B0000, #ffc553)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    backgroundClip: "text",
-                  }}
-                >
+                <span className="shine-text">
                   Spotlight.
                 </span>
                 <svg
@@ -480,7 +468,7 @@ function HeroSection({ onSignInClick }) {
           {/* ── Right: Floating Film Cards ── */}
           <div
             className="hidden lg:block"
-            style={{ position: "relative", height: 520, width: "100%" }}
+            style={{ position: "relative", height: 600, width: "100%" }}
           >
             <div style={{
               position: "absolute",
@@ -495,7 +483,7 @@ function HeroSection({ onSignInClick }) {
             <div style={{
               position: "absolute",
               top: 80,
-              left: 0,
+              left: -20,
               zIndex: 2,
               animation: "cardFloat2 6s ease-in-out infinite",
               animationDelay: "0.6s",
@@ -505,7 +493,7 @@ function HeroSection({ onSignInClick }) {
 
             <div style={{
               position: "absolute",
-              bottom: 10,
+              bottom: -15,
               left: "30%",
               zIndex: 3,
               animation: "cardFloat3 8s ease-in-out infinite",
