@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Sparkles } from "lucide-react";
 
 const FEATURES = [
   {
@@ -112,18 +113,106 @@ export default function FeaturesSection() {
       id="features"
       className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 sm:px-10 py-24"
     >
-      <h2
-        className="text-4xl font-bold text-center mb-12"
-        style={{
-          fontFamily: "'Montserrat', sans-serif",
-          fontWeight: 700,
-          color: "#111827",
-          letterSpacing: "-0.01em",
-        }}
-      >
-        Features
-      </h2>
+      {/* HEADER */}
+      <div className="max-w-4xl w-full mx-auto px-6 lg:px-10 text-center mb-14">
+        {/* Kicker badge */}
+        <div
+          className="mb-5 inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase"
+          style={{
+            background: "rgba(139,0,0,0.08)",
+            color: "#8B0000",
+            fontFamily: "'Poppins', sans-serif",
+            border: "1px solid rgba(139,0,0,0.15)",
+          }}
+        >
+          <Sparkles className="w-3 h-3" />
+          Platform Features
+        </div>
 
+        {/* Headline */}
+        <h1
+          className="font-black text-4xl sm:text-5xl lg:text-6xl leading-[1.05]"
+          style={{ fontFamily: "'Montserrat', sans-serif", color: "#111827" }}
+        >
+          Everything a{" "}
+          <span
+            style={{
+              background: "linear-gradient(135deg, #8B0000 0%, #c0392b 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
+          >
+            student filmmaker
+          </span>{" "}
+          needs.
+        </h1>
+
+        {/* Subtitle */}
+        <p
+          className="mt-6 text-lg max-w-2xl mx-auto"
+          style={{ color: "#4B5563", fontFamily: "'Poppins', sans-serif", lineHeight: 1.7 }}
+        >
+          From cinematic playback to faculty workflows and audience analytics — UB-SINING is the
+          full creative pipeline for the next generation of MMA storytellers.
+        </p>
+
+        {/* Buttons */}
+        <div className="mt-9 flex flex-wrap justify-center gap-3">
+          {/* Try the platform — maroon filled */}
+          <a
+            href="/signin"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold text-white"
+            style={{
+              background: "#8B0000",
+              fontFamily: "'Poppins', sans-serif",
+              boxShadow: "0 4px 18px rgba(139,0,0,0.32)",
+              transition: "background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "#6b0000";
+              e.currentTarget.style.transform = "translateY(-2px)";
+              e.currentTarget.style.boxShadow = "0 8px 28px rgba(139,0,0,0.42)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "#8B0000";
+              e.currentTarget.style.transform = "translateY(0)";
+              e.currentTarget.style.boxShadow = "0 4px 18px rgba(139,0,0,0.32)";
+            }}
+          >
+            Try the platform
+            <img src="/src/assets/icons/next.png" alt="arrow" className="w-4 h-4 object-contain" style={{ filter: "brightness(0) invert(1)" }} />
+          </a>
+
+          {/* Why we built it — ghost */}
+          <a
+            href="/about"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold"
+            style={{
+              background: "rgba(255,255,255,0.82)",
+              color: "#8B0000",
+              fontFamily: "'Poppins', sans-serif",
+              border: "1px solid rgba(139,0,0,0.18)",
+              boxShadow: "0 2px 12px rgba(0,0,0,0.08)",
+              transition: "background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "rgba(255,255,255,0.96)";
+              e.currentTarget.style.transform = "translateY(-2px)";
+              e.currentTarget.style.boxShadow = "0 6px 20px rgba(0,0,0,0.12)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "rgba(255,255,255,0.82)";
+              e.currentTarget.style.transform = "translateY(0)";
+              e.currentTarget.style.boxShadow = "0 2px 12px rgba(0,0,0,0.08)";
+            }}
+          >
+            Why we built it
+          </a>
+        </div>
+      </div>
+
+      {/* FEATURE CARDS GRID */}
       <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-6">
         {FEATURES.map((feature) => (
           <FeatureCard key={feature.id} feature={feature} />

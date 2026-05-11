@@ -34,7 +34,7 @@ const DEMO_FILMS = [
     year: null,
     rating: 4.6,
     gradient: "linear-gradient(155deg, #cc5500 0%, #8B1500 40%, #3d0600 100%)",
-    letter: "S",
+    poster: "/src/assets/icons/Poster1.jpg",
     w: 230, h: 320,
   },
   {
@@ -43,7 +43,7 @@ const DEMO_FILMS = [
     year: "2025",
     rating: 4.9,
     gradient: "linear-gradient(155deg, #560808 0%, #2a0303 55%, #130101 100%)",
-    letter: "N",
+    poster: "/src/assets/icons/Poster2.jpg",
     w: 230, h: 320,
   },
   {
@@ -52,7 +52,7 @@ const DEMO_FILMS = [
     year: "2025",
     rating: 4.7,
     gradient: "linear-gradient(155deg, #f2b200 0%, #c97c00 48%, #7a4500 100%)",
-    letter: "M",
+    poster: "/src/assets/icons/Poster3.jpeg",
     w: 230, h: 320,
   },
 ];
@@ -73,28 +73,37 @@ function FilmCard({ film }) {
       padding: "18px 18px 20px",
       overflow: "hidden",
     }}>
-      {/* Watermark letter */}
-      <span style={{
+
+      {/* Poster image — full cover */}
+      <img
+        src={film.poster}
+        alt={film.title}
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          borderRadius: 24,
+          zIndex: 0,
+        }}
+      />
+
+      {/* Dark gradient overlay */}
+      <div style={{
         position: "absolute",
-        top: "44%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        fontFamily: "'Montserrat', sans-serif",
-        fontWeight: 900,
-        fontSize: film.w * 0.80,
-        color: "rgba(255,255,255,0.08)",
-        lineHeight: 1,
-        userSelect: "none",
-        pointerEvents: "none",
-      }}>
-        {film.letter}
-      </span>
+        inset: 0,
+        borderRadius: 24,
+        background: "linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.20) 55%, transparent 100%)",
+        zIndex: 1,
+      }} />
 
       {/* Rating badge — top right */}
       <div style={{
         position: "absolute",
         top: 13,
         right: 13,
+        zIndex: 2,
         display: "inline-flex",
         alignItems: "center",
         gap: 4,
@@ -115,7 +124,7 @@ function FilmCard({ film }) {
       </div>
 
       {/* Bottom meta */}
-      <div style={{ position: "relative", zIndex: 1 }}>
+      <div style={{ position: "relative", zIndex: 2 }}>
         <span style={{
           display: "block",
           color: "rgba(255,255,255,0.68)",
@@ -187,7 +196,7 @@ function Navbar({ onSignInClick }) {
       <ul className="hidden md:flex items-center gap-9 list-none m-0 p-0">
         {NAV_LINKS.map((link) => (
           <li key={link}>
-            <a
+             <a
               href="#"
               onClick={(e) => { e.preventDefault(); handleNavClick(link); }}
               className={`
@@ -317,7 +326,6 @@ function HeroSection({ onSignInClick }) {
         >
           {/* ── Left: Copy ── */}
           <div>
-            {/* Headline */}
             <h1
               style={{
                 fontFamily: "'Montserrat', sans-serif", fontWeight: 900, fontSize: "clamp(36px, 5.5vw, 68px)",
@@ -374,7 +382,6 @@ function HeroSection({ onSignInClick }) {
               </span>
             </h1>
 
-            {/* Subtext */}
             <p
               style={{
                 marginTop: 28,
@@ -389,7 +396,6 @@ function HeroSection({ onSignInClick }) {
               Watch, Discover, and Experience Students Creativity Through the Works of Passionate Student Artists and Filmmakers.
             </p>
 
-            {/* CTAs */}
             <div
               style={{
                 marginTop: 36,
@@ -399,7 +405,6 @@ function HeroSection({ onSignInClick }) {
                 gap: 12,
               }}
             >
-              {/* Primary CTA */}
               <button
                 onClick={onSignInClick}
                 style={{
@@ -435,7 +440,6 @@ function HeroSection({ onSignInClick }) {
                 <img src="/src/assets/icons/next.png" alt="arrow" style={{ width: 16, height: 16 }} />
               </button>
 
-              {/* Ghost CTA — white background with blur */}
               <button
                 onClick={onSignInClick}
                 style={{
