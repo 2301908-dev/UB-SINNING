@@ -35,7 +35,7 @@ const DEMO_FILMS = [
     rating: 4.6,
     gradient: "linear-gradient(155deg, #cc5500 0%, #8B1500 40%, #3d0600 100%)",
     poster: "/src/assets/icons/Poster1.jpg",
-    w: 265, h: 375,
+    w: 245, h: 350,
   },
   {
     title: "Nightfall",
@@ -44,7 +44,7 @@ const DEMO_FILMS = [
     rating: 4.9,
     gradient: "linear-gradient(155deg, #560808 0%, #2a0303 55%, #130101 100%)",
     poster: "/src/assets/icons/Poster2.jpg",
-    w: 265, h: 375,
+    w: 245, h: 350,
   },
   {
     title: "Mga Tala",
@@ -53,7 +53,7 @@ const DEMO_FILMS = [
     rating: 4.7,
     gradient: "linear-gradient(155deg, #f2b200 0%, #c97c00 48%, #7a4500 100%)",
     poster: "/src/assets/icons/Poster3.jpeg",
-    w: 265, h: 375,
+    w: 245, h: 350,
   },
 ];
 
