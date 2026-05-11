@@ -33,24 +33,27 @@ const DEMO_FILMS = [
     genre: "DOCUMENTARY",
     year: null,
     rating: 4.6,
+    gradient: "linear-gradient(155deg, #cc5500 0%, #8B1500 40%, #3d0600 100%)",
     poster: "/src/assets/icons/Poster1.jpg",
-    w: 265, h: 375,
+    w: 230, h: 320,
   },
   {
     title: "Nightfall",
     genre: "SHORT FILM",
     year: "2025",
     rating: 4.9,
+    gradient: "linear-gradient(155deg, #560808 0%, #2a0303 55%, #130101 100%)",
     poster: "/src/assets/icons/Poster2.jpg",
-    w: 265, h: 375,
+    w: 230, h: 320,
   },
   {
     title: "Mga Tala",
     genre: "ANIMATION",
     year: "2025",
     rating: 4.7,
+    gradient: "linear-gradient(155deg, #f2b200 0%, #c97c00 48%, #7a4500 100%)",
     poster: "/src/assets/icons/Poster3.jpeg",
-    w: 265, h: 375,
+    w: 230, h: 320,
   },
 ];
 
@@ -61,7 +64,7 @@ function FilmCard({ film }) {
       width: film.w,
       height: film.h,
       borderRadius: 24,
-      background: "#1a0606",
+      background: film.gradient,
       border: "1px solid rgba(255,255,255,0.09)",
       boxShadow: "0 30px 72px rgba(0,0,0,0.48), 0 8px 24px rgba(0,0,0,0.30)",
       display: "flex",
@@ -70,40 +73,37 @@ function FilmCard({ film }) {
       padding: "18px 18px 20px",
       overflow: "hidden",
     }}>
-      {/* Poster image — fills the card */}
+
+      {/* Poster image — full cover */}
       <img
         src={film.poster}
         alt={film.title}
-        draggable={false}
         style={{
           position: "absolute",
           inset: 0,
           width: "100%",
           height: "100%",
           objectFit: "cover",
-          objectPosition: "center",
-          userSelect: "none",
-          pointerEvents: "none",
+          borderRadius: 24,
+          zIndex: 0,
         }}
       />
 
-      {/* Bottom gradient overlay for legibility */}
-      <div
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          inset: 0,
-          background:
-            "linear-gradient(180deg, rgba(0,0,0,0) 45%, rgba(0,0,0,0.55) 78%, rgba(0,0,0,0.85) 100%)",
-          pointerEvents: "none",
-        }}
-      />
+      {/* Dark gradient overlay */}
+      <div style={{
+        position: "absolute",
+        inset: 0,
+        borderRadius: 24,
+        background: "linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.20) 55%, transparent 100%)",
+        zIndex: 1,
+      }} />
 
       {/* Rating badge — top right */}
       <div style={{
         position: "absolute",
         top: 13,
         right: 13,
+        zIndex: 2,
         display: "inline-flex",
         alignItems: "center",
         gap: 4,
@@ -124,7 +124,7 @@ function FilmCard({ film }) {
       </div>
 
       {/* Bottom meta */}
-      <div style={{ position: "relative", zIndex: 1 }}>
+      <div style={{ position: "relative", zIndex: 2 }}>
         <span style={{
           display: "block",
           color: "rgba(255,255,255,0.68)",
@@ -196,7 +196,7 @@ function Navbar({ onSignInClick }) {
       <ul className="hidden md:flex items-center gap-9 list-none m-0 p-0">
         {NAV_LINKS.map((link) => (
           <li key={link}>
-            <a
+             <a
               href="#"
               onClick={(e) => { e.preventDefault(); handleNavClick(link); }}
               className={`
@@ -326,7 +326,6 @@ function HeroSection({ onSignInClick }) {
         >
           {/* ── Left: Copy ── */}
           <div>
-            {/* Headline */}
             <h1
               style={{
                 fontFamily: "'Montserrat', sans-serif", fontWeight: 900, fontSize: "clamp(36px, 5.5vw, 68px)",
@@ -335,13 +334,25 @@ function HeroSection({ onSignInClick }) {
             >
               Bringing Student
               <br />
-              <span className="gradient-text">
+              <span
+                style={{
+                  background: "linear-gradient(135deg, #8B0000 0%, #ffc553 100%)", WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent", backgroundClip: "text",
+                }}
+              >
                 Creativity
               </span>{" "}
               to the
               <br />
               <span style={{ position: "relative", display: "inline-block" }}>
-                <span className="shine-text">
+                <span
+                  style={{
+                    background: "linear-gradient(90deg, #8B0000, #ffc553)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                  }}
+                >
                   Spotlight.
                 </span>
                 <svg
@@ -371,7 +382,6 @@ function HeroSection({ onSignInClick }) {
               </span>
             </h1>
 
-            {/* Subtext */}
             <p
               style={{
                 marginTop: 28,
@@ -386,7 +396,6 @@ function HeroSection({ onSignInClick }) {
               Watch, Discover, and Experience Students Creativity Through the Works of Passionate Student Artists and Filmmakers.
             </p>
 
-            {/* CTAs */}
             <div
               style={{
                 marginTop: 36,
@@ -396,7 +405,6 @@ function HeroSection({ onSignInClick }) {
                 gap: 12,
               }}
             >
-              {/* Primary CTA */}
               <button
                 onClick={onSignInClick}
                 style={{
@@ -432,7 +440,6 @@ function HeroSection({ onSignInClick }) {
                 <img src="/src/assets/icons/next.png" alt="arrow" style={{ width: 16, height: 16 }} />
               </button>
 
-              {/* Ghost CTA — white background with blur */}
               <button
                 onClick={onSignInClick}
                 style={{
@@ -473,7 +480,7 @@ function HeroSection({ onSignInClick }) {
           {/* ── Right: Floating Film Cards ── */}
           <div
             className="hidden lg:block"
-            style={{ position: "relative", height: 600, width: "100%" }}
+            style={{ position: "relative", height: 520, width: "100%" }}
           >
             <div style={{
               position: "absolute",
@@ -488,7 +495,7 @@ function HeroSection({ onSignInClick }) {
             <div style={{
               position: "absolute",
               top: 80,
-              left: -20,
+              left: 0,
               zIndex: 2,
               animation: "cardFloat2 6s ease-in-out infinite",
               animationDelay: "0.6s",
@@ -498,7 +505,7 @@ function HeroSection({ onSignInClick }) {
 
             <div style={{
               position: "absolute",
-              bottom: -15,
+              bottom: 10,
               left: "30%",
               zIndex: 3,
               animation: "cardFloat3 8s ease-in-out infinite",

@@ -135,7 +135,14 @@ export default function FeaturesSection() {
           style={{ fontFamily: "'Montserrat', sans-serif", color: "#111827" }}
         >
           Everything a{" "}
-          <span className="gradient-text">
+          <span
+            style={{
+              background: "linear-gradient(135deg, #8B0000 0%, #c0392b 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
+          >
             student filmmaker
           </span>{" "}
           needs.
