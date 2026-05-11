@@ -33,24 +33,24 @@ const DEMO_FILMS = [
     genre: "DOCUMENTARY",
     year: null,
     rating: 4.6,
-    poster: "https://image.tmdb.org/t/p/w500/q719jXXEzOoYaps6babgKnONONX.jpg",
-    w: 230, h: 320,
+    poster: "/src/assets/icons/Poster1.jpg",
+    w: 265, h: 375,
   },
   {
     title: "Nightfall",
     genre: "SHORT FILM",
     year: "2025",
     rating: 4.9,
-    poster: "https://image.tmdb.org/t/p/w500/iiZZdoQBEYBv6id8su7ImL0oCbD.jpg",
-    w: 230, h: 320,
+    poster: "/src/assets/icons/Poster2.jpg",
+    w: 265, h: 375,
   },
   {
     title: "Mga Tala",
     genre: "ANIMATION",
     year: "2025",
     rating: 4.7,
-    poster: "https://image.tmdb.org/t/p/w500/39wmItIWsg5sZMyRUHLkWBcuVCM.jpg",
-    w: 230, h: 320,
+    poster: "/src/assets/icons/Poster3.jpeg",
+    w: 265, h: 375,
   },
 ];
 
@@ -335,25 +335,13 @@ function HeroSection({ onSignInClick }) {
             >
               Bringing Student
               <br />
-              <span
-                style={{
-                  background: "linear-gradient(135deg, #8B0000 0%, #ffc553 100%)", WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent", backgroundClip: "text",
-                }}
-              >
+              <span className="gradient-text">
                 Creativity
               </span>{" "}
               to the
               <br />
               <span style={{ position: "relative", display: "inline-block" }}>
-                <span
-                  style={{
-                    background: "linear-gradient(90deg, #8B0000, #ffc553)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    backgroundClip: "text",
-                  }}
-                >
+                <span className="shine-text">
                   Spotlight.
                 </span>
                 <svg
@@ -485,7 +473,7 @@ function HeroSection({ onSignInClick }) {
           {/* ── Right: Floating Film Cards ── */}
           <div
             className="hidden lg:block"
-            style={{ position: "relative", height: 520, width: "100%" }}
+            style={{ position: "relative", height: 600, width: "100%" }}
           >
             <div style={{
               position: "absolute",
@@ -500,7 +488,7 @@ function HeroSection({ onSignInClick }) {
             <div style={{
               position: "absolute",
               top: 80,
-              left: 0,
+              left: -20,
               zIndex: 2,
               animation: "cardFloat2 6s ease-in-out infinite",
               animationDelay: "0.6s",
@@ -510,7 +498,7 @@ function HeroSection({ onSignInClick }) {
 
             <div style={{
               position: "absolute",
-              bottom: 10,
+              bottom: -15,
               left: "30%",
               zIndex: 3,
               animation: "cardFloat3 8s ease-in-out infinite",
