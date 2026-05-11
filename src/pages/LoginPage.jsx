@@ -325,7 +325,7 @@ function HeroSection({ onSignInClick }) {
           }}
         >
           {/* ── Left: Copy ── */}
-          <div>
+          <div style={{ marginTop: -50 }}>
             <h1
               style={{
                 fontFamily: "'Montserrat', sans-serif", fontWeight: 900, fontSize: "clamp(36px, 5.5vw, 68px)",
@@ -394,7 +394,7 @@ function HeroSection({ onSignInClick }) {
               }}
             >
               <button
-                onClick={onSignInClick}
+                onClick={() => { const el = document.getElementById("features"); if (el) el.scrollIntoView({ behavior: "smooth" }); }}
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -533,7 +533,7 @@ export default function LoginPage({ onNavigateSignIn }) {
       <HeroSection onSignInClick={handleGoToSignIn} />
 
       {/* ── Section 2: Features ── */}
-      <FeaturesSection />
+      <FeaturesSection onSignInClick={handleGoToSignIn} />
 
       {/* ── Section 3: About ── */}
       <AboutSection />

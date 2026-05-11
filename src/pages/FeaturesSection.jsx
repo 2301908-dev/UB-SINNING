@@ -53,61 +53,96 @@ function FeatureCard({ feature }) {
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="flex rounded-2xl overflow-hidden cursor-pointer"
       style={{
+        position: "relative",
+        borderRadius: 20,
+        padding: "28px 28px 26px",
+        background: hovered
+          ? "linear-gradient(145deg, #fff8ee 0%, #fff3d6 55%, #ffeab8 100%)"
+          : "linear-gradient(145deg, #fdf6e8 0%, #fef9f0 55%, #fdf2d8 100%)",
+        backdropFilter: "blur(12px)",
+        WebkitBackdropFilter: "blur(12px)",
+        border: hovered ? "1px solid rgba(212,175,55,0.5)" : "1px solid rgba(212,175,55,0.25)",
         boxShadow: hovered
-          ? "0 20px 50px rgba(0,0,0,0.15)"
-          : "0 4px 18px rgba(0,0,0,0.09)",
+          ? "0 20px 48px rgba(212,175,55,0.22), 0 4px 16px rgba(139,0,0,0.08)"
+          : "0 4px 20px rgba(180,140,40,0.10)",
         transform: hovered ? "translateY(-6px)" : "translateY(0)",
-        transition: "box-shadow 0.3s ease, transform 0.3s ease",
+        transition: "all 0.3s ease",
+        cursor: "pointer",
+        overflow: "hidden",
       }}
     >
-      {/* Left maroon block */}
-      <div
-        className="flex flex-col items-center justify-center gap-3 px-5 py-6 min-w-[110px]"
-        style={{ background: "#8B0000" }}
-      >
-        <span
-          className="text-xs font-bold tracking-widest"
-          style={{ color: "rgba(255,255,255,0.65)", fontFamily: "'Poppins', sans-serif" }}
-        >
+      {/* Top gradient accent bar */}
+      <div style={{
+        position: "absolute",
+        top: 0, left: 0, right: 0,
+        height: 3,
+        background: "linear-gradient(90deg, #8B0000, #ffc553)",
+        opacity: hovered ? 1 : 0,
+        transition: "opacity 0.3s ease",
+        borderRadius: "20px 20px 0 0",
+      }} />
+
+      {/* Icon + number row */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 18 }}>
+        <div style={{
+          width: 52, height: 52,
+          borderRadius: 14,
+          background: hovered
+            ? "linear-gradient(135deg, #8B0000, #c0392b)"
+            : "rgba(139,0,0,0.10)",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          transition: "background 0.3s ease",
+        }}>
+          <img
+            src={feature.icon}
+            alt={feature.title}
+            style={{
+              width: 26, height: 26, objectFit: "contain",
+              filter: hovered ? "brightness(0) invert(1)" : "none",
+              transition: "filter 0.3s ease",
+            }}
+          />
+        </div>
+        <span style={{
+          fontFamily: "'Poppins', sans-serif",
+          fontWeight: 700,
+          fontSize: 13,
+          color: hovered ? "#8B0000" : "rgba(139,0,0,0.30)",
+          letterSpacing: "0.08em",
+          transition: "color 0.3s ease",
+        }}>
           {feature.id}
         </span>
-        <img
-          src={feature.icon}
-          alt={feature.title}
-          className="w-10 h-10 object-contain"
-          style={{ filter: "brightness(0)" }}
-        />
       </div>
 
-      {/* Right content block */}
-      <div
-        className="flex flex-col justify-center px-6 py-6 flex-1"
-        style={{
-          background: hovered ? "rgba(255,248,230,0.92)" : "rgba(255,255,255,0.88)",
-          backdropFilter: "blur(8px)",
-          transition: "background 0.3s ease",
-        }}
-      >
-        <h3
-          className="text-base font-bold mb-2"
-          style={{ color: "#8B0000", fontFamily: "'Poppins', sans-serif" }}
-        >
-          {feature.title}
-        </h3>
-        <p
-          className="text-sm leading-relaxed"
-          style={{ color: "#374151", fontFamily: "'Poppins', sans-serif" }}
-        >
-          {feature.description}
-        </p>
-      </div>
+      {/* Title */}
+      <h3 style={{
+        fontFamily: "'Poppins', sans-serif",
+        fontWeight: 700,
+        fontSize: 16,
+        color: "#1a1a1a",
+        marginBottom: 10,
+        lineHeight: 1.3,
+      }}>
+        {feature.title}
+      </h3>
+
+      {/* Description */}
+      <p style={{
+        fontFamily: "'Poppins', sans-serif",
+        fontSize: 13.5,
+        color: "#6B7280",
+        lineHeight: 1.65,
+        margin: 0,
+      }}>
+        {feature.description}
+      </p>
     </div>
   );
 }
 
-export default function FeaturesSection() {
+export default function FeaturesSection({ onSignInClick }) {
   return (
     <section
       id="features"
@@ -146,15 +181,15 @@ export default function FeaturesSection() {
           className="mt-6 text-lg max-w-2xl mx-auto"
           style={{ color: "#4B5563", fontFamily: "'Poppins', sans-serif", lineHeight: 1.7 }}
         >
-          From cinematic playback to faculty workflows and audience analytics — UB-SINING is the
-          full creative pipeline for the next generation of MMA storytellers.
+          From cinematic playback to faculty tools and audience insights, UB-SINING provides a complete creative platform for filmmakers.
         </p>
 
         {/* Buttons */}
         <div className="mt-9 flex flex-wrap justify-center gap-3">
           {/* Try the platform — maroon filled */}
           <a
-            href="/signin"
+            href="#"
+            onClick={(e) => { e.preventDefault(); onSignInClick?.(); }}
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold text-white"
             style={{
               background: "#8B0000",
@@ -179,7 +214,8 @@ export default function FeaturesSection() {
 
           {/* Why we built it — ghost */}
           <a
-            href="/about"
+            href="#"
+            onClick={(e) => { e.preventDefault(); const el = document.getElementById("about"); if (el) el.scrollIntoView({ behavior: "smooth" }); }}
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold"
             style={{
               background: "rgba(255,255,255,0.82)",
@@ -206,7 +242,7 @@ export default function FeaturesSection() {
       </div>
 
       {/* FEATURE CARDS GRID */}
-      <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {FEATURES.map((feature) => (
           <FeatureCard key={feature.id} feature={feature} />
         ))}
