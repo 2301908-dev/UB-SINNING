@@ -10,28 +10,28 @@ const FEATURES = [
       "Experience the best of UB storytelling student films brought to the spotlight for everyone to watch, enjoy, and be inspired.",
   },
   {
-    id: "04",
+    id: "02",
     icon: "src/assets/icons/feedback.png",
     title: "Audience Reviews",
     description:
       "Hear the voices of the viewers ratings, comments, and reactions that shape how every film is experienced.",
   },
   {
-    id: "02",
+    id: "03",
     icon: "src/assets/icons/statistics.png",
     title: "View Analytics",
     description:
       "See the story behind the views track engagement, watch time, and audience reach for every film in real time.",
   },
   {
-    id: "05",
+    id: "04",
     icon: "src/assets/icons/magic-book.png",
     title: "Discover Stories",
     description:
       "Explore a world of creativity find films across genres, moods, and styles that match your interest.",
   },
   {
-    id: "03",
+    id: "05",
     icon: "src/assets/icons/trending.png",
     title: "Trend Spotlight",
     description:
