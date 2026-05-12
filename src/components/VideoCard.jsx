@@ -207,7 +207,7 @@ export default function VideoCard({ film }) {
                   }}
                   className="w-full rounded-2xl bg-ub-maroon px-5 py-3 text-sm font-semibold text-white transition hover:bg-ub-maroon-light"
                 >
-                  Add to Watchlist
+                  Addsadas
                 </button>
               </div>
             </div>
