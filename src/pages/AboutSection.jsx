@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { Sparkles } from "lucide-react";
 
 function useReveal() {
   const ref = useRef(null);
@@ -63,6 +64,39 @@ const WHY_ITEMS = [
   },
 ];
 
+// ─── Video Reel Component ───
+function VideoReel({ video, title }) {
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    const vid = videoRef.current;
+    if (vid) {
+      vid.play().catch(() => {});
+    }
+  }, []);
+
+  return (
+    <div className="relative overflow-hidden rounded-2xl aspect-video">
+      <video
+        ref={videoRef}
+        className="absolute inset-0 w-full h-full object-cover"
+        src={video}
+        muted
+        loop
+        playsInline
+        autoPlay
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+      <span
+        className="absolute bottom-6 left-6 text-white text-xl uppercase tracking-widest"
+        style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 600 }}
+      >
+        {title}
+      </span>
+    </div>
+  );
+}
+
 const glassCard = {
   background: "rgba(255,255,255,0.78)",
   backdropFilter: "blur(14px)",
@@ -74,70 +108,86 @@ const glassCard = {
 // ─── About Intro ────
 function AboutIntro() {
   return (
-    <div className="w-full max-w-5xl mx-auto px-4 sm:px-10 pt-28 pb-16">
-      <Reveal>
-        <p
-          className="text-[11px] uppercase tracking-[0.35em] mb-4"
-          style={{ color: "#8B0000", fontFamily: "'Poppins', sans-serif", fontWeight: 600 }}
-        >
-          Who We Are
-        </p>
-      </Reveal>
-
-      <Reveal delay={0.08}>
-        <h2
-          className="text-[clamp(30px,4.5vw,52px)] font-bold leading-[1.15] mb-6 max-w-3xl"
-          style={{ fontFamily: "'Montserrat', sans-serif", color: "#111827", letterSpacing: "-0.5px" }}
-        >
-          Where Student{" "}
-          <span style={{ backgroundImage: "linear-gradient(90deg,#8B0000 30%,#D4AF37 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-            Stories
-          </span>{" "}
-          Find Their Stage
-        </h2>
-      </Reveal>
-
-      <Reveal delay={0.13}>
-        <div className="w-16 h-[3px] rounded-full mb-10" style={{ background: "linear-gradient(90deg,#8B0000,#D4AF37)" }} />
-      </Reveal>
-
-      <Reveal delay={0.18}>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-14">
-          <p className="text-[15px] leading-[1.9] text-gray-600" style={{ fontFamily: "'Poppins', sans-serif" }}>
-            <strong style={{ color: "#8B0000" }}>UB Sining</strong> is the official student film showcase platform of the{" "}
-            <strong style={{ color: "#111827" }}>University of Batangas</strong>. Built by students, for students — a digital cinema that never closes its doors.
-          </p>
-          <p className="text-[15px] leading-[1.9] text-gray-600" style={{ fontFamily: "'Poppins', sans-serif" }}>
-            From short films and documentaries to experimental narratives, UB Sining is the permanent home for every story crafted inside UB's creative programs. Every upload is a legacy. Every view is a step toward recognition.
-          </p>
-        </div>
-      </Reveal>
-
-      <Reveal delay={0.24}>
-        <div className="grid grid-cols-3 gap-4">
-          {[
-            { value: "200+", label: "Films Uploaded" },
-            { value: "1,500+", label: "Student Viewers" },
-            { value: "6", label: "Core Features" },
-          ].map((stat) => (
+    <div className="w-full max-w-7xl mx-auto px-4 sm:px-10 pt-28 pb-16">
+      <div className="grid lg:grid-cols-12 gap-10 items-center">
+        {/* Left content */}
+        <div className="lg:col-span-6">
+          <Reveal>
             <div
-              key={stat.label}
-              className="flex flex-col items-center justify-center text-center py-7 rounded-2xl"
-              style={glassCard}
+              className="mb-5 inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase"
+              style={{
+                background: "rgba(139,0,0,0.08)",
+                color: "#8B0000",
+                fontFamily: "'Poppins', sans-serif",
+                border: "1px solid rgba(139,0,0,0.15)",
+              }}
             >
-              <span
-                className="text-[clamp(26px,3.5vw,38px)] font-bold leading-none mb-1"
-                style={{ fontFamily: "'Montserrat', sans-serif", backgroundImage: "linear-gradient(90deg,#8B0000,#D4AF37)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}
-              >
-                {stat.value}
-              </span>
-              <span className="text-[10px] uppercase tracking-widest text-gray-400 mt-1" style={{ fontFamily: "'Poppins', sans-serif" }}>
-                {stat.label}
-              </span>
+              <Sparkles className="w-3 h-3" />
+              About UB-SINING
             </div>
-          ))}
+          </Reveal>
+
+          <Reveal delay={0.08}>
+            <h2
+              className="text-[clamp(36px,5vw,60px)] font-black leading-[1.08] mb-7 max-w-2xl"
+              style={{ fontFamily: "'Montserrat', sans-serif", color: "#111827", letterSpacing: "-1px" }}
+            >
+              A cinematic stage for{" "}
+              <span style={{ backgroundImage: "linear-gradient(90deg,#8B0000 30%,#D4AF37 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+                student stories
+              </span>
+              .
+            </h2>
+          </Reveal>
+
+          <Reveal delay={0.13}>
+            <p className="text-lg leading-[1.85] text-gray-600 mb-10 max-w-xl" style={{ fontFamily: "'Poppins', sans-serif" }}>
+              UB-SINING is the official streaming and showcase platform of the Multimedia Arts program at the University of Batangas — built to celebrate, archive, and elevate every film our students create.
+            </p>
+          </Reveal>
+
+          <Reveal delay={0.18}>
+            <button
+              onClick={() => {
+                const teamSection = document.getElementById("team");
+                if (teamSection) teamSection.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold text-white"
+              style={{
+                background: "#8B0000",
+                fontFamily: "'Poppins', sans-serif",
+                boxShadow: "0 4px 18px rgba(139,0,0,0.32)",
+                transition: "background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease",
+                cursor: "pointer",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "#6b0000";
+                e.currentTarget.style.transform = "translateY(-2px)";
+                e.currentTarget.style.boxShadow = "0 8px 28px rgba(139,0,0,0.42)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "#8B0000";
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 4px 18px rgba(139,0,0,0.32)";
+              }}
+            >
+              Meet the team
+            </button>
+          </Reveal>
         </div>
-      </Reveal>
+
+        {/* Right visual - Film reels with videos */}
+        <Reveal delay={0.2} className="lg:col-span-6">
+          <div className="rounded-3xl overflow-hidden p-6" style={glassCard}>
+            <div className="grid grid-cols-2 gap-5">
+              <VideoReel video="/canvas.mp4" title="Canvas" />
+              <VideoReel video="/kahitsandali.mp4" title="Kahit Sandali" />
+              <VideoReel video="/liwanag.mp4" title="Liwanag" />
+              <VideoReel video="/pulse.mp4" title="Pulse" />
+            </div>
+          </div>
+        </Reveal>
+      </div>
     </div>
   );
 }
@@ -201,19 +251,22 @@ function WhySection() {
 export default function AboutSection() {
   return (
     <section id="about" className="relative z-10 w-full flex flex-col items-center">
-      
       {/* Top divider */}
       <div
-        className="w-full max-w-5xl h-px mx-auto"
+        className="relative z-10 w-full max-w-5xl h-px mx-auto"
         style={{ background: "linear-gradient(90deg,transparent,rgba(139,0,0,0.15),transparent)" }}
       />
 
-      <AboutIntro />
+      <div className="relative z-10 w-full">
+        <AboutIntro />
+      </div>
 
       {/* Center divider between Intro and Origin Story */}
-      <div className="w-full max-w-5xl mx-auto px-10 h-px" style={{ background: "rgba(139,0,0,0.08)" }} />
+      <div className="relative z-10 w-full max-w-5xl mx-auto px-10 h-px" style={{ background: "rgba(139,0,0,0.08)" }} />
 
-      <WhySection />
+      <div className="relative z-10 w-full">
+        <WhySection />
+      </div>
 
     </section>
   );

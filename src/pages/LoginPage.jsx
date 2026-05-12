@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import FeaturesSection from "./FeaturesSection";
 import AboutSection from "./AboutSection";
@@ -159,6 +159,36 @@ const NAV_LINKS = ["Home", "Features", "About", "Team"];
 function Navbar({ onSignInClick }) {
   const [activeLink, setActiveLink] = useState("Home");
 
+  useEffect(() => {
+    const sections = NAV_LINKS.map((link) => document.getElementById(link.toLowerCase()));
+
+    const observerOptions = {
+      root: null,
+      rootMargin: "-20% 0px -60% 0px",
+      threshold: 0,
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const sectionId = entry.target.id;
+          const link = NAV_LINKS.find((l) => l.toLowerCase() === sectionId);
+          if (link) setActiveLink(link);
+        }
+      });
+    }, observerOptions);
+
+    sections.forEach((section) => {
+      if (section) observer.observe(section);
+    });
+
+    return () => {
+      sections.forEach((section) => {
+        if (section) observer.unobserve(section);
+      });
+    };
+  }, []);
+
   const handleNavClick = (link) => {
     setActiveLink(link);
     const el = document.getElementById(link.toLowerCase());
@@ -253,44 +283,7 @@ function HeroSection({ onSignInClick }) {
       className="relative z-10 min-h-screen overflow-hidden"
       style={{ paddingTop: 100 }}
     >
-      {/* Ambient blob lighting */}
-      <div
-        aria-hidden="true"
-        style={{
-          position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none",
-        }}
-      >
-        <div style={{
-          position: "absolute", top: -160, left: -120,
-          width: 480, height: 480, borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(139,0,0,0.35) 0%, transparent 70%)",
-          animation: "floatSlow 7s ease-in-out infinite",
-        }} />
-        <div style={{
-          position: "absolute", top: 60, right: -90,
-          width: 380, height: 380, borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(255,197,83,0.38) 0%, transparent 70%)",
-          animation: "floatFast 5s ease-in-out infinite",
-          animationDelay: "0.8s",
-        }} />
-        <div style={{
-          position: "absolute", bottom: 20, left: "20%",
-          width: 280, height: 280, borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(139,0,0,0.22) 0%, transparent 70%)",
-          animation: "floatSlow 9s ease-in-out infinite",
-          animationDelay: "1.5s",
-        }} />
-      </div>
-
       <style>{`
-        @keyframes floatSlow {
-          0%, 100% { transform: translateY(0px) scale(1); }
-          50% { transform: translateY(-22px) scale(1.04); }
-        }
-        @keyframes floatFast {
-          0%, 100% { transform: translateY(0px) scale(1); }
-          50% { transform: translateY(-14px) scale(1.03); }
-        }
         @keyframes cardFloat1 {
           0%, 100% { transform: translateY(0px) rotate(-2deg); }
           50% { transform: translateY(-14px) rotate(-2deg); }
@@ -525,6 +518,62 @@ export default function LoginPage({ onNavigateSignIn }) {
 
       {/* Fixed soft overlay */}
       <div className="fixed inset-0 bg-white/35 z-[1] pointer-events-none" aria-hidden="true" />
+
+      {/* Global ambient blob lighting - spans all sections */}
+      <div className="fixed inset-0 z-[2] pointer-events-none overflow-hidden" aria-hidden="true">
+        <div style={{
+          position: "absolute", top: "5%", left: "-5%",
+          width: 500, height: 500, borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(139,0,0,0.30) 0%, transparent 70%)",
+          animation: "floatSlow 8s ease-in-out infinite",
+        }} />
+        <div style={{
+          position: "absolute", top: "15%", right: "-5%",
+          width: 420, height: 420, borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(255,197,83,0.35) 0%, transparent 70%)",
+          animation: "floatFast 6s ease-in-out infinite",
+          animationDelay: "0.8s",
+        }} />
+        <div style={{
+          position: "absolute", top: "35%", left: "15%",
+          width: 350, height: 350, borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(139,0,0,0.22) 0%, transparent 70%)",
+          animation: "floatSlow 10s ease-in-out infinite",
+          animationDelay: "1.5s",
+        }} />
+        <div style={{
+          position: "absolute", top: "50%", right: "10%",
+          width: 380, height: 380, borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(255,197,83,0.28) 0%, transparent 70%)",
+          animation: "floatFast 7s ease-in-out infinite",
+          animationDelay: "2s",
+        }} />
+        <div style={{
+          position: "absolute", top: "70%", left: "-8%",
+          width: 400, height: 400, borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(139,0,0,0.25) 0%, transparent 70%)",
+          animation: "floatSlow 9s ease-in-out infinite",
+          animationDelay: "3s",
+        }} />
+        <div style={{
+          position: "absolute", top: "85%", right: "20%",
+          width: 320, height: 320, borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(255,197,83,0.30) 0%, transparent 70%)",
+          animation: "floatFast 8s ease-in-out infinite",
+          animationDelay: "4s",
+        }} />
+      </div>
+
+      <style>{`
+        @keyframes floatSlow {
+          0%, 100% { transform: translateY(0px) scale(1); }
+          50% { transform: translateY(-30px) scale(1.05); }
+        }
+        @keyframes floatFast {
+          0%, 100% { transform: translateY(0px) scale(1); }
+          50% { transform: translateY(-20px) scale(1.03); }
+        }
+      `}</style>
 
       {/* Navbar */}
       <Navbar onSignInClick={handleGoToSignIn} />

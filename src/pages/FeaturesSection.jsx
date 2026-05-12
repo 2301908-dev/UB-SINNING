@@ -57,15 +57,13 @@ function FeatureCard({ feature }) {
         position: "relative",
         borderRadius: 20,
         padding: "28px 28px 26px",
-        background: hovered
-          ? "linear-gradient(145deg, #fff8ee 0%, #fff3d6 55%, #ffeab8 100%)"
-          : "linear-gradient(145deg, #fdf6e8 0%, #fef9f0 55%, #fdf2d8 100%)",
+        background: "#ffffff",
         backdropFilter: "blur(12px)",
         WebkitBackdropFilter: "blur(12px)",
-        border: hovered ? "1px solid rgba(212,175,55,0.5)" : "1px solid rgba(212,175,55,0.25)",
+        border: hovered ? "1px solid #8B0000" : "1px solid rgba(139,0,0,0.35)",
         boxShadow: hovered
-          ? "0 20px 48px rgba(212,175,55,0.22), 0 4px 16px rgba(139,0,0,0.08)"
-          : "0 4px 20px rgba(180,140,40,0.10)",
+          ? "0 20px 48px rgba(139,0,0,0.18), 0 4px 16px rgba(139,0,0,0.10)"
+          : "0 4px 20px rgba(0,0,0,0.06)",
         transform: hovered ? "translateY(-6px)" : "translateY(0)",
         transition: "all 0.3s ease",
         cursor: "pointer",
@@ -146,10 +144,16 @@ export default function FeaturesSection({ onSignInClick }) {
   return (
     <section
       id="features"
-      className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 sm:px-10 py-24"
+      className="relative z-10 flex flex-col items-center px-4 sm:px-10 pt-20 pb-24"
     >
+      {/* Top divider */}
+      <div
+        className="relative z-10 w-full max-w-5xl h-px mx-auto mb-20"
+        style={{ background: "linear-gradient(90deg,transparent,rgba(139,0,0,0.15),transparent)" }}
+      />
+
       {/* HEADER */}
-      <div className="max-w-4xl w-full mx-auto px-6 lg:px-10 text-center mb-14">
+      <div className="relative z-10 max-w-4xl w-full mx-auto px-6 lg:px-10 text-center mb-14">
         {/* Kicker badge */}
         <div
           className="mb-5 inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase"
@@ -241,11 +245,15 @@ export default function FeaturesSection({ onSignInClick }) {
         </div>
       </div>
 
-      {/* FEATURE CARDS GRID */}
-      <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {FEATURES.map((feature) => (
-          <FeatureCard key={feature.id} feature={feature} />
-        ))}
+      {/* FEATURE CARDS GRID - Horizontal layout */}
+      <div className="relative z-10 w-full max-w-7xl px-4 overflow-x-auto pb-4">
+        <div className="flex gap-5" style={{ minWidth: "max-content" }}>
+          {FEATURES.map((feature) => (
+            <div key={feature.id} className="w-[220px] flex-shrink-0">
+              <FeatureCard feature={feature} />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

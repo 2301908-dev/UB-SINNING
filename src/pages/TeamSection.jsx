@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { Sparkles } from "lucide-react";
 
 // ─── Reveal Hook (same pattern as AboutSection) ───────────────────────────────
 
@@ -171,38 +172,45 @@ function TeamCard({ member, delay }) {
 export default function TeamSection() {
   return (
     <section id="team" className="relative z-10 w-full flex flex-col items-center">
-
       {/* Top divider */}
       <div
-        className="w-full max-w-5xl h-px mx-auto"
+        className="relative z-10 w-full max-w-5xl h-px mx-auto"
         style={{ background: "linear-gradient(90deg,transparent,rgba(139,0,0,0.15),transparent)" }}
       />
 
-      <div className="w-full max-w-5xl mx-auto px-4 sm:px-10 pt-24 pb-36">
+      <div className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-10 pt-24 pb-36">
 
         {/* Header */}
         <Reveal>
-          <p
-            className="text-[11px] uppercase tracking-[0.35em] mb-3 text-center"
-            style={{ color: "#8B0000", fontFamily: "'Poppins', sans-serif", fontWeight: 600 }}
-          >
-            The Team Behind UB SINING
-          </p>
+          <div className="flex justify-center mb-5">
+            <div
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase"
+              style={{
+                background: "rgba(139,0,0,0.08)",
+                color: "#8B0000",
+                fontFamily: "'Poppins', sans-serif",
+                border: "1px solid rgba(139,0,0,0.15)",
+              }}
+            >
+              <Sparkles className="w-3 h-3" />
+              Meet The Crew
+            </div>
+          </div>
         </Reveal>
 
         <Reveal delay={0.08}>
           <h2
-            className="text-[clamp(26px,3.5vw,40px)] font-bold text-center mb-3"
-            style={{ fontFamily: "'Montserrat', sans-serif", color: "#111827", letterSpacing: "-0.3px" }}
+            className="text-[clamp(30px,4vw,48px)] font-black text-center mb-10"
+            style={{ fontFamily: "'Montserrat', sans-serif", color: "#111827", letterSpacing: "-0.5px" }}
           >
-              Team{" "}
-<span
-  style={{
-    backgroundImage: "linear-gradient(90deg, #d2be26 0%, #8B0000 100%)",
-    WebkitBackgroundClip: "text",
-    WebkitTextFillColor: "transparent",
-  }}
->
+            Team{" "}
+            <span
+              style={{
+                backgroundImage: "linear-gradient(90deg, #8B0000 0%, #D4AF37 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
               The Sanctuary
             </span>
           </h2>
