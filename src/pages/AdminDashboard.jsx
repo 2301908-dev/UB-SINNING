@@ -48,7 +48,7 @@ export default function AdminDashboard() {
       <aside
         onMouseEnter={openSidebar}
         onMouseLeave={closeSidebar}
-        className={`relative bg-[#8B0000] p-4 rounded-r-lg space-y-8 transition-all duration-300 overflow-hidden ${
+        className={`relative bg-[#8B0000] p-4 rounded-r-lg space-y-8  duration-300 ${
           sidebarOpen ? "w-64" : "w-16"
         }`}
       >
