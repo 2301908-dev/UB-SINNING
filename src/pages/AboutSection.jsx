@@ -123,7 +123,7 @@ function AboutIntro() {
               }}
             >
               <Sparkles className="w-3 h-3" />
-              About UB-SINING
+              About UB SINING
             </div>
           </Reveal>
 
@@ -142,7 +142,7 @@ function AboutIntro() {
 
           <Reveal delay={0.13}>
             <p className="text-lg leading-[1.85] text-gray-600 mb-10 max-w-xl" style={{ fontFamily: "'Poppins', sans-serif" }}>
-              UB-SINING is the official streaming and showcase platform of the Multimedia Arts program at the University of Batangas — built to celebrate, archive, and elevate every film our students create.
+              UB-SINING is  streaming and showcase platform of the Multimedia Arts program at the University of Batangas — built to celebrate, archive, and elevate every film our students create.
             </p>
           </Reveal>
 

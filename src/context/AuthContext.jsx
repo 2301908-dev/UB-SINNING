@@ -13,6 +13,10 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const initializeAuth = async () => {
       try {
+        // If the app was just redirected back from OAuth,
+        // parse the auth result from the URL and store the session.
+        await supabase.auth.getSessionFromUrl({ storeSession: true });
+
         // Get current session
         const { data: { session } } = await supabase.auth.getSession();
         

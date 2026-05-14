@@ -49,14 +49,12 @@ const TEAM = [
     name: "Bryan James N. Villalon",
     role: "Backend Developer",
     img: "src/assets/teampics/bryan.png",
-    description: "Crafts intuitive and beautiful interfaces that bring the UB Sining vision to life.",
     gradient: "from-[#8B0000] to-[#D4AF37]",
   },
   {
     name: "Kenn Philip Nathaniel B. Silang",
     role: "Frontend Developer" ,
     img: "src/assets/teampics/kenn.png",
-    description: "Architects the systems and logic that power every feature behind the scenes.",
     gradient: "from-[#D4AF37] to-[#8B0000]",
     featured: true,
   },
@@ -64,7 +62,6 @@ const TEAM = [
     name: "Brent Joseph M. Pagcaliwagan",
     role: "UI/UX Designer",
     img: "src/assets/teampics/brent.png",
-    description: "Builds the interactive experiences that users see and feel every day.",
     gradient: "from-[#8B0000] to-[#D4AF37]",
   },
 ];
@@ -193,7 +190,7 @@ export default function TeamSection() {
               }}
             >
               <Sparkles className="w-3 h-3" />
-              Meet The Crew
+              Meet The Team
             </div>
           </div>
         </Reveal>
