@@ -141,7 +141,7 @@ function AboutIntro() {
           </Reveal>
 
           <Reveal delay={0.13}>
-            <p className="text-lg leading-[1.85] text-gray-600 mb-10 max-w-xl" style={{ fontFamily: "'Poppins', sans-serif" }}>
+            <p className="text-lg leading-[1.85] text-gray-600 mb-10 max-w-xl" style={{ fontFamily: "'Poppins', sans-serif", textAlign: "justify" }}>
               UB-SINING is  streaming and showcase platform of the Multimedia Arts program at the University of Batangas — built to celebrate, archive, and elevate every film our students create.
             </p>
           </Reveal>
@@ -221,13 +221,21 @@ function WhySection() {
           style={{ background: "linear-gradient(180deg,#8B0000 0%,#D4AF37 60%,rgba(212,175,55,0.05) 100%)" }}
         />
 
-        {WHY_ITEMS.map((item, i) => (
+        {WHY_ITEMS.map((item, i) => {
+          const badgeBg =
+            i === 0
+              ? "#8B0000"
+              : i === 1
+              ? "linear-gradient(135deg,#8B0000 0%,#B86A2A 100%)"
+              : "linear-gradient(135deg,#8B0000 0%,#D4AF37 100%)";
+
+          return (
           <Reveal key={item.number} delay={i * 0.13}>
-            <div className="flex gap-6 items-start mb-8 last:mb-0">
+            <div className="flex gap-6 items-start mb-20 last:mb-0">
               <div
                 className="relative flex-shrink-0 w-14 h-14 rounded-full flex items-center justify-center font-bold text-white text-sm z-10"
                 style={{
-                  background: i === WHY_ITEMS.length - 1 ? "linear-gradient(135deg,#8B0000,#D4AF37)" : "#8B0000",
+                  background: badgeBg,
                   fontFamily: "'Montserrat', sans-serif",
                   boxShadow: "0 0 0 5px rgba(139,0,0,0.10), 0 4px 14px rgba(139,0,0,0.25)",
                 }}
@@ -241,7 +249,8 @@ function WhySection() {
               </div>
             </div>
           </Reveal>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

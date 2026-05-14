@@ -55,6 +55,9 @@ function FeatureCard({ feature }) {
       onMouseLeave={() => setHovered(false)}
       style={{
         position: "relative",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
         borderRadius: 20,
         padding: "28px 28px 26px",
         background: "#ffffff",
@@ -133,6 +136,7 @@ function FeatureCard({ feature }) {
         color: "#6B7280",
         lineHeight: 1.65,
         margin: 0,
+        textAlign: "justify",
       }}>
         {feature.description}
       </p>
@@ -245,13 +249,11 @@ export default function FeaturesSection({ onSignInClick }) {
         </div>
       </div>
 
-      {/* FEATURE CARDS GRID - Horizontal layout */}
-      <div className="relative z-10 w-full max-w-7xl px-4 overflow-x-auto pb-4">
-        <div className="flex gap-5" style={{ minWidth: "max-content" }}>
+      {/* FEATURE CARDS GRID - 3 columns x 2 rows */}
+      <div className="relative z-10 w-full max-w-6xl px-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 items-stretch">
           {FEATURES.map((feature) => (
-            <div key={feature.id} className="w-[220px] flex-shrink-0">
-              <FeatureCard feature={feature} />
-            </div>
+            <FeatureCard key={feature.id} feature={feature} />
           ))}
         </div>
       </div>
