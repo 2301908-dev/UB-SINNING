@@ -47,7 +47,7 @@ function Reveal({ children, delay = 0, className = "", style = {} }) {
 const TEAM = [
   {
     name: "Bryan James N. Villalon",
-    role: "Frontend Developer",
+    role: "Backend Developer",
     img: "src/assets/teampics/bryan.png",
     description: "Crafts intuitive and beautiful interfaces that bring the UB Sining vision to life.",
     gradient: "from-[#8B0000] to-[#D4AF37]",
@@ -62,7 +62,7 @@ const TEAM = [
   },
   {
     name: "Brent Joseph M. Pagcaliwagan",
-    role: "Frontend Developer",
+    role: "UI/UX Designer",
     img: "src/assets/teampics/brent.png",
     description: "Builds the interactive experiences that users see and feel every day.",
     gradient: "from-[#8B0000] to-[#D4AF37]",

@@ -149,7 +149,7 @@ export default function FeaturesSection({ onSignInClick }) {
       {/* Top divider */}
       <div
         className="relative z-10 w-full max-w-5xl h-px mx-auto mb-20"
-        style={{ background: "linear-gradient(90deg,transparent,rgba(139,0,0,0.15),transparent)" }}
+        style={{ background: "linear-gradient(90deg,transparent,rgba(7, 0, 139, 0.15),transparent)" }}
       />
 
       {/* HEADER */}

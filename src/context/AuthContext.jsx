@@ -75,18 +75,23 @@ export function AuthProvider({ children }) {
             // Try to get role from URL params (passed from sign-in flow)
             const params = new URLSearchParams(window.location.search);
             const urlRole = params.get("state");
+            const storedRole = window.localStorage.getItem("auth_role");
 
-            // Try to get role from database or use from URL
+            // Try to get role from database or use from URL/local storage
             const { data, error: fetchError } = await supabase
               .from("profiles")
               .select("role")
               .eq("id", user.id)
               .single();
 
-            let userRole = data?.role || urlRole || "student";
+            if (fetchError && fetchError.code !== "PGRST116") {
+              console.error("Error fetching role:", fetchError);
+            }
+
+            let userRole = data?.role || urlRole || storedRole || "student";
 
             // Save role to database if it's new
-            if (urlRole || !data) {
+            if (urlRole || storedRole || !data) {
               await supabase.from("profiles").upsert(
                 {
                   id: user.id,
@@ -96,6 +101,7 @@ export function AuthProvider({ children }) {
                 },
                 { onConflict: "id" }
               );
+              window.localStorage.removeItem("auth_role");
             }
 
             setRole(userRole);

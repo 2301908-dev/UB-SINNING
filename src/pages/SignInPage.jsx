@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { useAuth } from "../context/AuthContext";
-import { supabase } from "../lib/supabaseClient"; 
+import { supabase } from "../lib/supabaseClient";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -20,7 +19,6 @@ const ROLES = [
 ];
 
 const ACCENT       = "#8B0000";
-const ACCENT_HOVER = "#6b0000";
 const ACCENT_LIGHT = "rgba(139,0,0,0.10)";
 const GOLD         = "#ffc400";
 
@@ -241,29 +239,97 @@ function LeftPanel({ selectedRole, onSelectRole, onBack }) {
 
 function RightPanel({ selectedRole }) {
   const [loading, setLoading] = useState(false);
-  const [error, setError]     = useState("");
+  const [error, setError] = useState("");
+  const [infoMessage, setInfoMessage] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [authMode, setAuthMode] = useState("signIn");
 
   const role = ROLES.find((r) => r.key === selectedRole) || ROLES[0];
 
   const handleGoogleLogin = async () => {
     setLoading(true);
     setError("");
+    setInfoMessage("");
+
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        // After Google auth, Supabase redirects here — adjust to your app's callback URL
         redirectTo: window.location.origin,
         queryParams: {
-          // Pass the chosen role so your callback/AuthContext can store it
           state: selectedRole,
         },
       },
     });
+
     if (error) {
+      console.error("Login Error:", error.message);
       setError(error.message);
       setLoading(false);
     }
-    // On success the browser navigates away to Google — no further action needed here
+  };
+
+  const handleAuthWithPassword = async (action) => {
+    setLoading(true);
+    setError("");
+    setInfoMessage("");
+
+    const trimmedEmail = email.trim();
+    const trimmedPassword = password.trim();
+
+    if (!trimmedEmail) {
+      setError("Enter your UB email.");
+      setLoading(false);
+      return;
+    }
+
+    if (!trimmedPassword) {
+      setError("Enter your password.");
+      setLoading(false);
+      return;
+    }
+
+    if (!trimmedEmail.endsWith("@ub.edu.ph")) {
+      setError("Access Denied: Use your official UB email.");
+      setLoading(false);
+      return;
+    }
+
+    window.localStorage.setItem("auth_role", selectedRole);
+
+    const result = action === "signUp"
+      ? await supabase.auth.signUp({
+          email: trimmedEmail,
+          password: trimmedPassword,
+          options: {
+            emailRedirectTo: window.location.origin,
+          },
+        })
+      : await supabase.auth.signInWithPassword({
+          email: trimmedEmail,
+          password: trimmedPassword,
+        });
+
+    if (result.error) {
+      console.error("Internal auth error:", result.error.message);
+      setError(result.error.message);
+      setLoading(false);
+      return;
+    }
+
+    if (action === "signUp") {
+      setInfoMessage("Account created. Check your UB email to complete sign in.");
+      setLoading(false);
+      return;
+    }
+
+    window.location.href = window.location.origin;
+  };
+
+  const toggleAuthMode = () => {
+    setAuthMode((current) => (current === "signIn" ? "signUp" : "signIn"));
+    setError("");
+    setInfoMessage("");
   };
 
   const portalLabels = {
@@ -284,90 +350,130 @@ function RightPanel({ selectedRole }) {
   };
 
   return (
-    <div style={{
-      flex: 1,
-      minHeight: "100vh",
-      background: "#F3F4F6",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      padding: "40px",
-    }}>
-      <div style={{
-        maxWidth: "500px",
-        width: "100%",
-        background: "#ffffff",
-        padding: "54px",
-        borderRadius: "32px",
-        boxShadow: "0 20px 50px -12px rgba(0,0,0,0.12)",
-        border: "1px solid rgba(0,0,0,0.05)",
-        transition: "transform 0.3s ease",
-      }}>
-
-        {/* Portal badge */}
+    <div
+      style={{
+        flex: 1,
+        minHeight: "100vh",
+        background: "#F3F4F6",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: "40px",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: "500px",
+          width: "100%",
+          background: "#ffffff",
+          padding: "54px",
+          borderRadius: "32px",
+          boxShadow: "0 20px 50px -12px rgba(0,0,0,0.12)",
+          border: "1px solid rgba(0,0,0,0.05)",
+          transition: "transform 0.3s ease",
+        }}
+      >
         <div style={{ marginBottom: "28px" }}>
-          <span style={{
-            display: "inline-flex", alignItems: "center", gap: "10px",
-            padding: "8px 18px", borderRadius: "999px",
-            fontSize: "12px", fontWeight: 600,
-            textTransform: "uppercase", letterSpacing: "0.2em",
-            background: ACCENT_LIGHT, color: ACCENT,
-            border: `1px solid rgba(139,0,0,0.15)`,
-            fontFamily: "'Poppins', sans-serif",
-          }}>
+          <span
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "10px",
+              padding: "8px 18px",
+              borderRadius: "999px",
+              fontSize: "12px",
+              fontWeight: 600,
+              textTransform: "uppercase",
+              letterSpacing: "0.2em",
+              background: ACCENT_LIGHT,
+              color: ACCENT,
+              border: `1px solid rgba(139,0,0,0.15)`,
+              fontFamily: "'Poppins', sans-serif",
+            }}
+          >
             <img src={role.icon} alt={role.label} style={{ width: "18px", height: "18px", objectFit: "contain" }} />
             {portalLabels[selectedRole]}
           </span>
         </div>
 
-        {/* Headline */}
-        <h1 style={{
-          fontFamily: "'Montserrat', sans-serif", fontWeight: 800,
-          fontSize: "36px", color: "#111827",
-          letterSpacing: "-1px", marginBottom: "8px", lineHeight: 1.1,
-        }}>
+        <h1
+          style={{
+            fontFamily: "'Montserrat', sans-serif",
+            fontWeight: 800,
+            fontSize: "36px",
+            color: "#111827",
+            letterSpacing: "-1px",
+            marginBottom: "8px",
+            lineHeight: 1.1,
+          }}
+        >
           {welcomeLabels[selectedRole]}
         </h1>
-        <p style={{
-          fontSize: "15px", color: "#9CA3AF",
-          fontFamily: "'Poppins', sans-serif", marginBottom: "48px",
-        }}>
+        <p
+          style={{
+            fontSize: "15px",
+            color: "#9CA3AF",
+            fontFamily: "'Poppins', sans-serif",
+            marginBottom: "48px",
+          }}
+        >
           {subtitles[selectedRole]}
         </p>
 
-        {/* Gmail hint box */}
-        <div style={{
-          background: "#FFF8F0",
-          border: "1px solid rgba(139,0,0,0.12)",
-          borderRadius: "14px",
-          padding: "14px 18px",
-          marginBottom: "28px",
-          display: "flex",
-          alignItems: "flex-start",
-          gap: "12px",
-        }}>
-          <div style={{
-            width: "32px", height: "32px", borderRadius: "8px",
-            background: ACCENT_LIGHT,
-            display: "flex", alignItems: "center", justifyContent: "center",
-            flexShrink: 0, marginTop: "1px",
-          }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="10"/>
-              <line x1="12" y1="8" x2="12" y2="12"/>
-              <line x1="12" y1="16" x2="12.01" y2="16"/>
+        <div
+          style={{
+            background: "#FFF8F0",
+            border: "1px solid rgba(139,0,0,0.12)",
+            borderRadius: "14px",
+            padding: "14px 18px",
+            marginBottom: "28px",
+            display: "flex",
+            alignItems: "flex-start",
+            gap: "12px",
+          }}
+        >
+          <div
+            style={{
+              width: "32px",
+              height: "32px",
+              borderRadius: "8px",
+              background: ACCENT_LIGHT,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexShrink: 0,
+              marginTop: "1px",
+            }}
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke={ACCENT}
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
             </svg>
           </div>
-          <p style={{
-            fontSize: "13px", color: "#6B4040",
-            fontFamily: "'Poppins', sans-serif", margin: 0, lineHeight: 1.6,
-          }}>
+          <p
+            style={{
+              fontSize: "13px",
+              color: "#6B4040",
+              fontFamily: "'Poppins', sans-serif",
+              margin: 0,
+              lineHeight: 1.6,
+            }}
+          >
             {gmailHints[selectedRole]}
           </p>
         </div>
 
-        {/* Google Sign-In Button */}
         <button
           onClick={handleGoogleLogin}
           disabled={loading}
@@ -410,7 +516,7 @@ function RightPanel({ selectedRole }) {
           {loading ? (
             <>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="2.5" strokeLinecap="round">
-                <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+                <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
               </svg>
               Signing in…
             </>
@@ -422,30 +528,147 @@ function RightPanel({ selectedRole }) {
           )}
         </button>
 
+        <div style={{ marginTop: "24px", display: "flex", alignItems: "center", gap: "12px" }}>
+          <div style={{ flex: 1, height: "1px", background: "#E5E7EB" }} />
+          <span style={{ fontSize: "12px", color: "#9CA3AF", fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.12em" }}>
+            or email
+          </span>
+          <div style={{ flex: 1, height: "1px", background: "#E5E7EB" }} />
+        </div>
+
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleAuthWithPassword(authMode);
+          }}
+          style={{ marginTop: "24px", display: "flex", flexDirection: "column", gap: "16px" }}
+        >
+          <label style={{ fontSize: "13px", fontWeight: 600, color: "#374151", fontFamily: "'Poppins', sans-serif" }}>
+            UB Email
+          </label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="you@ub.edu.ph"
+            style={{
+              width: "100%",
+              padding: "14px 16px",
+              borderRadius: "14px",
+              border: "1px solid #E5E7EB",
+              background: "#FFFFFF",
+              fontSize: "14px",
+              color: "#111827",
+              fontFamily: "'Poppins', sans-serif",
+            }}
+          />
+
+          <label style={{ fontSize: "13px", fontWeight: 600, color: "#374151", fontFamily: "'Poppins', sans-serif" }}>
+            Password
+          </label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Enter your password"
+            style={{
+              width: "100%",
+              padding: "14px 16px",
+              borderRadius: "14px",
+              border: "1px solid #E5E7EB",
+              background: "#FFFFFF",
+              fontSize: "14px",
+              color: "#111827",
+              fontFamily: "'Poppins', sans-serif",
+            }}
+          />
+
+          <button
+            type="submit"
+            disabled={loading}
+            style={{
+              width: "100%",
+              padding: "16px 22px",
+              borderRadius: "16px",
+              fontSize: "16px",
+              fontWeight: 600,
+              color: "#FFFFFF",
+              border: "none",
+              background: "#8B0000",
+              opacity: loading ? 0.7 : 1,
+              cursor: loading ? "not-allowed" : "pointer",
+              fontFamily: "'Poppins', sans-serif",
+            }}
+          >
+            {loading ? "Processing…" : authMode === "signUp" ? "Create account" : "Sign in with email"}
+          </button>
+        </form>
+
+        <p style={{ marginTop: "12px", fontSize: "13px", color: "#6B7280", textAlign: "center", fontFamily: "'Poppins', sans-serif" }}>
+          {authMode === "signUp" ? "Already have an account?" : "New to UB Sining?"}{" "}
+          <button
+            type="button"
+            onClick={toggleAuthMode}
+            style={{
+              background: "none",
+              border: "none",
+              color: "#8B0000",
+              fontWeight: 700,
+              cursor: "pointer",
+              fontFamily: "'Poppins', sans-serif",
+            }}
+          >
+            {authMode === "signUp" ? "Sign in" : "Sign up"}
+          </button>
+        </p>
+
+        {infoMessage && (
+          <p
+            style={{
+              marginTop: "14px",
+              fontSize: "13px",
+              color: "#16A34A",
+              fontWeight: 500,
+              fontFamily: "'Poppins', sans-serif",
+              textAlign: "center",
+            }}
+          >
+            {infoMessage}
+          </p>
+        )}
+
         {error && (
-          <p style={{
-            marginTop: "14px", fontSize: "13px", color: "#ef4444",
-            fontWeight: 500, fontFamily: "'Poppins', sans-serif", textAlign: "center",
-          }}>
+          <p
+            style={{
+              marginTop: "14px",
+              fontSize: "13px",
+              color: "#ef4444",
+              fontWeight: 500,
+              fontFamily: "'Poppins', sans-serif",
+              textAlign: "center",
+            }}
+          >
             {error}
           </p>
         )}
 
-        {/* Divider */}
         <div style={{ margin: "32px 0 0", display: "flex", alignItems: "center", gap: "12px" }}>
           <div style={{ flex: 1, height: "1px", background: "#F3F4F6" }} />
           <span style={{ fontSize: "12px", color: "#D1D5DB", fontWeight: 500, fontFamily: "'Poppins', sans-serif" }}>
-            Secured by Google OAuth
+            Secured by Supabase Auth
           </span>
           <div style={{ flex: 1, height: "1px", background: "#F3F4F6" }} />
         </div>
 
-        {/* Help link */}
-        <p style={{
-          marginTop: "32px", textAlign: "center",
-          fontSize: "14px", color: "#9CA3AF",
-          fontFamily: "'Poppins', sans-serif",
-        }}>
+        <p
+          style={{
+            marginTop: "32px",
+            textAlign: "center",
+            fontSize: "14px",
+            color: "#9CA3AF",
+            fontFamily: "'Poppins', sans-serif",
+          }}
+        >
           Need help?{" "}
           <button
             style={{ background: "none", border: "none", color: ACCENT, fontWeight: 600, cursor: "pointer", padding: 0 }}
