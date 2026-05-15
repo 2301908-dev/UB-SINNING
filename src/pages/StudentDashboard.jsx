@@ -306,7 +306,7 @@ function PortfolioTab() {
             onClick={() => setActivePortfolioTab("upload")}
             className={`px-5 py-2 text-sm font-semibold transition ${
               activePortfolioTab === "upload"
-                ? "bg-[#D4AF37] text-black shadow-sm"
+                ? "bg-[#8B0000] text-white shadow-sm"
                 : "bg-white text-gray-700 hover:bg-gray-50"
             }`}
           >
