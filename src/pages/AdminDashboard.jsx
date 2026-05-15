@@ -23,11 +23,11 @@ import {
 } from "lucide-react";
 
 const mockUsers = [
-  { id: 1, directory: "Faculty LDAP", groups: ["Administrators", "Curators"], fullName: "Avery Johnson", role: "Administrator", userType: "Admin", canEnter: true },
-  { id: 2, directory: "Student SSO", groups: ["Students", "Editors"], fullName: "Maya Chen", role: "Student", userType: "Student", canEnter: true },
-  { id: 3, directory: "Faculty LDAP", groups: ["Instructors", "Reviewers"], fullName: "Dr. Elias Martin", role: "Faculty", userType: "Instructor", canEnter: true },
-  { id: 4, directory: "Guest Access", groups: ["Guests"], fullName: "Jordan Lee", role: "Guest", userType: "External", canEnter: true },
+  { id: 1, email: "avery.johnson@ub.edu.ph", created: "2025-08-12", role: "Administrator", canEnter: true },
+  { id: 2, email: "maya.chen@ub.edu.ph", created: "2025-09-03", role: "Student", canEnter: true },
+  { id: 3, email: "elias.martin@ub.edu.ph", created: "2025-07-29", role: "Faculty", canEnter: true },
 ];
+
 
 export default function AdminDashboard() {
   const { logout } = useAuth();
@@ -35,7 +35,7 @@ export default function AdminDashboard() {
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
 
   const sidebarItems = [
-    { id: "overview", label: "Overview", icon: BarChart3 },
+    { id: "overview", label: "Dashboard", icon: BarChart3 },
     { id: "pending", label: "Pending Approvals", icon: CheckCircle },
     { id: "storage", label: "Storage Management", icon: HardDrive },
     { id: "feedback", label: "Feedback Analytics", icon: MessageSquare },
@@ -76,52 +76,70 @@ export default function AdminDashboard() {
         </div>
 
       </aside>
-
+ 
       {/* Main Content Area */}
       <main className="flex-1 p-10 text-white overflow-y-auto">
         
-        {/* Profile Dropdown Header - FIXED POSITIONING & VISIBILITY */}
-        <div className="relative flex justify-end mb-8 z-50"> 
-          <div className="relative">
-            <button
-              onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
-              className="flex items-center gap-2 rounded-full bg-[#8B0000] border border-white/20 px-4 py-2 text-[#E8EDF2] shadow-lg backdrop-blur-sm"
-            >
-              <User className="w-5 h-5" />
-              <span className="text-sm font-medium">Admin</span>
-              <ChevronDown className={`w-4 h-4 transition-transform ${profileDropdownOpen ? 'rotate-180' : ''}`} />
-            </button>
+        {/* Profile Dropdown Header - CLEAN CIRCULAR DESIGN */}
+<div className="relative flex justify-end mb-8 z-50"> 
+  <div className="relative">
+    <button
+      onClick={() => setProfileDropdownOpen(!profileDropdownOpen)} 
+      className="flex items-center gap-1 group transition-all"
+    >
+      <div className="relative">
+        <img 
+          src="src/assets/teampics/brent.jpg" 
+          alt="Profile" 
+          className="w-10 h-10 rounded-full object-cover border-2 border-transparent group-hover:border-white/50 transition-all shadow-md" 
+        />
+        <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>
+      </div>
+      <ChevronDown className={`w-4 h-4 text-white/70 transition-transform duration-300 ${profileDropdownOpen ? 'rotate-180' : ''}`} />
+    </button>
 
-            {profileDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-52 rounded-xl bg-white text-[#080616] shadow-2xl ring-1 ring-black/5 overflow-hidden">
-                <div className="px-4 py-3 border-gray-100 bg-gray-50">
-                  <p className="text-sm font-bold text-[#8B0000]">Administrator</p>
-                  <p className="text-xs text-gray-500">admin@ub.edu.ph</p>
-                </div>
-                <div className="py-1">
-                  <button 
-                    onClick={() => { setSection("settings"); setProfileDropdownOpen(false); }}
-                    className="flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm hover:bg-gray-100 transition"
-                  >
-                    <Settings className="w-4 h-4 text-gray-500" />
-                    <span>Settings</span>
-                  </button>
-                  <button className="flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm hover:bg-gray-100 transition border-t border-gray-50">
-                    <HelpCircle className="w-4 h-4 text-gray-500" />
-                    <span>Help</span>
-                  </button>
-                  <button
-                    onClick={() => { logout(); setProfileDropdownOpen(false); }}
-                    className="flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm text-red-600 hover:bg-red-50 transition"
-                  >
-                    <LogOut className="w-4 h-4" />
-                    <span>Logout</span>
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
+    {profileDropdownOpen && (
+      <div className="absolute right-0 mt-3 w-56 rounded-xl bg-white text-[#080616] shadow-2xl ring-1 ring-black/5 overflow-hidden animate-in zoom-in-95 duration-200">
+        <div className="px-4 py-4 border-b border-gray-100 bg-gray-50/50">
+          <p className="text-sm font-bold text-[#8B0000]">Administrator</p>
+          <p className="text-xs text-gray-500 truncate">admin@ub.edu.ph</p>
         </div>
+        
+        <div className="py-1">
+          {/* Language Option */}
+          <button className="flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm hover:bg-gray-100 transition">
+            <Palette className="w-4 h-4 text-gray-500" /> {/* Reusing Palette or similar icon for Language */}
+            <span>Language</span>
+            <span className="ml-auto text-[10px] bg-gray-200 px-1.5 py-0.5 rounded text-gray-600">EN</span>
+          </button>
+
+          <button 
+            onClick={() => { setSection("settings"); setProfileDropdownOpen(false); }}
+            className="flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm hover:bg-gray-100 transition"
+          >
+            <Settings className="w-4 h-4 text-gray-500" />
+            <span>Settings</span>
+          </button>
+          
+          <button className="flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm hover:bg-gray-100 transition">
+            <HelpCircle className="w-4 h-4 text-gray-500" />
+            <span>Help Center</span>
+          </button>
+
+          <div className="border-t border-gray-100 my-1"></div>
+
+          <button
+            onClick={() => { logout(); setProfileDropdownOpen(false); }}
+            className="flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm text-red-600 hover:bg-red-50 transition"
+          >
+            <LogOut className="w-4 h-4" />
+            <span className="font-medium">Logout</span>
+          </button>
+        </div>
+      </div>
+    )}
+  </div>
+</div>
 
         {/* DYNAMIC SECTION RENDERING */}
         <div className="animate-in fade-in duration-500">
@@ -248,50 +266,74 @@ function AllContent() {
 }
 
 function UserManagement() {
-  const [activeTab, setActiveTab] = useState("users");
+  const [activeTab, setActiveTab] = useState("students");
   const [users, setUsers] = useState(mockUsers);
-  const activeUsers = users.filter((user) => user.canEnter);
+
+  // Filter logic fixed to use the "role" property from your mockUsers array
+  const filteredUsers = users.filter((user) => {
+    if (activeTab === "students") return user.role.toLowerCase() === "student";
+    if (activeTab === "professors") return user.role.toLowerCase() !== "student";
+    return true;
+  });
 
   return (
     <div>
       <h1 className="text-3xl font-bold text-[#8B0000] mb-6">User Management</h1>
       <div className="bg-white/80 backdrop-blur-md p-6 rounded-xl shadow-lg space-y-6 border border-gray-200">
         <div className="flex gap-2">
-          {["users", "roles", "directories"].map((t) => (
-            <button key={t} onClick={() => setActiveTab(t)} className={`px-4 py-2 rounded-full text-sm font-medium transition ${activeTab === t ? "bg-[#8B0000] text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}>
+          {["students", "professors"].map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition ${
+                activeTab === t ? "bg-[#8B0000] text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              }`}
+            >
               {t.charAt(0).toUpperCase() + t.slice(1)}
             </button>
           ))}
         </div>
 
-        {activeTab === "users" && (
-          <div className="overflow-x-auto rounded-xl border border-gray-200">
-            <table className="min-w-full divide-y divide-gray-200 text-left text-sm">
-              <thead className="bg-[#8B0000] text-white">
-                <tr>
-                  <th className="px-4 py-3 font-medium">Access</th>
-                  <th className="px-4 py-3 font-medium">Status</th>
-                  <th className="px-4 py-3 font-medium">Full Name</th>
-                  <th className="px-4 py-3 font-medium">Role</th>
+        <div className="overflow-x-auto rounded-xl border border-gray-200">
+          <table className="min-w-full text-left text-sm divide-y divide-gray-200">
+            <thead className="bg-gray-100">
+              <tr>
+                {/* Label changed from Name to User as requested */}
+                <th className="px-4 py-3 font-semibold text-slate-700">User</th>
+                <th className="px-4 py-3 font-semibold text-slate-700">Role</th>
+                <th className="px-4 py-3 font-semibold text-slate-700">Email</th>
+                <th className="px-4 py-3 font-semibold text-slate-700">Created</th>
+                <th className="px-4 py-3 font-semibold text-slate-700">Status</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200 bg-white">
+              {filteredUsers.map((user) => (
+                <tr key={user.id}>
+                  <td className="px-4 py-4 text-sm text-[#080616] font-medium">
+                    <div className="flex flex-col">
+                      <span className="text-[10px] text-gray-400 uppercase font-bold">ID: {user.id}</span>
+                    </div>
+                  </td>
+                  <td className="px-4 py-4 text-sm text-gray-600">{user.role}</td>
+                  <td className="px-4 py-4 text-sm text-gray-600">{user.email}</td>
+                  <td className="px-4 py-4 text-sm text-gray-600">{user.created}</td>
+                  <td className="px-4 py-4 text-sm">
+                    <span className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${user.canEnter ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
+                      {user.canEnter ? "Active" : "Blocked"}
+                    </span>
+                  </td>
                 </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200 text-[#080616]">
-                {users.map((user) => (
-                  <tr key={user.id}>
-                    <td className="px-4 py-4">
-                      <input type="checkbox" checked={user.canEnter} onChange={() => {
-                        setUsers(users.map(u => u.id === user.id ? {...u, canEnter: !u.canEnter} : u));
-                      }} className="accent-[#8B0000]" />
-                    </td>
-                    <td className="px-4 py-4"><span className={`px-2 py-1 rounded-full text-xs font-bold ${user.canEnter ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>{user.canEnter ? "Active" : "Inactive"}</span></td>
-                    <td className="px-4 py-4">{user.fullName}</td>
-                    <td className="px-4 py-4">{user.role}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+              ))}
+              {filteredUsers.length === 0 && (
+                <tr>
+                  <td colSpan="5" className="px-4 py-8 text-center text-sm text-gray-500">
+                    No users found for this category.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

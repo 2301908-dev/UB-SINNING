@@ -181,7 +181,7 @@ function HomeTab({ featured }) {
 
         {/* VIDEO BACKGROUND */}
         <video
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover rounded-3xl"
           autoPlay
           loop
           muted
