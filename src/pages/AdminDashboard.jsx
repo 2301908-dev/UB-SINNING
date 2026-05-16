@@ -19,13 +19,15 @@ import {
   Upload,
   User,
   ChevronDown,
-  HelpCircle
+  HelpCircle,
+  MoreVertical
 } from "lucide-react";
 
 const mockUsers = [
-  { id: 1, email: "avery.johnson@ub.edu.ph", created: "2025-08-12", role: "Administrator", canEnter: true },
-  { id: 2, email: "maya.chen@ub.edu.ph", created: "2025-09-03", role: "Student", canEnter: true },
-  { id: 3, email: "elias.martin@ub.edu.ph", created: "2025-07-29", role: "Faculty", canEnter: true },
+  { id: 1, email: "2304898@ub.edu.ph", created: "2025-08-12", role: "Professor", canEnter: true },
+  { id: 2, email: "2307867@ub.edu.ph", created: "2025-09-03", role: "Student", canEnter: true },
+  { id: 3, email: "2301173@ub.edu.ph", created: "2025-07-29", role: "Professor", canEnter: true },
+  { id: 4, email: "2305637@ub.edu.ph", created: "2025-08-22", role: "Student", canEnter: true }
 ];
 
 
@@ -36,7 +38,6 @@ export default function AdminDashboard() {
 
   const sidebarItems = [
     { id: "overview", label: "Dashboard", icon: BarChart3 },
-    { id: "pending", label: "Pending Approvals", icon: CheckCircle },
     { id: "storage", label: "Storage Management", icon: HardDrive },
     { id: "feedback", label: "Feedback Analytics", icon: MessageSquare },
     { id: "content", label: "All Content", icon: Film },
@@ -55,7 +56,7 @@ export default function AdminDashboard() {
     >
       {/* Sidebar */}
       <aside className="relative bg-[#8B0000] p-4 rounded-r-lg flex flex-col justify-between w-64 shadow-xl">
-        <div className="space-y-8">
+        <div className="space-y-3">
           <div className="overflow-hidden">
             <UBLogo />
           </div>
@@ -78,25 +79,25 @@ export default function AdminDashboard() {
       </aside>
  
       {/* Main Content Area */}
-      <main className="flex-1 p-10 text-white overflow-y-auto">
+      <main className="flex-1 p-8 text-white overflow-y-auto">
         
         {/* Profile Dropdown Header - CLEAN CIRCULAR DESIGN */}
-<div className="relative flex justify-end mb-8 z-50"> 
-  <div className="relative">
-    <button
-      onClick={() => setProfileDropdownOpen(!profileDropdownOpen)} 
-      className="flex items-center gap-1 group transition-all"
-    >
-      <div className="relative">
-        <img 
-          src="src/assets/teampics/brent.jpg" 
-          alt="Profile" 
-          className="w-10 h-10 rounded-full object-cover border-2 border-transparent group-hover:border-white/50 transition-all shadow-md" 
-        />
-        <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>
-      </div>
-      <ChevronDown className={`w-4 h-4 text-white/70 transition-transform duration-300 ${profileDropdownOpen ? 'rotate-180' : ''}`} />
-    </button>
+        <div className="relative flex justify-end mb-8 z-50"> 
+          <div className="relative">
+            <button
+              onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
+              className="flex items-center gap-1 group transition-all"
+            >
+              <div className="relative">
+                <img 
+                  src="src/assets/teampics/brent.jpg" 
+                  alt="Profile" 
+                  className="w-10 h-10 rounded-full object-cover border-2 border-transparent group-hover:border-white/50 transition-all shadow-md" 
+                />
+                <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>
+              </div>
+              <ChevronDown className={`w-4 h-4 text-white/70 transition-transform duration-300 ${profileDropdownOpen ? 'rotate-180' : ''}`} />
+            </button>
 
     {profileDropdownOpen && (
       <div className="absolute right-0 mt-3 w-56 rounded-xl bg-white text-[#080616] shadow-2xl ring-1 ring-black/5 overflow-hidden animate-in zoom-in-95 duration-200">
@@ -125,7 +126,6 @@ export default function AdminDashboard() {
             <HelpCircle className="w-4 h-4 text-gray-500" />
             <span>Help Center</span>
           </button>
-
           <div className="border-t border-gray-100 my-1"></div>
 
           <button
@@ -144,7 +144,6 @@ export default function AdminDashboard() {
         {/* DYNAMIC SECTION RENDERING */}
         <div className="animate-in fade-in duration-500">
             {section === "overview" && <AdminOverview />}
-            {section === "pending" && <PendingApprovals />}
             {section === "storage" && <StorageManagement />}
             {section === "feedback" && <FeedbackAnalytics />}
             {section === "content" && <AllContent />}
@@ -177,33 +176,10 @@ function AdminOverview() {
     <div>
       <h1 className="text-3xl font-bold text-[#8B0000] mb-8">Dashboard Overview</h1>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <KPI title="Total Uploads" value="1,247" change="+12%" color="blue" />
+        <KPI title="Total Uploads" value="38" change="+12%" color="blue" />
         <KPI title="Pending Review" value="12" change="+3" color="yellow" />
-        <KPI title="Active Users" value="3,892" change="+8%" color="green" />
-        <KPI title="Avg. Rating" value="4.6" change="+0.2" color="red" />
-      </div>
-    </div>
-  );
-}
-
-function PendingApprovals() {
-  return (
-    <div>
-      <h1 className="text-3xl font-bold text-[#8B0000] mb-6">Pending Approvals</h1>
-      <div className="bg-white/80 backdrop-blur-md p-6 rounded-xl space-y-4 shadow-lg border border-gray-200">
-        {mockFilms.map((film) => (
-          <div key={film.id} className="flex items-center justify-between border-b border-gray-200 pb-4 last:border-0">
-            <div>
-              <p className="font-semibold text-[#080616]">{film.title}</p>
-              <p className="text-sm text-gray-500">{film.studentId}</p>
-            </div>
-            <div className="flex gap-2">
-              <button className="px-4 py-2 bg-green-700 text-white rounded-lg text-sm hover:bg-green-800 transition">Approve</button>
-              <button className="px-4 py-2 bg-red-700 text-white rounded-lg text-sm hover:bg-red-800 transition">Deny</button>
-              <button className="px-4 py-2 bg-gray-700 text-white rounded-lg text-sm hover:bg-gray-800 transition">Feedback</button>
-            </div>
-          </div>
-        ))}
+        <KPI title="Active Users" value="22" change="+8" color="green" />
+        <KPI title="Avg. Rating" value="4.7" change="+0.2" color="red" />
       </div>
     </div>
   );
@@ -268,30 +244,79 @@ function AllContent() {
 function UserManagement() {
   const [activeTab, setActiveTab] = useState("students");
   const [users, setUsers] = useState(mockUsers);
+  const [actionMenuOpenId, setActionMenuOpenId] = useState(null);
+  const [searchEmail, setSearchEmail] = useState("");
+
+  const handleToggleMenu = (userId) => {
+    setActionMenuOpenId((prev) => (prev === userId ? null : userId));
+  };
+
+  const handleDeactivate = (userId) => {
+    const user = users.find((u) => u.id === userId);
+    const email = user ? user.email : "this user";
+    if (!window.confirm(`Deactivate ${email}? This will block their access.`)) {
+      setActionMenuOpenId(null);
+      return;
+    }
+
+    setUsers((prevUsers) =>
+      prevUsers.map((user) =>
+        user.id === userId ? { ...user, canEnter: false } : user
+      )
+    );
+    setActionMenuOpenId(null);
+  };
+
+  const handleDelete = (userId) => {
+    const user = users.find((u) => u.id === userId);
+    const email = user ? user.email : "this user";
+    if (!window.confirm(`Delete ${email}? This action cannot be undone.`)) {
+      setActionMenuOpenId(null);
+      return;
+    }
+
+    setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
+    setActionMenuOpenId(null);
+  };
 
   // Filter logic fixed to use the "role" property from your mockUsers array
   const filteredUsers = users.filter((user) => {
-    if (activeTab === "students") return user.role.toLowerCase() === "student";
-    if (activeTab === "professors") return user.role.toLowerCase() !== "student";
-    return true;
+    const matchesTab = activeTab === "students"
+      ? user.role.toLowerCase() === "student"
+      : user.role.toLowerCase() !== "student";
+
+    const matchesSearch = user.email.toLowerCase().includes(searchEmail.toLowerCase());
+    return matchesTab && matchesSearch;
   });
 
   return (
     <div>
       <h1 className="text-3xl font-bold text-[#8B0000] mb-6">User Management</h1>
       <div className="bg-white/80 backdrop-blur-md p-6 rounded-xl shadow-lg space-y-6 border border-gray-200">
-        <div className="flex gap-2">
-          {["students", "professors"].map((t) => (
-            <button
-              key={t}
-              onClick={() => setActiveTab(t)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition ${
-                activeTab === t ? "bg-[#8B0000] text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-              }`}
-            >
-              {t.charAt(0).toUpperCase() + t.slice(1)}
-            </button>
-          ))}
+        <div className="flex flex-col gap-4 md:gap-0 md:flex-row md:items-center md:justify-between">
+          <div className="flex gap-2">
+            {["students", "professors"].map((t) => (
+              <button
+                key={t}
+                onClick={() => setActiveTab(t)}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition ${
+                  activeTab === t ? "bg-[#8B0000] text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                }`}
+              >
+                {t.charAt(0).toUpperCase() + t.slice(1)}
+              </button>
+            ))}
+          </div>
+
+          <div className="w-full md:w-50">
+            <input
+              type="text"
+              value={searchEmail}
+              onChange={(e) => setSearchEmail(e.target.value)}
+              placeholder="Search by email..."
+              className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm text-[#080616] outline-none transition focus:ring-2 focus:ring-[#8B0000]/20"
+            />
+          </div>
         </div>
 
         <div className="overflow-x-auto rounded-xl border border-gray-200">
@@ -301,16 +326,18 @@ function UserManagement() {
                 {/* Label changed from Name to User as requested */}
                 <th className="px-4 py-3 font-semibold text-slate-700">User</th>
                 <th className="px-4 py-3 font-semibold text-slate-700">Role</th>
-                <th className="px-4 py-3 font-semibold text-slate-700">Email</th>
+                <th className="px-4 py-3 font-semibold text-slate-700">UBmail</th>
                 <th className="px-4 py-3 font-semibold text-slate-700">Created</th>
                 <th className="px-4 py-3 font-semibold text-slate-700">Status</th>
+                <th className="px-4 py-3 font-semibold text-slate-700">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 bg-white">
               {filteredUsers.map((user) => (
-                <tr key={user.id}>
+                <tr key={user.id} className="group">
                   <td className="px-4 py-4 text-sm text-[#080616] font-medium">
-                    <div className="flex flex-col">
+                    <div className="flex flex-col gap-1">
+                      <span className="font-semibold text-sm">{user.email.split("@")[0].split(".").join(" ")}</span>
                       <span className="text-[10px] text-gray-400 uppercase font-bold">ID: {user.id}</span>
                     </div>
                   </td>
@@ -322,11 +349,35 @@ function UserManagement() {
                       {user.canEnter ? "Active" : "Blocked"}
                     </span>
                   </td>
+                  <td className="px-4 py-4 text-right relative">
+                    <button
+                      onClick={() => handleToggleMenu(user.id)}
+                      className="inline-flex items-center justify-center p-2 rounded-full text-gray-500 hover:bg-gray-100 hover:text-[#8B0000] transition"
+                    >
+                      <MoreVertical className="w-5 h-5" />
+                    </button>
+                    {actionMenuOpenId === user.id && (
+                      <div className="absolute right-4 top-10 z-20 w-36 rounded-xl border border-gray-200 bg-white text-sm text-[#080616] shadow-xl">
+                        <button
+                          onClick={() => handleDeactivate(user.id)}
+                          className="w-full px-4 py-3 text-left hover:bg-gray-100 transition"
+                        >
+                          Deactivate
+                        </button>
+                        <button
+                          onClick={() => handleDelete(user.id)}
+                          className="w-full px-4 py-3 text-left text-red-600 hover:bg-gray-100 transition"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    )}
+                  </td>
                 </tr>
               ))}
               {filteredUsers.length === 0 && (
                 <tr>
-                  <td colSpan="5" className="px-4 py-8 text-center text-sm text-gray-500">
+                  <td colSpan="6" className="px-4 py-8 text-center text-sm text-gray-500">
                     No users found for this category.
                   </td>
                 </tr>
