@@ -223,7 +223,7 @@ function Navbar({ onSignInClick }) {
       </div>
 
       {/* Nav Links */}
-      <ul className="hidden md:flex items-center gap-9 list-none m-0 p-0">
+      <ul className="hidden md:flex items-center gap-7 list-none m-0 p-0">
         {NAV_LINKS.map((link) => (
           <li key={link}>
              <a
@@ -237,7 +237,7 @@ function Navbar({ onSignInClick }) {
               `}
               style={{
                 fontFamily: "'Poppins', sans-serif",
-                fontWeight: 400,
+                fontWeight: 500,
                 borderBottomWidth: "2px",
                 borderBottomStyle: "solid",
                 paddingBottom: "2px",
@@ -254,7 +254,7 @@ function Navbar({ onSignInClick }) {
         onClick={onSignInClick}
         className="
           cursor-pointer
-          text-white text-[15px] rounded-full px-7 py-3
+          text-white text-[16px] rounded-full px-7 py-3
           transition-all duration-200
           hover:scale-[1.03] active:scale-95
           shadow-[0_3px_12px_rgba(139,0,0,0.28)]
@@ -327,7 +327,7 @@ function HeroSection({ onSignInClick }) {
             >
               Bringing Student
               <br />
-              <span className="gradient-text">
+              <span style={{ color: "#111" }}>
                 Creativity
               </span>{" "}
               to the
@@ -417,7 +417,7 @@ function HeroSection({ onSignInClick }) {
                   e.currentTarget.style.boxShadow = "0 4px 18px rgba(139,0,0,0.32)";
                 }}
               >
-                Explore Films
+                Learn More
                 <img src="/src/assets/icons/next.png" alt="arrow" style={{ width: 16, height: 16 }} />
               </button>
 

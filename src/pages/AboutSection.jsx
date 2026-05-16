@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-import { Sparkles } from "lucide-react";
 
 function useReveal() {
   const ref = useRef(null);
@@ -76,7 +75,7 @@ function VideoReel({ video, title }) {
   }, []);
 
   return (
-    <div className="relative overflow-hidden rounded-2xl aspect-video">
+    <div className="relative overflow-hidden rounded-2xl" style={{ aspectRatio: "16/9.5" }}>
       <video
         ref={videoRef}
         className="absolute inset-0 w-full h-full object-cover"
@@ -111,7 +110,7 @@ function AboutIntro() {
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-10 pt-28 pb-16">
       <div className="grid lg:grid-cols-12 gap-10 items-center">
         {/* Left content */}
-        <div className="lg:col-span-6">
+        <div className="lg:col-span-6" style={{ paddingTop: "20px", marginLeft: "-30px" }}>
           <Reveal>
             <div
               className="mb-5 inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase"
@@ -122,7 +121,6 @@ function AboutIntro() {
                 border: "1px solid rgba(139,0,0,0.15)",
               }}
             >
-              <Sparkles className="w-3 h-3" />
               About UB SINING
             </div>
           </Reveal>
@@ -136,50 +134,21 @@ function AboutIntro() {
               <span style={{ backgroundImage: "linear-gradient(90deg,#8B0000 30%,#D4AF37 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
                 student stories
               </span>
-              .
+              <span style={{ color: "#D4AF37" }}>.</span>
             </h2>
           </Reveal>
 
           <Reveal delay={0.13}>
-            <p className="text-lg leading-[1.85] text-gray-600 mb-10 max-w-xl" style={{ fontFamily: "'Poppins', sans-serif", textAlign: "justify" }}>
-              UB-SINING is  streaming and showcase platform of the Multimedia Arts program at the University of Batangas — built to celebrate, archive, and elevate every film our students create.
-            </p>
+            <p className="text-base leading-[1.85] text-gray-600 mb-10 max-w-xl" style={{ fontFamily: "'Poppins', sans-serif", textAlign: "justify" }}>
+UB-SINING is a streaming, showcasing, and archiving platform for student produced films and creative works built to discover, archive, and elevate every project our students create.            </p>
           </Reveal>
 
-          <Reveal delay={0.18}>
-            <button
-              onClick={() => {
-                const teamSection = document.getElementById("team");
-                if (teamSection) teamSection.scrollIntoView({ behavior: "smooth" });
-              }}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold text-white"
-              style={{
-                background: "#8B0000",
-                fontFamily: "'Poppins', sans-serif",
-                boxShadow: "0 4px 18px rgba(139,0,0,0.32)",
-                transition: "background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease",
-                cursor: "pointer",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = "#6b0000";
-                e.currentTarget.style.transform = "translateY(-2px)";
-                e.currentTarget.style.boxShadow = "0 8px 28px rgba(139,0,0,0.42)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = "#8B0000";
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 4px 18px rgba(139,0,0,0.32)";
-              }}
-            >
-              Meet the team
-            </button>
-          </Reveal>
         </div>
 
         {/* Right visual - Film reels with videos */}
         <Reveal delay={0.2} className="lg:col-span-6">
-          <div className="rounded-3xl overflow-hidden p-6" style={glassCard}>
-            <div className="grid grid-cols-2 gap-5">
+          <div className="rounded-3xl overflow-hidden p-3" style={{ ...glassCard, marginRight: "-80px" }}>
+            <div className="grid grid-cols-2 gap-3">
               <VideoReel video="/canvas.mp4" title="Canvas" />
               <VideoReel video="/kahitsandali.mp4" title="Kahit Sandali" />
               <VideoReel video="/liwanag.mp4" title="Liwanag" />

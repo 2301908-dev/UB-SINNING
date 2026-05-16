@@ -5,6 +5,7 @@ import SignInPage from "./pages/SignInPage";
 import AuthCallback from "./pages/AuthCallback";
 import AdminDashboard from "./pages/AdminDashboard";
 import StudentDashboard from "./pages/StudentDashboard";
+import FacultyDashboard from "./FacultyDashboard";
 
 function AppContent() {
   const { user, role, loading, error } = useAuth();
@@ -21,8 +22,12 @@ function AppContent() {
     );
   }
 
-  // Route based on role: faculty → admin dashboard, everyone else → student dashboard.
-  if (user) return role === "faculty" ? <AdminDashboard /> : <StudentDashboard />;
+  // Route based on role
+  if (user) {
+    if (role === "admin")   return <AdminDashboard />;
+    if (role === "faculty") return <FacultyDashboard />;
+    return <StudentDashboard />;
+  }
 
   // If there's an auth error (e.g. faculty intent mismatch), force the user
   // back onto the sign-in page so they can see it.

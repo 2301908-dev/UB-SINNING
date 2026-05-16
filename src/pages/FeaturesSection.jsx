@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Sparkles } from "lucide-react";
 
 const FEATURES = [
   {
@@ -42,11 +41,11 @@ const FEATURES = [
     icon: "src/assets/icons/spotlight.png",
     title: "Creator Spotlight",
     description:
-      "Meet the storytellers behind the screen—highlighting talented student filmmakers and their creative journeys.",
+      "Meet the storytellers behind the screen highlighting talented student filmmakers and their creative journeys.",
   },
 ];
 
-function FeatureCard({ feature }) {
+function FeatureCard({ feature, index }) {
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -63,27 +62,16 @@ function FeatureCard({ feature }) {
         background: "#ffffff",
         backdropFilter: "blur(12px)",
         WebkitBackdropFilter: "blur(12px)",
-        border: hovered ? "1px solid #8B0000" : "1px solid rgba(139,0,0,0.35)",
+        border: "1px solid rgba(139,0,0,0.18)",
         boxShadow: hovered
-          ? "0 20px 48px rgba(139,0,0,0.18), 0 4px 16px rgba(139,0,0,0.10)"
-          : "0 4px 20px rgba(0,0,0,0.06)",
-        transform: hovered ? "translateY(-6px)" : "translateY(0)",
-        transition: "all 0.3s ease",
+          ? "0 20px 48px rgba(139,0,0,0.14), 0 6px 20px rgba(139,0,0,0.08)"
+          : "0 4px 16px rgba(139,0,0,0.07)",
+        transform: hovered ? "translateY(-8px)" : "translateY(0)",
+        transition: "transform 0.3s ease, box-shadow 0.3s ease",
         cursor: "pointer",
         overflow: "hidden",
       }}
     >
-      {/* Top gradient accent bar */}
-      <div style={{
-        position: "absolute",
-        top: 0, left: 0, right: 0,
-        height: 3,
-        background: "linear-gradient(90deg, #8B0000, #ffc553)",
-        opacity: hovered ? 1 : 0,
-        transition: "opacity 0.3s ease",
-        borderRadius: "20px 20px 0 0",
-      }} />
-
       {/* Icon + number row */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 18 }}>
         <div style={{
@@ -109,7 +97,7 @@ function FeatureCard({ feature }) {
           fontFamily: "'Poppins', sans-serif",
           fontWeight: 700,
           fontSize: 13,
-          color: hovered ? "#8B0000" : "rgba(139,0,0,0.30)",
+          color: hovered ? "#8B0000" : "rgba(139,0,0,0.35)",
           letterSpacing: "0.08em",
           transition: "color 0.3s ease",
         }}>
@@ -168,7 +156,6 @@ export default function FeaturesSection({ onSignInClick }) {
             border: "1px solid rgba(139,0,0,0.15)",
           }}
         >
-          <Sparkles className="w-3 h-3" />
           Platform Features
         </div>
 
@@ -178,7 +165,7 @@ export default function FeaturesSection({ onSignInClick }) {
           style={{ fontFamily: "'Montserrat', sans-serif", color: "#111827" }}
         >
           Everything a{" "}
-          <span className="gradient-text">
+          <span style={{ backgroundImage: "linear-gradient(90deg,#8B0000 30%,#D4AF37 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
             student filmmaker
           </span>{" "}
           needs.
@@ -186,11 +173,10 @@ export default function FeaturesSection({ onSignInClick }) {
 
         {/* Subtitle */}
         <p
-          className="mt-6 text-lg max-w-2xl mx-auto"
+          className="mt-6 text-base max-w-2xl mx-auto"
           style={{ color: "#4B5563", fontFamily: "'Poppins', sans-serif", lineHeight: 1.7 }}
         >
-          From cinematic playback to faculty tools and audience insights, UB-SINING provides a complete creative platform for filmmakers.
-        </p>
+From showcasing student films to archiving projects and connecting audiences, UB-SINING provides a complete artistic platform for student creators.        </p>
 
         {/* Buttons */}
         <div className="mt-9 flex flex-wrap justify-center gap-3">

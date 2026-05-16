@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-import { Sparkles } from "lucide-react";
 
 // ─── Reveal Hook (same pattern as AboutSection) ───────────────────────────────
 
@@ -189,7 +188,6 @@ export default function TeamSection() {
                 border: "1px solid rgba(139,0,0,0.15)",
               }}
             >
-              <Sparkles className="w-3 h-3" />
               Meet The Team
             </div>
           </div>
