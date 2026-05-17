@@ -23,13 +23,17 @@ import {
   MoreVertical
 } from "lucide-react";
 
+// Added clean 'name' properties to the mock entries
 const mockUsers = [
-  { id: 1, email: "2304898@ub.edu.ph", created: "2025-08-12", role: "Professor", canEnter: true },
-  { id: 2, email: "2307867@ub.edu.ph", created: "2025-09-03", role: "Student", canEnter: true },
-  { id: 3, email: "2301173@ub.edu.ph", created: "2025-07-29", role: "Professor", canEnter: true },
-  { id: 4, email: "2305637@ub.edu.ph", created: "2025-08-22", role: "Student", canEnter: true }
-];
+  { id: 1, name: "Mr. John Manuel Policarpio III", email: "2301565@ub.edu.ph", created: "2025-08-12", role: "Professor", canEnter: true },
+  { id: 2, name: "Brent Joseph M. Pagcaliwagan", email: "2301687@ub.edu.ph", created: "2025-08-22", role: "Student", canEnter: true },
+  { id: 3, name: "Mr. John Ashley Alday", email: "2204421@ub.edu.ph", created: "2025-07-29", role: "Professor", canEnter: true },
+  { id: 5, name: "Kenn Philip Nathaniel B. Silang", email: "2301908@ub.edu.ph", created: "2025-08-22", role: "Student", canEnter: true },
+  { id: 6, name: "Bryan James N. Villalon", email: "2301947@ub.edu.ph", created: "2025-08-22", role: "Student", canEnter: true },
+  { id: 7, name: "Tristan Jay Mirano", email: "2300524@ub.edu.ph", created: "2025-08-22", role: "Student", canEnter: true },
+  { id: 8, name: "Vin Perez", email: "2201238@ub.edu.ph", created: "2025-08-22", role: "Student", canEnter: true },
 
+];
 
 export default function AdminDashboard() {
   const { logout } = useAuth();
@@ -38,7 +42,7 @@ export default function AdminDashboard() {
 
   const sidebarItems = [
     { id: "overview", label: "Dashboard", icon: BarChart3 },
-    { id: "storage", label: "Storage Management", icon: HardDrive },
+    { id: "storage", label: "Storage", icon: HardDrive },
     { id: "feedback", label: "Feedback Analytics", icon: MessageSquare },
     { id: "content", label: "All Content", icon: Film },
     { id: "users", label: "Users", icon: Users },
@@ -55,7 +59,7 @@ export default function AdminDashboard() {
       }}
     >
       {/* Sidebar */}
-      <aside className="relative bg-[#8B0000] p-4 rounded-r-lg flex flex-col justify-between w-64 shadow-xl">
+      <aside className="relative bg-[#8B0000] p-4 rounded-r-lg flex flex-col justify-between w-52 shadow-xl">
         <div className="space-y-3">
           <div className="overflow-hidden">
             <UBLogo />
@@ -65,17 +69,17 @@ export default function AdminDashboard() {
               <button
                 key={item.id}
                 onClick={() => setSection(item.id)}
-                className={`flex items-center gap-3 w-full p-3 rounded-lg transition justify-start ${
+                className={`flex items-center gap-2 w-full p-2 rounded-lg transition justify-start ${
                   section === item.id ? "bg-white text-[#8B0000]" : "text-[#E8EDF2] hover:bg-white/20"
                 }`}
               >
-                <item.icon className="w-5 h-5" />
-                <span className="font-medium">{item.label}</span>
+                <item.icon className="w-4 h-4" />
+                {/* Enhanced: Added text-sm so the font fits perfectly with p-2 padding without wrapping */}
+                <span className="font-medium text-sm">{item.label}</span>
               </button>
             ))}
           </nav>
         </div>
-
       </aside>
  
       {/* Main Content Area */}
@@ -99,47 +103,47 @@ export default function AdminDashboard() {
               <ChevronDown className={`w-4 h-4 text-white/70 transition-transform duration-300 ${profileDropdownOpen ? 'rotate-180' : ''}`} />
             </button>
 
-    {profileDropdownOpen && (
-      <div className="absolute right-0 mt-3 w-56 rounded-xl bg-white text-[#080616] shadow-2xl ring-1 ring-black/5 overflow-hidden animate-in zoom-in-95 duration-200">
-        <div className="px-4 py-4 border-b border-gray-100 bg-gray-50/50">
-          <p className="text-sm font-bold text-[#8B0000]">Administrator</p>
-          <p className="text-xs text-gray-500 truncate">admin@ub.edu.ph</p>
-        </div>
-        
-        <div className="py-1">
-          {/* Language Option */}
-          <button className="flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm hover:bg-gray-100 transition">
-            <Palette className="w-4 h-4 text-gray-500" /> {/* Reusing Palette or similar icon for Language */}
-            <span>Language</span>
-            <span className="ml-auto text-[10px] bg-gray-200 px-1.5 py-0.5 rounded text-gray-600">EN</span>
-          </button>
+            {profileDropdownOpen && (
+              <div className="absolute right-0 mt-3 w-56 rounded-xl bg-white text-[#080616] shadow-2xl ring-1 ring-black/5 overflow-hidden animate-in zoom-in-95 duration-200">
+                <div className="px-4 py-4 border-b border-gray-100 bg-gray-50/50">
+                  <p className="text-sm font-bold text-[#8B0000]">Administrator</p>
+                  <p className="text-xs text-gray-500 truncate">admin@ub.edu.ph</p>
+                </div>
+                
+                <div className="py-1">
+                  {/* Language Option */}
+                  <button className="flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm hover:bg-gray-100 transition">
+                    <Palette className="w-4 h-4 text-gray-500" />
+                    <span>Language</span>
+                    <span className="ml-auto text-[10px] bg-gray-200 px-1.5 py-0.5 rounded text-gray-600">EN</span>
+                  </button>
 
-          <button 
-            onClick={() => { setSection("settings"); setProfileDropdownOpen(false); }}
-            className="flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm hover:bg-gray-100 transition"
-          >
-            <Settings className="w-4 h-4 text-gray-500" />
-            <span>Settings</span>
-          </button>
-          
-          <button className="flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm hover:bg-gray-100 transition">
-            <HelpCircle className="w-4 h-4 text-gray-500" />
-            <span>Help Center</span>
-          </button>
-          <div className="border-t border-gray-100 my-1"></div>
+                  <button 
+                    onClick={() => { setSection("settings"); setProfileDropdownOpen(false); }}
+                    className="flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm hover:bg-gray-100 transition"
+                  >
+                    <Settings className="w-4 h-4 text-gray-500" />
+                    <span>Settings</span>
+                  </button>
+                  
+                  <button className="flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm hover:bg-gray-100 transition">
+                    <HelpCircle className="w-4 h-4 text-gray-500" />
+                    <span>Help Center</span>
+                  </button>
+                  <div className="border-t border-gray-100 my-1"></div>
 
-          <button
-            onClick={() => { logout(); setProfileDropdownOpen(false); }}
-            className="flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm text-red-600 hover:bg-red-50 transition"
-          >
-            <LogOut className="w-4 h-4" />
-            <span className="font-medium">Logout</span>
-          </button>
+                  <button
+                    onClick={() => { logout(); setProfileDropdownOpen(false); }}
+                    className="flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm text-red-600 hover:bg-red-50 transition"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    <span className="font-medium">Logout</span>
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-    )}
-  </div>
-</div>
 
         {/* DYNAMIC SECTION RENDERING */}
         <div className="animate-in fade-in duration-500">
@@ -279,7 +283,6 @@ function UserManagement() {
     setActionMenuOpenId(null);
   };
 
-  // Filter logic fixed to use the "role" property from your mockUsers array
   const filteredUsers = users.filter((user) => {
     const matchesTab = activeTab === "students"
       ? user.role.toLowerCase() === "student"
@@ -323,7 +326,6 @@ function UserManagement() {
           <table className="min-w-full text-left text-sm divide-y divide-gray-200">
             <thead className="bg-gray-100">
               <tr>
-                {/* Label changed from Name to User as requested */}
                 <th className="px-4 py-3 font-semibold text-slate-700">User</th>
                 <th className="px-4 py-3 font-semibold text-slate-700">Role</th>
                 <th className="px-4 py-3 font-semibold text-slate-700">UBmail</th>
@@ -337,7 +339,10 @@ function UserManagement() {
                 <tr key={user.id} className="group">
                   <td className="px-4 py-4 text-sm text-[#080616] font-medium">
                     <div className="flex flex-col gap-1">
-                      <span className="font-semibold text-sm">{user.email.split("@")[0].split(".").join(" ")}</span>
+                      {/* Safety fallback checking if user.name exists; if not, falls back to old string parse method */}
+                      <span className="font-semibold text-sm">
+                        {user.name ? user.name : user.email.split("@")[0].split(".").join(" ")}
+                      </span>
                       <span className="text-[10px] text-gray-400 uppercase font-bold">ID: {user.id}</span>
                     </div>
                   </td>
@@ -349,6 +354,7 @@ function UserManagement() {
                       {user.canEnter ? "Active" : "Blocked"}
                     </span>
                   </td>
+                  
                   <td className="px-4 py-4 text-right relative">
                     <button
                       onClick={() => handleToggleMenu(user.id)}
