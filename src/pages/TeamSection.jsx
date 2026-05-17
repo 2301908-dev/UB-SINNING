@@ -63,7 +63,7 @@ const TEAM = [
   {
     name: "Brent Joseph M. Pagcaliwagan",
     role: "Frontend Developer",
-    img: "src/assets/teampics/brent.png",
+    img: "src/assets/teampics/brent.jpg",
     description: "Builds the interactive experiences that users see and feel every day.",
     gradient: "from-[#8B0000] to-[#D4AF37]",
   },
