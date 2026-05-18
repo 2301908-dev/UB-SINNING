@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { AuthProvider, useAuth } from "./context/AuthContext";
-import LoginPage from "./pages/LoginPage";
+import LandingPage from "./pages/LandingPage";
 import SignInPage from "./pages/SignInPage";
 import AuthCallback from "./pages/AuthCallback";
 import AdminDashboard from "./pages/AdminDashboard";
 import StudentDashboard from "./pages/StudentDashboard";
+import FacultyDashboard from "./pages/FacultyDashboard";
 function AppContent() {
   const { user, role, loading, error } = useAuth();
   const [view, setView] = useState("landing"); // "landing" | "signin"
@@ -25,12 +26,13 @@ function AppContent() {
   // Route based on role
   if (user) {
     if (role === "admin") return <AdminDashboard />;
+    if (role === "faculty") return <FacultyDashboard />;
     return <StudentDashboard />;
   }
 
   // If there's an auth error, force the user back onto the sign-in page.
   if (view === "signin" || error) return <SignInPage onBack={() => setView("landing")} />;
-  return <LoginPage onNavigateSignIn={() => setView("signin")} />;
+  return <LandingPage onNavigateSignIn={() => setView("signin")} />;
 }
 
 export default function App() {

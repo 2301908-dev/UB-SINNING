@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
-import UBLogo from "../components/UBLogo";
+import UBLogo from "../components/shared/UBLogo";
 import { mockFilms } from "../data/mockFilms";
-import CategoryRow from "../components/CategoryRow";
-import DirectorsStudio from "../components/DirectorsStudio";
-import FilmUploadPortal from "../components/FilmUploadPortal";
-import Footer from "../components/Footer";
+import CategoryRow from "../components/student/CategoryRow";
+import DirectorsStudio from "../components/student/DirectorsStudio";
+import FilmUploadPortal from "../components/student/FilmUploadPortal";
+import Footer from "../components/shared/Footer";
 import { Bell, Search, Star, StarHalf } from "lucide-react";
 
 function renderRatingStars(rating) {

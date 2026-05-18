@@ -118,3 +118,7 @@ and after this all settings is the logout
 
 Also clean up and optimize the existing src/ folder so it's maintainable and readable
 It should categorize the components into groups (e.g. dashboards/faculty/ or faculty-dashboard/) Your call on what's best practice for this project.
+
+Lastly, correct the .jsx files according to functionality. pages/LoginPage.jsx is actually LandingPage.jsx, etc. 
+
+Handle the imports as well.
