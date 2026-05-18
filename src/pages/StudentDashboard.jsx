@@ -73,7 +73,7 @@ export default function StudentDashboard() {
       {/* ================= NAVBAR ================= */}
       <nav className="bg-white text-slate-900 flex flex-col gap-6 px-4 py-6 border-b border-gray-200 lg:flex-row lg:items-center lg:justify-between lg:px-10">
         <div className="flex items-center justify-between gap-6">
-          <UBLogo titleClass="text-[#8B0000]" subtitleClass="text-gray-500" />
+          <UBLogo subtitleClass="text-gray-500" />
           <div className="flex gap-4 lg:hidden">
             <button className="rounded-full bg-[#FFF4D4] p-3 text-[#8B0000] hover:bg-[#F3E1A1]">
               <Bell className="w-5 h-5" />

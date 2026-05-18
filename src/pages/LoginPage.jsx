@@ -212,13 +212,13 @@ function Navbar({ onSignInClick }) {
       }}
     >
       {/* Brand */}
-      <div className="flex items-center gap-3 flex-shrink-0">
+      <div className="flex items-center gap-3 flex-1 ml-3 cursor-pointer" onClick={() => { setActiveLink("Home"); const el = document.getElementById("home"); if (el) el.scrollIntoView({ behavior: "smooth" }); }}>
         <LogoIcon />
         <span
-          className="text-[#8B0000] text-[23px] tracking-wide"
-          style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 600 }}
+          className="text-[#8B0000] text-[26px] tracking-wide"
+          style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700 }}
         >
-          UB SINING
+          UB-SINING
         </span>
       </div>
 
@@ -250,6 +250,7 @@ function Navbar({ onSignInClick }) {
       </ul>
 
       {/* Sign In */}
+      <div className="flex-1 flex justify-end">
       <button
         onClick={onSignInClick}
         className="
@@ -270,6 +271,7 @@ function Navbar({ onSignInClick }) {
       >
         Sign In
       </button>
+      </div>
     </nav>
   );
 }
@@ -486,7 +488,7 @@ function HeroSection({ onSignInClick }) {
 
             <div style={{
               position: "absolute",
-              bottom: -15,
+              bottom: 10,
               left: "30%",
               zIndex: 3,
               animation: "cardFloat3 8s ease-in-out infinite",
@@ -505,7 +507,6 @@ function HeroSection({ onSignInClick }) {
 
 export default function LoginPage({ onNavigateSignIn }) {
   const { login } = useAuth();
-
   const handleGoToSignIn = () => {
     if (onNavigateSignIn) onNavigateSignIn();
   };
@@ -519,7 +520,7 @@ export default function LoginPage({ onNavigateSignIn }) {
       {/* Fixed soft overlay */}
       <div className="fixed inset-0 bg-white/35 z-[1] pointer-events-none" aria-hidden="true" />
 
-      {/* Global ambient blob lighting - spans all sections */}
+      {/* Global ambient blob lighting */}
       <div className="fixed inset-0 z-[2] pointer-events-none overflow-hidden" aria-hidden="true">
         <div style={{
           position: "absolute", top: "5%", left: "-5%",

@@ -5,12 +5,13 @@ import SignInPage from "./pages/SignInPage";
 import AuthCallback from "./pages/AuthCallback";
 import AdminDashboard from "./pages/AdminDashboard";
 import StudentDashboard from "./pages/StudentDashboard";
-
 function AppContent() {
   const { user, role, loading, error } = useAuth();
   const [view, setView] = useState("landing"); // "landing" | "signin"
 
-  if (loading) {
+  // Wait for both session AND role before routing to a dashboard —
+  // otherwise the StudentDashboard flashes for users whose role is still resolving.
+  if (loading || (user && role === null)) {
     if (window.location.pathname === "/auth/callback") {
       return <AuthCallback />;
     }
@@ -23,12 +24,11 @@ function AppContent() {
 
   // Route based on role
   if (user) {
-    if (role === "admin" || role === "faculty") return <AdminDashboard />;
+    if (role === "admin") return <AdminDashboard />;
     return <StudentDashboard />;
   }
 
-  // If there's an auth error (e.g. faculty intent mismatch), force the user
-  // back onto the sign-in page so they can see it.
+  // If there's an auth error, force the user back onto the sign-in page.
   if (view === "signin" || error) return <SignInPage onBack={() => setView("landing")} />;
   return <LoginPage onNavigateSignIn={() => setView("signin")} />;
 }

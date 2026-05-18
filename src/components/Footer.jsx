@@ -18,78 +18,30 @@ export default function Footer() {
           <div className="space-y-4">
             <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-[#D4AF37]">The Cinema</h3>
             <ul className="space-y-3 text-sm text-white/90">
-              <li>
-                <a href="#" className="transition-colors duration-200 hover:text-[#D4AF37]">
-                  Student Gallery
-                </a>
-              </li>
-              <li>
-                <a href="#" className="transition-colors duration-200 hover:text-[#D4AF37]">
-                  VR Hallway
-                </a>
-              </li>
-              <li>
-                <a href="#" className="transition-colors duration-200 hover:text-[#D4AF37]">
-                  Film Festivals
-                </a>
-              </li>
-              <li>
-                <a href="#" className="transition-colors duration-200 hover:text-[#D4AF37]">
-                  Director Spotlight
-                </a>
-              </li>
+              <li><a href="#" className="transition-colors duration-200 hover:text-[#D4AF37]">Student Gallery</a></li>
+              <li><a href="#" className="transition-colors duration-200 hover:text-[#D4AF37]">VR Hallway</a></li>
+              <li><a href="#" className="transition-colors duration-200 hover:text-[#D4AF37]">Film Festivals</a></li>
+              <li><a href="#" className="transition-colors duration-200 hover:text-[#D4AF37]">Director Spotlight</a></li>
             </ul>
           </div>
 
           <div className="space-y-4">
             <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-[#D4AF37]">The Studio</h3>
             <ul className="space-y-3 text-sm text-white/90">
-              <li>
-                <a href="#" className="transition-colors duration-200 hover:text-[#D4AF37]">
-                  Upload Portal
-                </a>
-              </li>
-              <li>
-                <a href="#" className="transition-colors duration-200 hover:text-[#D4AF37]">
-                  IP Guidelines
-                </a>
-              </li>
-              <li>
-                <a href="#" className="transition-colors duration-200 hover:text-[#D4AF37]">
-                  Metadata Standards
-                </a>
-              </li>
-              <li>
-                <a href="#" className="transition-colors duration-200 hover:text-[#D4AF37]">
-                  Version Control Help
-                </a>
-              </li>
+              <li><a href="#" className="transition-colors duration-200 hover:text-[#D4AF37]">Upload Portal</a></li>
+              <li><a href="#" className="transition-colors duration-200 hover:text-[#D4AF37]">IP Guidelines</a></li>
+              <li><a href="#" className="transition-colors duration-200 hover:text-[#D4AF37]">Metadata Standards</a></li>
+              <li><a href="#" className="transition-colors duration-200 hover:text-[#D4AF37]">Version Control Help</a></li>
             </ul>
           </div>
 
           <div className="space-y-4">
             <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-[#D4AF37]">Institutional</h3>
             <ul className="space-y-3 text-sm text-white/90">
-              <li>
-                <a href="#" className="transition-colors duration-200 hover:text-[#D4AF37]">
-                  University Home
-                </a>
-              </li>
-              <li>
-                <a href="#" className="transition-colors duration-200 hover:text-[#D4AF37]">
-                  Office of Student Affairs
-                </a>
-              </li>
-              <li>
-                <a href="#" className="transition-colors duration-200 hover:text-[#D4AF37]">
-                  Faculty Admin
-                </a>
-              </li>
-              <li>
-                <a href="#" className="transition-colors duration-200 hover:text-[#D4AF37]">
-                  Technical Support
-                </a>
-              </li>
+              <li><a href="#" className="transition-colors duration-200 hover:text-[#D4AF37]">University Home</a></li>
+              <li><a href="#" className="transition-colors duration-200 hover:text-[#D4AF37]">Office of Student Affairs</a></li>
+              <li><a href="#" className="transition-colors duration-200 hover:text-[#D4AF37]">Faculty Admin</a></li>
+              <li><a href="#" className="transition-colors duration-200 hover:text-[#D4AF37]">Technical Support</a></li>
             </ul>
           </div>
         </div>

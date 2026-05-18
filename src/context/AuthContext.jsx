@@ -67,9 +67,6 @@ async function applySession(session, { setUser, setRole, setError }) {
   setRole(role);
 }
 
-// TEMPORARY: dev-only faculty bypass. Lets any email/password log in as admin
-// without touching Supabase. Remove this whole block before production.
-const FACULTY_DEV_KEY = "facultyDevAuth";
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -82,16 +79,6 @@ export function AuthProvider({ children }) {
 
     const init = async () => {
       try {
-        // TEMPORARY dev faculty bypass — restore the fake session on reload.
-        const devFaculty = sessionStorage.getItem(FACULTY_DEV_KEY);
-        if (devFaculty) {
-          const { email } = JSON.parse(devFaculty);
-          setUser({ id: "dev-faculty", email });
-          setRole("faculty");
-          setLoading(false);
-          return;
-        }
-
         const { data: { session } } = await supabase.auth.getSession();
         if (cancelled) return;
 
@@ -168,23 +155,12 @@ export function AuthProvider({ children }) {
     setUser(null);
     setRole(null);
     setError(null);
-    sessionStorage.removeItem(FACULTY_DEV_KEY); // clear dev faculty bypass
     cleanAuthCallbackUrl();
     try {
       await supabase.auth.signOut();
     } catch (err) {
       console.error("Logout error:", err);
     }
-  };
-
-  // TEMPORARY dev-only: log in as admin/faculty with any email & password.
-  // Bypasses Supabase entirely. Remove before production.
-  const devLoginAsFaculty = (email) => {
-    const fakeEmail = email?.trim() || "admin@ub.edu.ph";
-    sessionStorage.setItem(FACULTY_DEV_KEY, JSON.stringify({ email: fakeEmail }));
-    setError(null);
-    setUser({ id: "dev-faculty", email: fakeEmail });
-    setRole("faculty");
   };
 
   const getToken = async () => {
@@ -199,7 +175,6 @@ export function AuthProvider({ children }) {
     error,
     logout,
     getToken,
-    devLoginAsFaculty,
     isAuthenticated: !!user,
   };
 
