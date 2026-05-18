@@ -3,6 +3,11 @@ import { useAuth } from "../context/AuthContext";
 import UBLogo from "../components/UBLogo";
 import { mockFilms } from "../data/mockFilms";
 import backgroundImage from "../assets/white_bg.jpg";
+
+import TotalUploadsIcon from "../assets/icons/TotalUploads.png";
+import PendingReviewsIcon from "../assets/icons/PendingReviews.png";
+import ActiveUsersIcon from "../assets/icons/TotalUsers.png";
+import AvgRatingIcon from "../assets/icons/TotalViews.png";
 import {
   BarChart3,
   CheckCircle,
@@ -213,13 +218,17 @@ export default function AdminDashboard() {
 
 /* ------------ SUB-PAGES (INTEGRATED) ------------------ */
 
-function KPI({ title, value, change, color }) {
-  const colorClasses = {
-    blue: "bg-blue-800", yellow: "bg-yellow-700", green: "bg-green-700", red: "bg-red-700",
-  }[color];
+function KPI({ title, value, change, iconSrc }) {
   return (
     <div className="bg-white/10 backdrop-blur-md p-6 rounded-xl space-y-3 border border-white/10 shadow-lg">
-      <div className={`w-14 h-14 rounded-lg ${colorClasses}`}></div>
+      {/* Icon Container with added border and subtle styling match */}
+      <div className="w-11 h-11 rounded-lg bg-[#8B0000]/10 backdrop-blur-sm flex items-center justify-center p-2.5 shadow-inner border border-white/20">
+        <img 
+          src={iconSrc} 
+          alt={`${title} icon`} 
+          className="w-full h-full object-contain" 
+        />
+      </div>
       <p className="text-gray-400 text-sm">{title}</p>
       <p className="text-3xl font-bold text-[#080616]">{value}</p>
       <p className="text-green-600 text-xs font-bold">{change}</p>
@@ -228,14 +237,134 @@ function KPI({ title, value, change, color }) {
 }
 
 function AdminOverview() {
+  const [timeframe, setTimeframe] = useState("days");
+
+  // Dynamic axis increments linked specifically to matching datasets 
+  const yAxisTicks = {
+    days: ["400", "300", "200", "100", "0"],
+    week: ["3,000", "2,250", "1,500", "750", "0"],
+    month: ["10,000", "7,500", "5,000", "2,500", "0"]
+  };
+
+  const graphData = {
+    days: [
+      { label: "Mon", value: 120, height: "h-[45%]" },
+      { label: "Tue", value: 210, height: "h-[65%]" },
+      { label: "Wed", value: 180, height: "h-[55%]" },
+      { label: "Thu", value: 340, height: "h-[90%]" },
+      { label: "Fri", value: 290, height: "h-[80%]" },
+      { label: "Sat", value: 150, height: "h-[48%]" },
+      { label: "Sun", value: 95,  height: "h-[30%]" },
+    ],
+    week: [
+      { label: "Week 1", value: 1240, height: "h-[40%]" },
+      { label: "Week 2", value: 1980, height: "h-[70%]" },
+      { label: "Week 3", value: 2450, height: "h-[95%]" },
+      { label: "Week 4", value: 1610, height: "h-[60%]" },
+    ],
+    month: [
+      { label: "Jan", value: 4800, height: "h-[45%]" },
+      { label: "Feb", value: 5900, height: "h-[55%]" },
+      { label: "Mar", value: 8100, height: "h-[80%]" },
+      { label: "Apr", value: 9600, height: "h-[98%]" },
+      { label: "May", value: 7200, height: "h-[72%]" },
+      { label: "Jun", value: 6400, height: "h-[62%]" },
+    ]
+  };
+
   return (
-    <div>
-      <h1 className="text-3xl font-bold text-[#8B0000] mb-6">Dashboard Overview</h1>
+    <div className="space-y-6">
+      <h1 className="text-3xl font-bold text-[#8B0000]">Dashboard Overview</h1>
+      
+      {/* KPI Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <KPI title="Total Uploads" value="38" change="+12%" color="blue" />
-        <KPI title="Pending Review" value="12" change="+3" color="yellow" />
-        <KPI title="Active Users" value="22" change="+8" color="green" />
-        <KPI title="Avg. Rating" value="4.7" change="+0.2" color="red" />
+        <KPI 
+          title="Total Uploads" 
+          value="38" 
+          change="+12%" 
+          iconSrc={TotalUploadsIcon} 
+        />
+        <KPI 
+          title="Pending Review" 
+          value="12" 
+          change="+3" 
+          iconSrc={PendingReviewsIcon} 
+        />
+        <KPI 
+          title="Total Views" 
+          value="22" 
+          change="+8" 
+          iconSrc={ActiveUsersIcon} 
+        />
+        <KPI 
+          title="Total Users" 
+          value="4.7" 
+          change="+0.2" 
+          iconSrc={AvgRatingIcon} 
+        />
+      </div>
+
+      {/* Dynamic Total Views Graph Section */}
+      <div className="bg-white/80 backdrop-blur-md p-6 rounded-xl shadow-lg border border-gray-200 text-[#080616]">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+          <div>
+            <h2 className="text-xl font-bold text-[#8B0000]">Total Views Analytics</h2>
+            <p className="text-xs text-gray-500">Track presentation audience engagement cycles</p>
+          </div>
+          
+          {/* Interactive Timeframe Toggle Tabs */}
+          <div className="flex bg-gray-100 p-1 rounded-xl border border-gray-200 self-start sm:self-auto">
+            {[
+              { id: "days", label: "Days" },
+              { id: "week", label: "Weeks" },
+              { id: "month", label: "Months" }
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setTimeframe(tab.id)}
+                className={`px-4 py-1.5 rounded-lg text-xs font-semibold transition ${
+                  timeframe === tab.id
+                    ? "bg-[#8B0000] text-white shadow-sm"
+                    : "text-gray-600 hover:text-[#8B0000]"
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Outer Flex Container matching Grid Graph Side-by-Side */}
+        <div className="flex items-stretch gap-4">
+          
+          {/* Left Y-Axis Number Scale Track */}
+          <div className="flex flex-col justify-between text-right text-[11px] font-bold text-gray-400 w-12 pr-1 pb-8 pt-4">
+            {yAxisTicks[timeframe].map((tick, i) => (
+              <span key={i}>{tick}</span>
+            ))}
+          </div>
+
+          {/* Visualizer Graph Box Layout */}
+          <div className="h-64 flex-1 flex items-end gap-3 px-2 pt-4 border-b border-l border-gray-200">
+            {graphData[timeframe].map((data, index) => (
+              <div key={index} className="flex-1 flex flex-col items-center gap-2 h-full justify-end group">
+                {/* Dynamic Data Value Floating Tag */}
+                <span className="text-[10px] font-bold text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity bg-white px-1.5 py-0.5 rounded shadow border border-gray-100 pointer-events-none mb-1">
+                  {data.value.toLocaleString()}
+                </span>
+                {/* Interactive Graphic Bar */}
+                <div 
+                  className={`w-full max-w-[40px] rounded-t-md bg-gradient-to-t from-[#8B0000] to-[#b30000] transition-all duration-500 ease-out group-hover:brightness-110 shadow-md ${data.height}`}
+                ></div>
+                {/* Label axis */}
+                <span className="text-xs font-semibold text-gray-600 mt-1 pb-2 block text-center truncate w-full">
+                  {data.label}
+                </span>
+              </div>
+            ))}
+          </div>
+
+        </div>
       </div>
     </div>
   );
@@ -302,7 +431,7 @@ function UserManagement() {
   const [users, setUsers] = useState(mockUsers);
   const [actionMenuOpenId, setActionMenuOpenId] = useState(null);
   const [searchEmail, setSearchEmail] = useState("");
-  const [confirmRequest, setConfirmRequest] = useState(null);
+  const [confirmRequest, setConfirmRequest] = useState(null); 
   const [screenNotice, setScreenNotice] = useState(null);
 
   // Safely find the targeted user record data to render custom dynamic alerts

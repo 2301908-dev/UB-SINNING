@@ -123,7 +123,7 @@ function AboutIntro() {
               }}
             >
               <Sparkles className="w-3 h-3" />
-              About UB-SINING
+              About UB SINING
             </div>
           </Reveal>
 
