@@ -26,10 +26,14 @@ import {
   ChevronDown,
   HelpCircle,
   MoreVertical,
-  Globe
+  Globe,
+  Search,
+  Bell,
+  Sun,
+  Moon,
+  Edit2
 } from "lucide-react";
 
-// Added clean 'name' properties to the mock entries
 const mockUsers = [
   { id: 1, name: "John Manuel Policarpio III", email: "2301565@ub.edu.ph", created: "2025-08-12", role: "Professor", canEnter: true },
   { id: 2, name: "Brent Joseph M. Pagcaliwagan", email: "2301687@ub.edu.ph", created: "2025-08-22", role: "Student", canEnter: true },
@@ -41,20 +45,52 @@ const mockUsers = [
 ];
 
 export default function AdminDashboard() {
+  const [isEditing, setIsEditing] = useState(false);
+  const [adminData, setAdminData] = useState({
+  firstName: "Brent",
+  lastName: "Administrator",
+  email: "admin@ub.edu.ph",
+  address: "M.H. Del Pilar St.",
+  cityState: "Batangas City, Batangas",
+  postalCode: "4200",
+  country: "Philippines",
+  bio: "System Administrator for University of Batangas portal systems.",
+  avatar: "src/assets/teampics/brent.jpg" // <-- Just add this line right here inside the object!
+});
+
+  const [editForm, setEditForm] = useState({ ...adminData });
+
+  // Sync edit form if adminData is updated elsewhere
+  useEffect(() => {
+    setEditForm({ ...adminData });
+  }, [adminData]);
+
+  const handleSave = () => {
+    setAdminData(editForm);
+    setIsEditing(false);
+  };
+
   const { logout } = useAuth();
   const [section, setSection] = useState("overview");
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [language, setLanguage] = useState({ label: "English (US)", code: "EN" });
   const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
+  
+  const [darkMode, setDarkMode] = useState(false);
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [globalSearch, setGlobalSearch] = useState("");
 
-  // Reference container to detect clicks outside the profile dropdown area
   const dropdownRef = useRef(null);
+  const notificationRef = useRef(null);
 
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setProfileDropdownOpen(false);
         setLanguageMenuOpen(false);
+      }
+      if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+        setNotificationsOpen(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -70,148 +106,411 @@ export default function AdminDashboard() {
   ];
 
   return (
-    <div
-      className="flex min-h-screen text-[#E8EDF2]"
-      style={{
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }}
-    >
-      {/* Sidebar */}
-      <aside className="relative bg-[#8B0000] p-4 rounded-r-lg flex flex-col justify-between w-52 shadow-xl">
-        <div className="space-y-3">
-          <div className="overflow-hidden">
-            <UBLogo />
-          </div>
-
-          <nav className="space-y-1">
-            {sidebarItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => setSection(item.id)}
-                className={`flex items-center gap-2 w-full p-2 rounded-lg transition justify-start ${
-                  section === item.id ? "bg-white text-[#8B0000]" : "text-[#E8EDF2] hover:bg-white/20"
-                }`}
-              >
-                <item.icon className="w-4 h-4" />
-                <span className="font-medium text-sm">{item.label}</span>
-              </button>
-            ))}
-          </nav>
-        </div>
-      </aside>
- 
-      {/* Main Content Area - Tweaked padding to move content upwards */}
-      <main className="flex-1 p-8 pt-4 text-white overflow-y-auto">
-        
-        {/* Profile Dropdown Header - Reduced bottom margin to pull down view tabs upward */}
-        <div className="relative flex justify-end mb-4 z-50" ref={dropdownRef}> 
-          <div className="relative">
-            <button
-              onClick={() => {
-                setProfileDropdownOpen(!profileDropdownOpen);
-                if (profileDropdownOpen) setLanguageMenuOpen(false);
-              }}
-              className="flex items-center gap-2 p-1.5 px-3 rounded-full bg-black/20 hover:bg-black/30 backdrop-blur-md border border-white/10 transition-all shadow-md group"
-            >
-              <div className="relative">
-                <img 
-                  src="src/assets/teampics/brent.jpg" 
-                  alt="Profile" 
-                  className="w-8 h-8 rounded-full object-cover border border-white/20 group-hover:border-white/60 transition-all" 
-                />
-                <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border border-white rounded-full"></span>
+        <div
+          className={`flex min-h-screen transition-colors duration-300 ${darkMode ? 'bg-[#0f0e17] text-[#E8EDF2]' : 'text-[#E8EDF2]'}`}
+          style={!darkMode ? {
+            backgroundImage: `url(${backgroundImage})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          } : {}}
+        >
+          {/* Sidebar */}
+          <aside className="relative bg-[#8B0000] p-4 rounded-r-lg flex flex-col justify-between w-52 shadow-xl z-20">
+            <div className="space-y-3">
+              <div className="overflow-hidden">
+                <UBLogo />
               </div>
-              <span className="text-xs font-semibold text-white group-hover:text-white/90 hidden sm:inline"></span>
-              <ChevronDown className={`w-4 h-4 text-white/70 transition-transform duration-300 ${profileDropdownOpen ? 'rotate-180' : ''}`} />
-            </button>
 
-            {profileDropdownOpen && (
-              <div className="absolute right-0 mt-3 w-56 rounded-xl bg-white text-[#080616] shadow-2xl ring-1 ring-black/5 overflow-visible animate-in zoom-in-95 duration-200">
-                <div className="px-4 py-4 border-b border-gray-100 bg-gray-50/50 rounded-t-xl">
-                  <p className="text-sm font-bold text-[#8B0000]">Administrator</p>
-                  <p className="text-xs text-gray-500 truncate">admin@ub.edu.ph</p>
-                </div>
+              <nav className="space-y-1">
+                {sidebarItems.map((item) => (
+                  <button
+                    key={item.id}
+                    onClick={() => { setSection(item.id); setIsEditing(false); }}
+                    className={`flex items-center gap-2 w-full p-2 rounded-lg transition justify-start ${
+                      section === item.id ? "bg-white text-[#8B0000]" : "text-[#E8EDF2] hover:bg-white/20"
+                    }`}
+                  >
+                    <item.icon className="w-4 h-4" />
+                    <span className="font-medium text-sm">{item.label}</span>
+                  </button>
+                ))}
+              </nav>
+            </div>
+          </aside>
+    
+          {/* Main Container */}
+          <div className="flex-1 flex flex-col h-screen overflow-hidden">
+            
+            {/* Header */}
+            <header className={`h-16 flex items-center justify-between px-8 border-b backdrop-blur-md z-30 transition-colors duration-300 ${darkMode ? 'bg-[#1e1b29]/80 border-white/10' : 'bg-black/10 border-white/10'}`}>
+              
+              {/* Header Global Search Bar */}
+              <div className="relative w-72">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50" />
+                <input
+                  type="text"
+                  value={globalSearch}
+                  onChange={(e) => setGlobalSearch(e.target.value)}
+                  placeholder="Search anything..."
+                  className="w-full rounded-xl bg-black/20 border border-white/10 pl-9 pr-4 py-2 text-sm text-white outline-none focus:ring-2 focus:ring-[#8B0000]/40 placeholder-white/50 transition-all"
+                />
+              </div>
+
+              {/* Action Utilities & Dynamic Actions Panel */}
+              <div className="flex items-center gap-4">
                 
-                <div className="py-1 relative">
-                  {/* Language Selector Option */}
-                  <div className="relative">
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setLanguageMenuOpen(!languageMenuOpen);
-                      }}
-                      className={`flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm transition ${languageMenuOpen ? 'bg-gray-50 text-[#8B0000]' : 'hover:bg-gray-100'}`}
-                    >
-                      <Globe className="w-4 h-4 text-gray-500" />
-                      <span className="font-medium">Language</span>
-                      <span className="ml-auto text-[10px] bg-gray-200 px-1.5 py-0.5 rounded text-gray-600 font-bold">{language.code}</span>
-                    </button>
+                {/* Toggle Dark Mode Button */}
+                <button
+                  onClick={() => setDarkMode(!darkMode)}
+                  className="p-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 transition shadow-md text-white"
+                  title={darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+                >
+                  {darkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4" />}
+                </button>
 
-                    {languageMenuOpen && (
-                      <div className="absolute right-full top-0 mr-2 w-48 rounded-xl border border-gray-200 bg-white shadow-xl py-1 animate-in slide-in-from-right-2 duration-150">
-                        {[
-                          { label: "English (US)", code: "EN" },
-                          { label: "Filipino", code: "TL" },
-                          { label: "Spanish", code: "ES" },
-                          { label: "Chinese", code: "ZH" },
-                        ].map((option) => (
-                          <button
-                            key={option.code}
-                            onClick={() => {
-                              setLanguage(option);
-                              setLanguageMenuOpen(false);
-                            }}
-                            className={`flex items-center justify-between w-full px-4 py-2 text-left text-sm transition hover:bg-gray-100 ${language.code === option.code ? 'text-[#8B0000] font-bold' : 'text-gray-600'}`}
-                          >
-                            <span>{option.label}</span>
-                            <span className="text-[10px] bg-gray-100 px-1.5 py-0.5 rounded text-gray-500">{option.code}</span>
-                          </button>
-                        ))}
+                {/* Notification Trigger Wrapper */}
+                <div className="relative" ref={notificationRef}>
+                  <button
+                    onClick={() => setNotificationsOpen(!notificationsOpen)}
+                    className="p-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 transition shadow-md text-white relative"
+                  >
+                    <Bell className="w-4 h-4" />
+                    <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#8B0000] rounded-full ring-2 ring-white/20"></span>
+                  </button>
+
+                  {/* Notification Dropdown */}
+                  {notificationsOpen && (
+                    <div className="absolute right-0 mt-3 w-80 rounded-xl bg-white text-[#080616] shadow-2xl ring-1 ring-black/5 overflow-hidden animate-in zoom-in-95 duration-200">
+                      <div className="px-4 py-3 border-b border-gray-100 bg-gray-50/50 flex justify-between items-center">
+                        <p className="text-xs font-bold text-[#8B0000] uppercase tracking-wider">Notifications</p>
+                        <span className="text-[10px] bg-red-100 text-[#8B0000] font-bold px-2 py-0.5 rounded-full">2 New</span>
                       </div>
+                      <div className="divide-y divide-gray-100 max-h-64 overflow-y-auto">
+                        <div className="p-4 hover:bg-gray-50 transition cursor-pointer">
+                          <p className="text-xs font-semibold text-gray-800">New system registration request</p>
+                          <p className="text-[11px] text-gray-500 mt-0.5">Brent Pagcaliwagan created a Student account.</p>
+                        </div>
+                        <div className="p-4 hover:bg-gray-50 transition cursor-pointer">
+                          <p className="text-xs font-semibold text-gray-800">Storage warning limit</p>
+                          <p className="text-[11px] text-gray-500 mt-0.5">System storage architecture has filled beyond 65% capacity.</p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+              {/* Profile Dropdown Component Container */}
+              <div className="relative flex justify-end z-50" ref={dropdownRef}> 
+                <div className="relative">
+                  <button
+                    onClick={() => {
+                      setProfileDropdownOpen(!profileDropdownOpen);
+                      if (profileDropdownOpen) setLanguageMenuOpen(false);
+                    }}
+                    className="flex items-center gap-2 p-1.5 px-3 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 transition-all shadow-md group"
+                  >
+                    <div className="relative">
+                      <img 
+                        src={adminData.avatar} 
+                        alt="Profile" 
+                        className="w-8 h-8 rounded-full object-cover border border-white/20 group-hover:border-white/60 transition-all" 
+                      />
+                      <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border border-white rounded-full"></span>
+                    </div>
+                    <span className="text-xs font-semibold text-white group-hover:text-white/90 hidden sm:inline">Admin</span>
+                    <ChevronDown className={`w-4 h-4 text-white/70 transition-transform duration-300 ${profileDropdownOpen ? 'rotate-180' : ''}`} />
+                  </button>
+
+                  {profileDropdownOpen && (
+                    <div className="absolute right-0 mt-3 w-56 rounded-xl bg-white text-[#080616] shadow-2xl ring-1 ring-black/5 overflow-visible animate-in zoom-in-95 duration-200">
+                      <div className="px-4 py-4 border-b border-gray-100 bg-gray-50/50 rounded-t-xl">
+                        <p className="text-sm font-bold text-[#8B0000]">{adminData.firstName} {adminData.lastName}</p>
+                        <p className="text-xs text-gray-500 truncate">{adminData.email}</p>
+                      </div>
+                      
+                      <div className="py-1 relative">
+                        {/* Edit Profile Option */}
+                        <button 
+                          onClick={() => { setSection("edit-profile"); setProfileDropdownOpen(false); setLanguageMenuOpen(false); }}
+                          className="flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm hover:bg-gray-100 transition"
+                        >
+                          <User className="w-4 h-4 text-gray-500" />
+                          <span className="font-medium">My Profile</span>
+                        </button>
+
+                        {/* Language Selector Option */}
+                        <div className="relative">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setLanguageMenuOpen(!languageMenuOpen);
+                            }}
+                            className={`flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm transition ${languageMenuOpen ? 'bg-gray-50 text-[#8B0000]' : 'hover:bg-gray-100'}`}
+                          >
+                            <Globe className="w-4 h-4 text-gray-500" />
+                            <span className="font-medium">Language</span>
+                            <span className="ml-auto text-[10px] bg-gray-200 px-1.5 py-0.5 rounded text-gray-600 font-bold">{language.code}</span>
+                          </button>
+
+                          {languageMenuOpen && (
+                            <div className="absolute right-full top-0 mr-2 w-48 rounded-xl border border-gray-200 bg-white shadow-xl py-1 animate-in slide-in-from-right-2 duration-150">
+                              {[
+                                { label: "English (US)", code: "EN" },
+                                { label: "Filipino", code: "TL" },
+                                { label: "Spanish", code: "ES" },
+                                { label: "Chinese", code: "ZH" },
+                              ].map((option) => (
+                                <button
+                                  key={option.code}
+                                  onClick={() => {
+                                    setLanguage(option);
+                                    setLanguageMenuOpen(false);
+                                  }}
+                                  className={`flex items-center justify-between w-full px-4 py-2 text-left text-sm transition hover:bg-gray-100 ${language.code === option.code ? 'text-[#8B0000]' : 'text-gray-600'}`}
+                                >
+                                  <span>{option.label}</span>
+                                  <span className="text-[10px] bg-gray-100 px-1.5 py-0.5 rounded text-gray-500">{option.code}</span>
+                                </button>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+
+                        <button 
+                          onClick={() => { setSection("settings"); setProfileDropdownOpen(false); setLanguageMenuOpen(false); }}
+                          className="flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm hover:bg-gray-100 transition"
+                        >
+                          <Settings className="w-4 h-4 text-gray-500" />
+                          <span className="font-medium">Settings</span>
+                        </button>
+                        
+                        <button className="flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm hover:bg-gray-100 transition">
+                          <HelpCircle className="w-4 h-4 text-gray-500" />
+                          <span className="font-medium">Help Center</span>
+                        </button>
+                        
+                        <div className="border-t border-gray-100 my-1"></div>
+
+                        <button
+                          onClick={() => { logout(); setProfileDropdownOpen(false); }}
+                          className="flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm text-red-600 hover:bg-red-50 transition"
+                        >
+                          <LogOut className="w-4 h-4" />
+                          <span className="font-medium">Logout</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+              </div>
+            </header>
+            {/* Dynamic Section Content Viewport */}
+            <main className="flex-1 p-8 text-white overflow-y-auto">
+              <div className="animate-in fade-in duration-500">
+      
+              {/* DYNAMIC SECTION RENDERING */}
+                    <div className="animate-in fade-in duration-500">
+                        {section === "overview" && <AdminOverview />}
+                        {section === "storage" && <StorageManagement />}
+                        {section === "feedback" && <FeedbackAnalytics />}
+                        {section === "content" && <AllContent />}
+                        {section === "users" && <UserManagement />}
+                        {section === "settings" && <SettingsPage setSection={setSection} />}
+                    </div>
+                        {/* 3. Edit Profile Form View */}
+                        {section === "edit-profile" && (
+              <div className="max-w-3xl mx-auto animate-in fade-in-50 duration-200 text-left">
+                <div className={`rounded-2xl border backdrop-blur-md p-6 shadow-xl transition-all ${darkMode ? 'bg-[#1e1b29]/90 border-white/10' : 'bg-black/40 border-white/20'}`}>
+                  
+                  <div className="flex justify-between items-center border-b border-white/10 pb-4 mb-6">
+                    <div>
+                      <h2 className="text-xl font-bold text-white">My Profile</h2>
+                      <p className="text-xs text-white/60">View and update your personal account information.</p>
+                    </div>
+                    {!isEditing && (
+                      <button
+                        onClick={() => setIsEditing(true)}
+                        className="flex items-center gap-1.5 px-4 py-2 text-xs font-semibold rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-white transition shadow"
+                      >
+                        <Edit2 className="w-3.5 h-3.5" /> Edit Profile
+                      </button>
                     )}
                   </div>
 
-                  <button 
-                    onClick={() => { setSection("settings"); setProfileDropdownOpen(false); setLanguageMenuOpen(false); }}
-                    className="flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm hover:bg-gray-100 transition"
-                  >
-                    <Settings className="w-4 h-4 text-gray-500" />
-                    <span className="font-medium">Settings</span>
-                  </button>
-                  
-                  <button className="flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm hover:bg-gray-100 transition">
-                    <HelpCircle className="w-4 h-4 text-gray-500" />
-                    <span className="font-medium">Help Center</span>
-                  </button>
-                  
-                  <div className="border-t border-gray-100 my-1"></div>
+                  {/* Profile Picture Uploader Section */}
+                  <div className="flex flex-col sm:flex-row items-center gap-5 mb-6 bg-white/5 p-4 rounded-xl border border-white/5">
+                    <div className="relative group">
+                      <img 
+                        src={isEditing ? editForm.avatar : adminData.avatar} 
+                        alt="Uploader Profile Display" 
+                        className="w-24 h-24 rounded-full object-cover border-2 border-[#8B0000] shadow-md"
+                      />
+                      {isEditing && (
+                        <label className="absolute inset-0 flex flex-col items-center justify-center bg-black/60 rounded-full cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                          <Upload className="w-5 h-5 text-white mb-1" />
+                          <span className="text-[10px] font-bold text-white uppercase tracking-wider">Change</span>
+                          <input 
+                            type="file" 
+                            accept="image/*" 
+                            className="hidden" 
+                            onChange={(e) => {
+                              const file = e.target.files[0];
+                              if (file) {
+                                const localUrl = URL.createObjectURL(file);
+                                setEditForm({ ...editForm, avatar: localUrl });
+                              }
+                            }}
+                          />
+                        </label>
+                      )}
+                    </div>
+                    <div className="text-center sm:text-left">
+                      <h3 className="text-sm font-bold text-white">Profile Avatar</h3>
+                      <p className="text-xs text-white/60 mt-0.5">
+                        {isEditing ? "Hover over the image to upload a custom JPG or PNG file." : "To modify your picture thumbnail, click 'Edit Profile' above."}
+                      </p>
+                    </div>
+                  </div>
 
-                  <button
-                    onClick={() => { logout(); setProfileDropdownOpen(false); }}
-                    className="flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm text-red-600 hover:bg-red-50 transition"
-                  >
-                    <LogOut className="w-4 h-4" />
-                    <span className="font-medium">Logout</span>
-                  </button>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    {/* First Name */}
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold uppercase tracking-wider text-white/60">First Name</label>
+                      {isEditing ? (
+                        <input
+                          type="text"
+                          value={editForm.firstName}
+                          onChange={(e) => setEditForm({ ...editForm, firstName: e.target.value })}
+                          className="w-full rounded-xl bg-black/20 border border-white/10 p-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-[#8B0000]/40 transition"
+                        />
+                      ) : (
+                        <p className="text-sm bg-black/10 border border-white/5 rounded-xl p-2.5 font-medium text-white/90">{adminData.firstName}</p>
+                      )}
+                    </div>
+
+                    {/* Last Name */}
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold uppercase tracking-wider text-white/60">Last Name</label>
+                      {isEditing ? (
+                        <input
+                          type="text"
+                          value={editForm.lastName}
+                          onChange={(e) => setEditForm({ ...editForm, lastName: e.target.value })}
+                          className="w-full rounded-xl bg-black/20 border border-white/10 p-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-[#8B0000]/40 transition"
+                        />
+                      ) : (
+                        <p className="text-sm bg-black/10 border border-white/5 rounded-xl p-2.5 font-medium text-white/90">{adminData.lastName}</p>
+                      )}
+                    </div>
+
+                    {/* Email Address */}
+                    <div className="space-y-1.5 md:col-span-2">
+                      <label className="text-xs font-bold uppercase tracking-wider text-white/60">Email Address</label>
+                      {isEditing ? (
+                        <input
+                          type="email"
+                          value={editForm.email}
+                          onChange={(e) => setEditForm({ ...editForm, email: e.target.value })}
+                          className="w-full rounded-xl bg-black/20 border border-white/10 p-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-[#8B0000]/40 transition"
+                        />
+                      ) : (
+                        <p className="text-sm bg-black/10 border border-white/5 rounded-xl p-2.5 font-medium text-white/90">{adminData.email}</p>
+                      )}
+                    </div>
+
+                    {/* Street Address */}
+                    <div className="space-y-1.5 md:col-span-2">
+                      <label className="text-xs font-bold uppercase tracking-wider text-white/60">Address</label>
+                      {isEditing ? (
+                        <input
+                          type="text"
+                          value={editForm.address}
+                          onChange={(e) => setEditForm({ ...editForm, address: e.target.value })}
+                          className="w-full rounded-xl bg-black/20 border border-white/10 p-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-[#8B0000]/40 transition"
+                        />
+                      ) : (
+                        <p className="text-sm bg-black/10 border border-white/5 rounded-xl p-2.5 font-medium text-white/90">{adminData.address}</p>
+                      )}
+                    </div>
+
+                    {/* City / State */}
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold uppercase tracking-wider text-white/60">City / State</label>
+                      {isEditing ? (
+                        <input
+                          type="text"
+                          value={editForm.cityState}
+                          onChange={(e) => setEditForm({ ...editForm, cityState: e.target.value })}
+                          className="w-full rounded-xl bg-black/20 border border-white/10 p-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-[#8B0000]/40 transition"
+                        />
+                      ) : (
+                        <p className="text-sm bg-black/10 border border-white/5 rounded-xl p-2.5 font-medium text-white/90">{adminData.cityState}</p>
+                      )}
+                    </div>
+
+                    {/* Postal Code */}
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold uppercase tracking-wider text-white/60">Postal Code</label>
+                      {isEditing ? (
+                        <input
+                          type="text"
+                          value={editForm.postalCode}
+                          onChange={(e) => setEditForm({ ...editForm, postalCode: e.target.value })}
+                          className="w-full rounded-xl bg-black/20 border border-white/10 p-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-[#8B0000]/40 transition"
+                        />
+                      ) : (
+                        <p className="text-sm bg-black/10 border border-white/5 rounded-xl p-2.5 font-medium text-white/90">{adminData.postalCode}</p>
+                      )}
+                    </div>
+
+                    {/* Bio Description */}
+                    <div className="space-y-1.5 md:col-span-2">
+                      <label className="text-xs font-bold uppercase tracking-wider text-white/60">Bio</label>
+                      {isEditing ? (
+                        <textarea
+                          rows={4}
+                          value={editForm.bio}
+                          onChange={(e) => setEditForm({ ...editForm, bio: e.target.value })}
+                          className="w-full rounded-xl bg-black/20 border border-white/10 p-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-[#8B0000]/40 transition resize-none"
+                        />
+                      ) : (
+                        <p className="text-sm bg-black/10 border border-white/5 rounded-xl p-2.5 font-medium text-white/90 leading-relaxed">{adminData.bio}</p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Form Actions Footer */}
+                  {isEditing && (
+                    <div className="flex justify-end gap-3 border-t border-white/10 mt-6 pt-4">
+                      <button
+                        onClick={() => { setEditForm({ ...adminData }); setIsEditing(false); }}
+                        className="px-4 py-2 text-xs font-semibold rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 hover:text-white transition"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={handleSave}
+                        className="px-4 py-2 text-xs font-semibold rounded-xl bg-[#8B0000] hover:bg-[#a00000] text-white transition shadow-md"
+                      >
+                        Save Changes
+                      </button>
+                    </div>
+                  )}
+
                 </div>
               </div>
             )}
+            {/* Fallback view indicator for unhandled views (Temporary till placeholders are un-commented) */}
+            {section !== "overview" && section !== "edit-profile" && (
+              <div className="text-white/60 text-sm">
+                The section view for <span className="font-semibold capitalize text-white">"{section}"</span> is coming soon...
+              </div>
+            )}
           </div>
-        </div>
-
-        {/* DYNAMIC SECTION RENDERING */}
-        <div className="animate-in fade-in duration-500">
-            {section === "overview" && <AdminOverview />}
-            {section === "storage" && <StorageManagement />}
-            {section === "feedback" && <FeedbackAnalytics />}
-            {section === "content" && <AllContent />}
-            {section === "users" && <UserManagement />}
-            {section === "settings" && <SettingsPage setSection={setSection} />}
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
   );
 }
@@ -443,7 +742,7 @@ function UserManagement() {
   };
 
   const handleDeactivate = (userId) => {
-    setActionMenuOpenId(null);
+    setActionMenuOpenId=(null);
     setConfirmRequest({ userId, action: "deactivate" });
   };
 
