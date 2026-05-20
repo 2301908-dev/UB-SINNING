@@ -3,11 +3,11 @@ import { useAuth } from "../context/AuthContext";
 import UBLogo from "../components/UBLogo";
 import { mockFilms } from "../data/mockFilms";
 import backgroundImage from "../assets/white_bg.jpg";
-
-import TotalUploadsIcon from "../assets/icons/TotalUploads.png";
-import PendingReviewsIcon from "../assets/icons/PendingReviews.png";
-import ActiveUsersIcon from "../assets/icons/TotalUsers.png";
-import AvgRatingIcon from "../assets/icons/TotalViews.png";
+import { ArrowLeft } from 'lucide-react';
+import TotalUploadsIcon from "../assets/icons/camera.png";
+import PendingReviewsIcon from "../assets/icons/review.png";
+import ActiveUsersIcon from "../assets/icons/users.png";
+import AvgRatingIcon from "../assets/icons/view.png";
 import {
   BarChart3,
   CheckCircle,
@@ -47,24 +47,22 @@ const mockUsers = [
 export default function AdminDashboard() {
   const [isEditing, setIsEditing] = useState(false);
   const [adminData, setAdminData] = useState({
-  firstName: "Brent",
-  lastName: "Administrator",
+  firstName: "Brent Joseph",
+  lastName: "Pagcaliwagan",
   email: "admin@ub.edu.ph",
   address: "M.H. Del Pilar St.",
   cityState: "Batangas City, Batangas",
   postalCode: "4200",
   country: "Philippines",
   bio: "System Administrator for University of Batangas portal systems.",
-  avatar: "src/assets/teampics/brent.jpg" // <-- Just add this line right here inside the object!
+  avatar: "src/assets/teampics/brent.jpg" 
 });
 
   const [editForm, setEditForm] = useState({ ...adminData });
-
   // Sync edit form if adminData is updated elsewhere
   useEffect(() => {
     setEditForm({ ...adminData });
   }, [adminData]);
-
   const handleSave = () => {
     setAdminData(editForm);
     setIsEditing(false);
@@ -72,14 +70,13 @@ export default function AdminDashboard() {
 
   const { logout } = useAuth();
   const [section, setSection] = useState("overview");
+  const [prevSection, setPrevSection] = useState("overview");
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [language, setLanguage] = useState({ label: "English (US)", code: "EN" });
   const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
-  
   const [darkMode, setDarkMode] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [globalSearch, setGlobalSearch] = useState("");
-
   const dropdownRef = useRef(null);
   const notificationRef = useRef(null);
 
@@ -104,6 +101,10 @@ export default function AdminDashboard() {
     { id: "content", label: "All Content", icon: Film },
     { id: "users", label: "Users", icon: Users },
   ];
+  const navigateTo = (newSection) => {
+  setPrevSection(section); // Save where you are right now before moving
+  setSection(newSection);
+};
 
   return (
         <div
@@ -121,7 +122,6 @@ export default function AdminDashboard() {
               <div className="overflow-hidden">
                 <UBLogo />
               </div>
-
               <nav className="space-y-1">
                 {sidebarItems.map((item) => (
                   <button
@@ -138,13 +138,13 @@ export default function AdminDashboard() {
               </nav>
             </div>
           </aside>
-    
+
           {/* Main Container */}
-          <div className="flex-1 flex flex-col h-screen overflow-hidden">
-            
+          <div className="flex-1 flex flex-col h-screen overflow-hidden">     
+         
             {/* Header */}
             <header className={`h-16 flex items-center justify-between px-8 border-b backdrop-blur-md z-30 transition-colors duration-300 ${darkMode ? 'bg-[#1e1b29]/80 border-white/10' : 'bg-black/10 border-white/10'}`}>
-              
+
               {/* Header Global Search Bar */}
               <div className="relative w-72">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50" />
@@ -158,8 +158,8 @@ export default function AdminDashboard() {
               </div>
 
               {/* Action Utilities & Dynamic Actions Panel */}
-              <div className="flex items-center gap-4">
-                
+              <div className="flex items-center gap-4"> 
+
                 {/* Toggle Dark Mode Button */}
                 <button
                   onClick={() => setDarkMode(!darkMode)}
@@ -218,7 +218,6 @@ export default function AdminDashboard() {
                       />
                       <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border border-white rounded-full"></span>
                     </div>
-                    <span className="text-xs font-semibold text-white group-hover:text-white/90 hidden sm:inline">Admin</span>
                     <ChevronDown className={`w-4 h-4 text-white/70 transition-transform duration-300 ${profileDropdownOpen ? 'rotate-180' : ''}`} />
                   </button>
 
@@ -230,9 +229,10 @@ export default function AdminDashboard() {
                       </div>
                       
                       <div className="py-1 relative">
+
                         {/* Edit Profile Option */}
                         <button 
-                          onClick={() => { setSection("edit-profile"); setProfileDropdownOpen(false); setLanguageMenuOpen(false); }}
+                          onClick={() => { navigateTo("edit-profile"); setProfileDropdownOpen(false); setLanguageMenuOpen(false); }}
                           className="flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm hover:bg-gray-100 transition"
                         >
                           <User className="w-4 h-4 text-gray-500" />
@@ -258,8 +258,6 @@ export default function AdminDashboard() {
                               {[
                                 { label: "English (US)", code: "EN" },
                                 { label: "Filipino", code: "TL" },
-                                { label: "Spanish", code: "ES" },
-                                { label: "Chinese", code: "ZH" },
                               ].map((option) => (
                                 <button
                                   key={option.code}
@@ -277,6 +275,7 @@ export default function AdminDashboard() {
                           )}
                         </div>
 
+                        {/* Settings Option */}
                         <button 
                           onClick={() => { setSection("settings"); setProfileDropdownOpen(false); setLanguageMenuOpen(false); }}
                           className="flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm hover:bg-gray-100 transition"
@@ -285,13 +284,14 @@ export default function AdminDashboard() {
                           <span className="font-medium">Settings</span>
                         </button>
                         
+                        {/* Help Center Option */}
                         <button className="flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm hover:bg-gray-100 transition">
                           <HelpCircle className="w-4 h-4 text-gray-500" />
                           <span className="font-medium">Help Center</span>
-                        </button>
-                        
+                        </button>           
                         <div className="border-t border-gray-100 my-1"></div>
 
+                        {/* Logout Option */}
                         <button
                           onClick={() => { logout(); setProfileDropdownOpen(false); }}
                           className="flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm text-red-600 hover:bg-red-50 transition"
@@ -304,219 +304,354 @@ export default function AdminDashboard() {
                   )}
                 </div>
               </div>
-              </div>
-            </header>
-            {/* Dynamic Section Content Viewport */}
-            <main className="flex-1 p-8 text-white overflow-y-auto">
-              <div className="animate-in fade-in duration-500">
-      
-              {/* DYNAMIC SECTION RENDERING */}
-                    <div className="animate-in fade-in duration-500">
-                        {section === "overview" && <AdminOverview />}
-                        {section === "storage" && <StorageManagement />}
-                        {section === "feedback" && <FeedbackAnalytics />}
-                        {section === "content" && <AllContent />}
-                        {section === "users" && <UserManagement />}
-                        {section === "settings" && <SettingsPage setSection={setSection} />}
-                    </div>
-                        {/* 3. Edit Profile Form View */}
-                        {section === "edit-profile" && (
-              <div className="max-w-3xl mx-auto animate-in fade-in-50 duration-200 text-left">
-                <div className={`rounded-2xl border backdrop-blur-md p-6 shadow-xl transition-all ${darkMode ? 'bg-[#1e1b29]/90 border-white/10' : 'bg-black/40 border-white/20'}`}>
-                  
-                  <div className="flex justify-between items-center border-b border-white/10 pb-4 mb-6">
-                    <div>
-                      <h2 className="text-xl font-bold text-white">My Profile</h2>
-                      <p className="text-xs text-white/60">View and update your personal account information.</p>
-                    </div>
-                    {!isEditing && (
-                      <button
-                        onClick={() => setIsEditing(true)}
-                        className="flex items-center gap-1.5 px-4 py-2 text-xs font-semibold rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-white transition shadow"
-                      >
-                        <Edit2 className="w-3.5 h-3.5" /> Edit Profile
-                      </button>
-                    )}
-                  </div>
+            </div>
+          </header>
 
-                  {/* Profile Picture Uploader Section */}
-                  <div className="flex flex-col sm:flex-row items-center gap-5 mb-6 bg-white/5 p-4 rounded-xl border border-white/5">
-                    <div className="relative group">
-                      <img 
-                        src={isEditing ? editForm.avatar : adminData.avatar} 
-                        alt="Uploader Profile Display" 
-                        className="w-24 h-24 rounded-full object-cover border-2 border-[#8B0000] shadow-md"
-                      />
-                      {isEditing && (
-                        <label className="absolute inset-0 flex flex-col items-center justify-center bg-black/60 rounded-full cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                          <Upload className="w-5 h-5 text-white mb-1" />
-                          <span className="text-[10px] font-bold text-white uppercase tracking-wider">Change</span>
-                          <input 
-                            type="file" 
-                            accept="image/*" 
-                            className="hidden" 
-                            onChange={(e) => {
-                              const file = e.target.files[0];
-                              if (file) {
-                                const localUrl = URL.createObjectURL(file);
-                                setEditForm({ ...editForm, avatar: localUrl });
-                              }
-                            }}
-                          />
-                        </label>
-                      )}
-                    </div>
-                    <div className="text-center sm:text-left">
-                      <h3 className="text-sm font-bold text-white">Profile Avatar</h3>
-                      <p className="text-xs text-white/60 mt-0.5">
-                        {isEditing ? "Hover over the image to upload a custom JPG or PNG file." : "To modify your picture thumbnail, click 'Edit Profile' above."}
-                      </p>
-                    </div>
-                  </div>
+          {/* Dynamic Section Content Viewport */}
+        <main className="flex-1 p-8 text-white overflow-y-auto">
+      <div className="animate-in fade-in duration-500">
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    {/* First Name */}
-                    <div className="space-y-1.5">
-                      <label className="text-xs font-bold uppercase tracking-wider text-white/60">First Name</label>
-                      {isEditing ? (
-                        <input
-                          type="text"
-                          value={editForm.firstName}
-                          onChange={(e) => setEditForm({ ...editForm, firstName: e.target.value })}
-                          className="w-full rounded-xl bg-black/20 border border-white/10 p-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-[#8B0000]/40 transition"
-                        />
-                      ) : (
-                        <p className="text-sm bg-black/10 border border-white/5 rounded-xl p-2.5 font-medium text-white/90">{adminData.firstName}</p>
-                      )}
-                    </div>
+      {/* DYNAMIC SECTION RENDERING */}
+      <div className="animate-in fade-in duration-500">
+        {section === "overview" && <AdminOverview />}
+        {section === "storage" && <StorageManagement />}
+        {section === "feedback" && <FeedbackAnalytics />}
+        {section === "content" && <AllContent />}
+        {section === "users" && <UserManagement />}
+        {section === "settings" && (
+          <SettingsPage setSection={setSection} />
+        )}
+      </div>
 
-                    {/* Last Name */}
-                    <div className="space-y-1.5">
-                      <label className="text-xs font-bold uppercase tracking-wider text-white/60">Last Name</label>
-                      {isEditing ? (
-                        <input
-                          type="text"
-                          value={editForm.lastName}
-                          onChange={(e) => setEditForm({ ...editForm, lastName: e.target.value })}
-                          className="w-full rounded-xl bg-black/20 border border-white/10 p-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-[#8B0000]/40 transition"
-                        />
-                      ) : (
-                        <p className="text-sm bg-black/10 border border-white/5 rounded-xl p-2.5 font-medium text-white/90">{adminData.lastName}</p>
-                      )}
-                    </div>
+      {/* Edit Profile Form View */}
+      {section === "edit-profile" && (
+        <div className="max-w-3xl mx-auto animate-in fade-in-50 duration-200 text-left">
 
-                    {/* Email Address */}
-                    <div className="space-y-1.5 md:col-span-2">
-                      <label className="text-xs font-bold uppercase tracking-wider text-white/60">Email Address</label>
-                      {isEditing ? (
-                        <input
-                          type="email"
-                          value={editForm.email}
-                          onChange={(e) => setEditForm({ ...editForm, email: e.target.value })}
-                          className="w-full rounded-xl bg-black/20 border border-white/10 p-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-[#8B0000]/40 transition"
-                        />
-                      ) : (
-                        <p className="text-sm bg-black/10 border border-white/5 rounded-xl p-2.5 font-medium text-white/90">{adminData.email}</p>
-                      )}
-                    </div>
+          <div
+            className={`rounded-2xl border backdrop-blur-md p-6 shadow-xl transition-all ${
+              darkMode
+                ? "bg-[#1e1b29]/90 border-white/10"
+                : "bg-black/40 border-white/20"
+            }`}
+          >
 
-                    {/* Street Address */}
-                    <div className="space-y-1.5 md:col-span-2">
-                      <label className="text-xs font-bold uppercase tracking-wider text-white/60">Address</label>
-                      {isEditing ? (
-                        <input
-                          type="text"
-                          value={editForm.address}
-                          onChange={(e) => setEditForm({ ...editForm, address: e.target.value })}
-                          className="w-full rounded-xl bg-black/20 border border-white/10 p-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-[#8B0000]/40 transition"
-                        />
-                      ) : (
-                        <p className="text-sm bg-black/10 border border-white/5 rounded-xl p-2.5 font-medium text-white/90">{adminData.address}</p>
-                      )}
-                    </div>
+            {/* Header */}
+            <div className="flex justify-between items-center border-b border-white/10 pb-4 mb-6">
 
-                    {/* City / State */}
-                    <div className="space-y-1.5">
-                      <label className="text-xs font-bold uppercase tracking-wider text-white/60">City / State</label>
-                      {isEditing ? (
-                        <input
-                          type="text"
-                          value={editForm.cityState}
-                          onChange={(e) => setEditForm({ ...editForm, cityState: e.target.value })}
-                          className="w-full rounded-xl bg-black/20 border border-white/10 p-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-[#8B0000]/40 transition"
-                        />
-                      ) : (
-                        <p className="text-sm bg-black/10 border border-white/5 rounded-xl p-2.5 font-medium text-white/90">{adminData.cityState}</p>
-                      )}
-                    </div>
+              {/* LEFT SIDE */}
+              <div className="flex items-center gap-3">
 
-                    {/* Postal Code */}
-                    <div className="space-y-1.5">
-                      <label className="text-xs font-bold uppercase tracking-wider text-white/60">Postal Code</label>
-                      {isEditing ? (
-                        <input
-                          type="text"
-                          value={editForm.postalCode}
-                          onChange={(e) => setEditForm({ ...editForm, postalCode: e.target.value })}
-                          className="w-full rounded-xl bg-black/20 border border-white/10 p-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-[#8B0000]/40 transition"
-                        />
-                      ) : (
-                        <p className="text-sm bg-black/10 border border-white/5 rounded-xl p-2.5 font-medium text-white/90">{adminData.postalCode}</p>
-                      )}
-                    </div>
+                {/* BACK BUTTON */}
+                <button
+                  onClick={() => setSection(prevSection)}
+                  className="p-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 transition"
+                >
+                  <ArrowLeft className="w-4 h-4 text-white" />
+                </button>
 
-                    {/* Bio Description */}
-                    <div className="space-y-1.5 md:col-span-2">
-                      <label className="text-xs font-bold uppercase tracking-wider text-white/60">Bio</label>
-                      {isEditing ? (
-                        <textarea
-                          rows={4}
-                          value={editForm.bio}
-                          onChange={(e) => setEditForm({ ...editForm, bio: e.target.value })}
-                          className="w-full rounded-xl bg-black/20 border border-white/10 p-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-[#8B0000]/40 transition resize-none"
-                        />
-                      ) : (
-                        <p className="text-sm bg-black/10 border border-white/5 rounded-xl p-2.5 font-medium text-white/90 leading-relaxed">{adminData.bio}</p>
-                      )}
-                    </div>
-                  </div>
+                {/* TITLE */}
+                <div>
+                  <h2 className="text-xl font-bold text-white">
+                    My Profile
+                  </h2>
 
-                  {/* Form Actions Footer */}
-                  {isEditing && (
-                    <div className="flex justify-end gap-3 border-t border-white/10 mt-6 pt-4">
-                      <button
-                        onClick={() => { setEditForm({ ...adminData }); setIsEditing(false); }}
-                        className="px-4 py-2 text-xs font-semibold rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 hover:text-white transition"
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        onClick={handleSave}
-                        className="px-4 py-2 text-xs font-semibold rounded-xl bg-[#8B0000] hover:bg-[#a00000] text-white transition shadow-md"
-                      >
-                        Save Changes
-                      </button>
-                    </div>
-                  )}
-
+                  <p className="text-xs text-white/60">
+                    View and update your personal account information.
+                  </p>
                 </div>
               </div>
-            )}
-            {/* Fallback view indicator for unhandled views (Temporary till placeholders are un-commented) */}
-            {section !== "overview" && section !== "edit-profile" && (
-              <div className="text-white/60 text-sm">
-                The section view for <span className="font-semibold capitalize text-white">"{section}"</span> is coming soon...
+
+              {!isEditing && (
+                <button
+                  onClick={() => setIsEditing(true)}
+                  className="flex items-center gap-1.5 px-4 py-2 text-xs font-semibold rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-white transition shadow"
+                >
+                  <Edit2 className="w-3.5 h-3.5" />
+                  Edit Profile
+                </button>
+              )}
+            </div>
+
+            {/* Profile Picture Uploader Section */}
+            <div className="flex flex-col sm:flex-row items-center gap-5 mb-6 bg-white/5 p-4 rounded-xl border border-white/5">
+
+              <div className="relative group">
+
+                <img
+                  src={isEditing ? editForm.avatar : adminData.avatar}
+                  alt="Uploader Profile Display"
+                  className="w-24 h-24 rounded-full object-cover border-2 border-[#8B0000] shadow-md"
+                />
+
+                {isEditing && (
+                  <label className="absolute inset-0 flex flex-col items-center justify-center bg-black/60 rounded-full cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+
+                    <Upload className="w-5 h-5 text-white mb-1" />
+
+                    <span className="text-[10px] font-bold text-white uppercase tracking-wider">
+                      Change
+                    </span>
+
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(e) => {
+                        const file = e.target.files[0];
+
+                        if (file) {
+                          const localUrl = URL.createObjectURL(file);
+
+                          setEditForm({
+                            ...editForm,
+                            avatar: localUrl,
+                          });
+                        }
+                      }}
+                    />
+                  </label>
+                )}
+              </div>
+
+              <div className="text-center sm:text-left">
+
+                <h3 className="text-sm font-bold text-white">
+                  Profile Avatar
+                </h3>
+
+                <p className="text-xs text-white/60 mt-0.5">
+                  {isEditing
+                    ? "Hover over the image to upload a custom JPG or PNG file."
+                    : "To modify your picture thumbnail, click 'Edit Profile' above."}
+                </p>
+
+              </div>
+            </div>
+
+            {/* FORM GRID */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+              {/* First Name */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold uppercase tracking-wider text-white/60">
+                  First Name
+                </label>
+
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={editForm.firstName}
+                    onChange={(e) =>
+                      setEditForm({
+                        ...editForm,
+                        firstName: e.target.value,
+                      })
+                    }
+                    className="w-full rounded-xl bg-black/20 border border-white/10 p-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-[#8B0000]/40 transition"
+                  />
+                ) : (
+                  <p className="text-sm bg-black/10 border border-white/5 rounded-xl p-2.5 font-medium text-white/90">
+                    {adminData.firstName}
+                  </p>
+                )}
+              </div>
+
+              {/* Last Name */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold uppercase tracking-wider text-white/60">
+                  Last Name
+                </label>
+
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={editForm.lastName}
+                    onChange={(e) =>
+                      setEditForm({
+                        ...editForm,
+                        lastName: e.target.value,
+                      })
+                    }
+                    className="w-full rounded-xl bg-black/20 border border-white/10 p-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-[#8B0000]/40 transition"
+                  />
+                ) : (
+                  <p className="text-sm bg-black/10 border border-white/5 rounded-xl p-2.5 font-medium text-white/90">
+                    {adminData.lastName}
+                  </p>
+                )}
+              </div>
+
+              {/* Email */}
+              <div className="space-y-1.5 md:col-span-2">
+                <label className="text-xs font-bold uppercase tracking-wider text-white/60">
+                  Email Address
+                </label>
+
+                {isEditing ? (
+                  <input
+                    type="email"
+                    value={editForm.email}
+                    onChange={(e) =>
+                      setEditForm({
+                        ...editForm,
+                        email: e.target.value,
+                      })
+                    }
+                    className="w-full rounded-xl bg-black/20 border border-white/10 p-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-[#8B0000]/40 transition"
+                  />
+                ) : (
+                  <p className="text-sm bg-black/10 border border-white/5 rounded-xl p-2.5 font-medium text-white/90">
+                    {adminData.email}
+                  </p>
+                )}
+              </div>
+
+              {/* Address */}
+              <div className="space-y-1.5 md:col-span-2">
+                <label className="text-xs font-bold uppercase tracking-wider text-white/60">
+                  Address
+                </label>
+
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={editForm.address}
+                    onChange={(e) =>
+                      setEditForm({
+                        ...editForm,
+                        address: e.target.value,
+                      })
+                    }
+                    className="w-full rounded-xl bg-black/20 border border-white/10 p-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-[#8B0000]/40 transition"
+                  />
+                ) : (
+                  <p className="text-sm bg-black/10 border border-white/5 rounded-xl p-2.5 font-medium text-white/90">
+                    {adminData.address}
+                  </p>
+                )}
+              </div>
+
+              {/* City / State */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold uppercase tracking-wider text-white/60">
+                  City / State
+                </label>
+
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={editForm.cityState}
+                    onChange={(e) =>
+                      setEditForm({
+                        ...editForm,
+                        cityState: e.target.value,
+                      })
+                    }
+                    className="w-full rounded-xl bg-black/20 border border-white/10 p-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-[#8B0000]/40 transition"
+                  />
+                ) : (
+                  <p className="text-sm bg-black/10 border border-white/5 rounded-xl p-2.5 font-medium text-white/90">
+                    {adminData.cityState}
+                  </p>
+                )}
+              </div>
+
+              {/* Postal Code */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold uppercase tracking-wider text-white/60">
+                  Postal Code
+                </label>
+
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={editForm.postalCode}
+                    onChange={(e) =>
+                      setEditForm({
+                        ...editForm,
+                        postalCode: e.target.value,
+                      })
+                    }
+                    className="w-full rounded-xl bg-black/20 border border-white/10 p-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-[#8B0000]/40 transition"
+                  />
+                ) : (
+                  <p className="text-sm bg-black/10 border border-white/5 rounded-xl p-2.5 font-medium text-white/90">
+                    {adminData.postalCode}
+                  </p>
+                )}
+              </div>
+
+              {/* Bio */}
+              <div className="space-y-1.5 md:col-span-2">
+                <label className="text-xs font-bold uppercase tracking-wider text-white/60">
+                  Bio
+                </label>
+
+                {isEditing ? (
+                  <textarea
+                    rows={4}
+                    value={editForm.bio}
+                    onChange={(e) =>
+                      setEditForm({
+                        ...editForm,
+                        bio: e.target.value,
+                      })
+                    }
+                    className="w-full rounded-xl bg-black/20 border border-white/10 p-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-[#8B0000]/40 transition resize-none"
+                  />
+                ) : (
+                  <p className="text-sm bg-black/10 border border-white/5 rounded-xl p-2.5 font-medium text-white/90 leading-relaxed">
+                    {adminData.bio}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            {/* Form Actions Footer */}
+            {isEditing && (
+              <div className="flex justify-end gap-3 border-t border-white/10 mt-6 pt-4">
+
+                <button
+                  onClick={() => {
+                    setEditForm({ ...adminData });
+                    setIsEditing(false);
+                  }}
+                  className="px-4 py-2 text-xs font-semibold rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 hover:text-white transition"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  onClick={handleSave}
+                  className="px-4 py-2 text-xs font-semibold rounded-xl bg-[#8B0000] hover:bg-[#a00000] text-white transition shadow-md"
+                >
+                  Save Changes
+                </button>
+
               </div>
             )}
           </div>
-        </main>
-      </div>
-    </div>
-  );
-}
+        </div>
+      )}
+
+        {/* Fallback View */}
+          {section !== "overview" && section !== "edit-profile" && (
+            <div className="text-white/60 text-sm">
+              The section view for{" "}
+              <span className="font-semibold capitalize text-white">
+                "{section}"
+                  </span>{" "}
+                    is coming soon...
+                  </div>
+                )}
+              </div>
+            </main>
+          </div>
+        </div>
+      );
+    }
 
 /* ------------ SUB-PAGES (INTEGRATED) ------------------ */
-
 function KPI({ title, value, change, iconSrc }) {
   return (
     <div className="bg-white/10 backdrop-blur-md p-6 rounded-xl space-y-3 border border-white/10 shadow-lg">
@@ -537,7 +672,6 @@ function KPI({ title, value, change, iconSrc }) {
 
 function AdminOverview() {
   const [timeframe, setTimeframe] = useState("days");
-
   // Dynamic axis increments linked specifically to matching datasets 
   const yAxisTicks = {
     days: ["400", "300", "200", "100", "0"],
@@ -574,7 +708,6 @@ function AdminOverview() {
   return (
     <div className="space-y-6">
       <h1 className="text-3xl font-bold text-[#8B0000]">Dashboard Overview</h1>
-      
       {/* KPI Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <KPI 
@@ -602,7 +735,6 @@ function AdminOverview() {
           iconSrc={AvgRatingIcon} 
         />
       </div>
-
       {/* Dynamic Total Views Graph Section */}
       <div className="bg-white/80 backdrop-blur-md p-6 rounded-xl shadow-lg border border-gray-200 text-[#080616]">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
@@ -806,7 +938,6 @@ function UserManagement() {
               </button>
             ))}
           </div>
-
           <div className="w-full md:w-50">
             <input
               type="text"
@@ -817,7 +948,6 @@ function UserManagement() {
             />
           </div>
         </div>
-
         {confirmRequest && (
           <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-4 text-sm text-amber-900 shadow-sm animate-in fade-in duration-200">
             <div className="flex items-start gap-3">
@@ -857,7 +987,6 @@ function UserManagement() {
             {screenNotice.text}
           </div>
         )}
-
         <div className="overflow-x-auto rounded-xl border border-gray-200">
           <table className="min-w-full text-left text-sm divide-y divide-gray-200">
             <thead className="bg-gray-100">
