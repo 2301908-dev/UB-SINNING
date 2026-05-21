@@ -205,10 +205,10 @@ function HomeTab({ featured }) {
             </span>
 
             <h1 className="text-4xl font-bold drop-shadow-lg sm:text-6xl">
-              {featured.title}
+              {featured.title}  
             </h1>
 
-            <p className="text-gray-300 drop-shadow-md text-sm sm:text-base">
+            <p className="text-black-300 drop-shadow-md text-sm sm:text-base">
               {featured.creator} • 2026 • Student Film
             </p>
 
