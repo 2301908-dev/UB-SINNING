@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-import { Sparkles } from "lucide-react";
 
 // ─── Reveal Hook (same pattern as AboutSection) ───────────────────────────────
 
@@ -47,24 +46,21 @@ function Reveal({ children, delay = 0, className = "", style = {} }) {
 const TEAM = [
   {
     name: "Bryan James N. Villalon",
-    role: "Frontend Developer",
+    role: "Backend Developer",
     img: "src/assets/teampics/bryan.png",
-    description: "Crafts intuitive and beautiful interfaces that bring the UB Sining vision to life.",
     gradient: "from-[#8B0000] to-[#D4AF37]",
   },
   {
     name: "Kenn Philip Nathaniel B. Silang",
     role: "Frontend Developer" ,
     img: "src/assets/teampics/kenn.png",
-    description: "Architects the systems and logic that power every feature behind the scenes.",
     gradient: "from-[#D4AF37] to-[#8B0000]",
     featured: true,
   },
   {
     name: "Brent Joseph M. Pagcaliwagan",
-    role: "Frontend Developer",
+    role: "UI/UX Designer",
     img: "src/assets/teampics/brent.png",
-    description: "Builds the interactive experiences that users see and feel every day.",
     gradient: "from-[#8B0000] to-[#D4AF37]",
   },
 ];
@@ -192,8 +188,7 @@ export default function TeamSection() {
                 border: "1px solid rgba(139,0,0,0.15)",
               }}
             >
-              <Sparkles className="w-3 h-3" />
-              Meet The Crew
+              Meet The Team
             </div>
           </div>
         </Reveal>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import UBLogo from "../components/UBLogo";
+import UBLogo from "../components/shared/UBLogo";
 import { mockFilms } from "../data/mockFilms";
 import backgroundImage from "../assets/white_bg.jpg";
 import {

@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
-import FeaturesSection from "./FeaturesSection";
-import AboutSection from "./AboutSection";
-import TeamSection from "./TeamSection";
+import FeaturesSection from "../components/landing/FeaturesSection";
+import AboutSection from "../components/landing/AboutSection";
+import TeamSection from "../components/landing/TeamSection";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -212,18 +212,18 @@ function Navbar({ onSignInClick }) {
       }}
     >
       {/* Brand */}
-      <div className="flex items-center gap-3 flex-shrink-0">
+      <div className="flex items-center gap-3 flex-1 ml-3 cursor-pointer" onClick={() => { setActiveLink("Home"); const el = document.getElementById("home"); if (el) el.scrollIntoView({ behavior: "smooth" }); }}>
         <LogoIcon />
         <span
-          className="text-[#8B0000] text-[23px] tracking-wide"
-          style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 600 }}
+          className="text-[#8B0000] text-[26px] tracking-wide"
+          style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700 }}
         >
-          UB SINING
+          UB-SINING
         </span>
       </div>
 
       {/* Nav Links */}
-      <ul className="hidden md:flex items-center gap-9 list-none m-0 p-0">
+      <ul className="hidden md:flex items-center gap-7 list-none m-0 p-0">
         {NAV_LINKS.map((link) => (
           <li key={link}>
              <a
@@ -237,7 +237,7 @@ function Navbar({ onSignInClick }) {
               `}
               style={{
                 fontFamily: "'Poppins', sans-serif",
-                fontWeight: 400,
+                fontWeight: 500,
                 borderBottomWidth: "2px",
                 borderBottomStyle: "solid",
                 paddingBottom: "2px",
@@ -250,11 +250,12 @@ function Navbar({ onSignInClick }) {
       </ul>
 
       {/* Sign In */}
+      <div className="flex-1 flex justify-end">
       <button
         onClick={onSignInClick}
         className="
           cursor-pointer
-          text-white text-[15px] rounded-full px-7 py-3
+          text-white text-[16px] rounded-full px-7 py-3
           transition-all duration-200
           hover:scale-[1.03] active:scale-95
           shadow-[0_3px_12px_rgba(139,0,0,0.28)]
@@ -270,6 +271,7 @@ function Navbar({ onSignInClick }) {
       >
         Sign In
       </button>
+      </div>
     </nav>
   );
 }
@@ -327,7 +329,7 @@ function HeroSection({ onSignInClick }) {
             >
               Bringing Student
               <br />
-              <span className="gradient-text">
+              <span style={{ color: "#111" }}>
                 Creativity
               </span>{" "}
               to the
@@ -417,7 +419,7 @@ function HeroSection({ onSignInClick }) {
                   e.currentTarget.style.boxShadow = "0 4px 18px rgba(139,0,0,0.32)";
                 }}
               >
-                Explore Films
+                Learn More
                 <img src="/src/assets/icons/next.png" alt="arrow" style={{ width: 16, height: 16 }} />
               </button>
 
@@ -486,7 +488,7 @@ function HeroSection({ onSignInClick }) {
 
             <div style={{
               position: "absolute",
-              bottom: -15,
+              bottom: 10,
               left: "30%",
               zIndex: 3,
               animation: "cardFloat3 8s ease-in-out infinite",
@@ -503,9 +505,8 @@ function HeroSection({ onSignInClick }) {
 
 // ─── Root (LoginPage) ─────────────────────────────────────────────────────────
 
-export default function LoginPage({ onNavigateSignIn }) {
+export default function LandingPage({ onNavigateSignIn }) {
   const { login } = useAuth();
-
   const handleGoToSignIn = () => {
     if (onNavigateSignIn) onNavigateSignIn();
   };
@@ -519,7 +520,7 @@ export default function LoginPage({ onNavigateSignIn }) {
       {/* Fixed soft overlay */}
       <div className="fixed inset-0 bg-white/35 z-[1] pointer-events-none" aria-hidden="true" />
 
-      {/* Global ambient blob lighting - spans all sections */}
+      {/* Global ambient blob lighting */}
       <div className="fixed inset-0 z-[2] pointer-events-none overflow-hidden" aria-hidden="true">
         <div style={{
           position: "absolute", top: "5%", left: "-5%",

@@ -1,4 +1,4 @@
-import VideoCard from "./VideoCard";
+import VideoCard from "../shared/VideoCard";
 
 export default function CategoryRow({ title, films }) {
   return (

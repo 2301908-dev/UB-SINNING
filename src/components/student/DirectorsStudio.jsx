@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Film, Users, Lock, History, Download, ChevronDown } from "lucide-react";
-import { mockFilms } from "../data/mockFilms";
+import { mockFilms } from "../../data/mockFilms";
 
 const genres = [
   "All",
