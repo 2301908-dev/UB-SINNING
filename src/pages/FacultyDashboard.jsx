@@ -21,10 +21,10 @@ const mockPendingFilms = [
 ];
 
 const mockStudents = [
-  { id: 1, name: "Maria Santos", course: "BS Film", section: "3A", films: 3 },
-  { id: 2, name: "Juan dela Cruz", course: "BS Multimedia Arts", section: "2B", films: 5 },
-  { id: 3, name: "Ana Reyes", course: "BS Film", section: "3A", films: 2 },
-  { id: 4, name: "Carlos Mendoza", course: "BS Broadcasting", section: "4C", films: 1 },
+  { id: 1, name: "Tristan Mirano", course: "BS Multimedia Arts", section: "3-2", films: 3 },
+  { id: 2, name: "Vin Perez", course: "BS Multimedia Arts", section: "3-2", films: 5 },
+  { id: 3, name: "John Ashley Alday", course: "BS Multimedia Arts", section: "3-2", films: 2 },
+  { id: 4, name: "JM Policarpio", course: "BS Multimedia Arts", section: "3-2", films: 1 },
 ];
 
 const mockAllFilms = [
