@@ -51,10 +51,6 @@ export default function AdminDashboard() {
   lastName: "Pagcaliwagan",
   email: "admin@ub.edu.ph",
   address: "M.H. Del Pilar St.",
-  cityState: "Batangas City, Batangas",
-  postalCode: "4200",
-  country: "Philippines",
-  bio: "System Administrator for University of Batangas portal systems.",
   avatar: "src/assets/teampics/brent.jpg" 
 });
 
@@ -96,7 +92,6 @@ export default function AdminDashboard() {
 
   const sidebarItems = [
     { id: "overview", label: "Dashboard", icon: BarChart3 },
-    { id: "storage", label: "Storage", icon: HardDrive },
     { id: "feedback", label: "Feedback Analytics", icon: MessageSquare },
     { id: "content", label: "All Content", icon: Film },
     { id: "users", label: "Users", icon: Users },
@@ -146,8 +141,8 @@ export default function AdminDashboard() {
             <header className={`h-16 flex items-center justify-between px-8 border-b backdrop-blur-md z-30 transition-colors duration-300 ${darkMode ? 'bg-[#1e1b29]/80 border-white/10' : 'bg-black/10 border-white/10'}`}>
 
               {/* Header Global Search Bar */}
-              <div className="relative w-72">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50" />
+              <div className="relative w-62">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50"/>
                 <input
                   type="text"
                   value={globalSearch}
@@ -161,13 +156,28 @@ export default function AdminDashboard() {
               <div className="flex items-center gap-4"> 
 
                 {/* Toggle Dark Mode Button */}
-                <button
-                  onClick={() => setDarkMode(!darkMode)}
-                  className="p-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 transition shadow-md text-white"
-                  title={darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
-                >
-                  {darkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4" />}
-                </button>
+                  <button
+                    onClick={() => setDarkMode(!darkMode)}
+                    title={darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+                    className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium transition shadow-sm border ${
+                      darkMode 
+                        ? "bg-zinc-800 hover:bg-zinc-700 border-zinc-700 text-white" 
+                        : "bg-white hover:bg-zinc-50 border-zinc-200 text-zinc-700"
+                    }`}
+                  >
+                    {darkMode ? (
+                      <>
+                        <Sun className="w-4 h-4 text-amber-400" />
+                        <span>Light Mode</span>
+                      </>
+                    ) : (
+                      <>
+                        <Moon className="w-4 h-4 text-zinc-600" />
+                        <span>Dark Mode</span>
+                      </>
+                    )}
+                  </button>
+
 
                 {/* Notification Trigger Wrapper */}
                 <div className="relative" ref={notificationRef}>
@@ -208,7 +218,7 @@ export default function AdminDashboard() {
                       setProfileDropdownOpen(!profileDropdownOpen);
                       if (profileDropdownOpen) setLanguageMenuOpen(false);
                     }}
-                    className="flex items-center gap-2 p-1.5 px-3 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 transition-all shadow-md group"
+                    className="flex items-center gap-2 p-1.5 px-3 rounded-full bg-[#8B0000] transition-all shadow-md group"
                   >
                     <div className="relative">
                       <img 
@@ -313,11 +323,10 @@ export default function AdminDashboard() {
 
       {/* DYNAMIC SECTION RENDERING */}
       <div className="animate-in fade-in duration-500">
-        {section === "overview" && <AdminOverview />}
-        {section === "storage" && <StorageManagement />}
-        {section === "feedback" && <FeedbackAnalytics />}
-        {section === "content" && <AllContent />}
-        {section === "users" && <UserManagement />}
+        {section === "overview" && <AdminOverview darkMode={darkMode} />}
+{section === "feedback" && <FeedbackAnalytics darkMode={darkMode} />}
+{section === "content" && <AllContent darkMode={darkMode} />}
+{section === "users" && <UserManagement darkMode={darkMode} />}
         {section === "settings" && (
           <SettingsPage setSection={setSection} />
         )}
@@ -414,17 +423,14 @@ export default function AdminDashboard() {
               </div>
 
               <div className="text-center sm:text-left">
-
                 <h3 className="text-sm font-bold text-white">
-                  Profile Avatar
+                  Brent Joseph Pagcaliwagan
                 </h3>
-
                 <p className="text-xs text-white/60 mt-0.5">
                   {isEditing
-                    ? "Hover over the image to upload a custom JPG or PNG file."
-                    : "To modify your picture thumbnail, click 'Edit Profile' above."}
+                    ? ""
+                    : "UB-SINING Administrator"}
                 </p>
-
               </div>
             </div>
 
@@ -486,7 +492,6 @@ export default function AdminDashboard() {
                 <label className="text-xs font-bold uppercase tracking-wider text-white/60">
                   Email Address
                 </label>
-
                 {isEditing ? (
                   <input
                     type="email"
@@ -511,7 +516,6 @@ export default function AdminDashboard() {
                 <label className="text-xs font-bold uppercase tracking-wider text-white/60">
                   Address
                 </label>
-
                 {isEditing ? (
                   <input
                     type="text"
@@ -527,81 +531,6 @@ export default function AdminDashboard() {
                 ) : (
                   <p className="text-sm bg-black/10 border border-white/5 rounded-xl p-2.5 font-medium text-white/90">
                     {adminData.address}
-                  </p>
-                )}
-              </div>
-
-              {/* City / State */}
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold uppercase tracking-wider text-white/60">
-                  City / State
-                </label>
-
-                {isEditing ? (
-                  <input
-                    type="text"
-                    value={editForm.cityState}
-                    onChange={(e) =>
-                      setEditForm({
-                        ...editForm,
-                        cityState: e.target.value,
-                      })
-                    }
-                    className="w-full rounded-xl bg-black/20 border border-white/10 p-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-[#8B0000]/40 transition"
-                  />
-                ) : (
-                  <p className="text-sm bg-black/10 border border-white/5 rounded-xl p-2.5 font-medium text-white/90">
-                    {adminData.cityState}
-                  </p>
-                )}
-              </div>
-
-              {/* Postal Code */}
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold uppercase tracking-wider text-white/60">
-                  Postal Code
-                </label>
-
-                {isEditing ? (
-                  <input
-                    type="text"
-                    value={editForm.postalCode}
-                    onChange={(e) =>
-                      setEditForm({
-                        ...editForm,
-                        postalCode: e.target.value,
-                      })
-                    }
-                    className="w-full rounded-xl bg-black/20 border border-white/10 p-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-[#8B0000]/40 transition"
-                  />
-                ) : (
-                  <p className="text-sm bg-black/10 border border-white/5 rounded-xl p-2.5 font-medium text-white/90">
-                    {adminData.postalCode}
-                  </p>
-                )}
-              </div>
-
-              {/* Bio */}
-              <div className="space-y-1.5 md:col-span-2">
-                <label className="text-xs font-bold uppercase tracking-wider text-white/60">
-                  Bio
-                </label>
-
-                {isEditing ? (
-                  <textarea
-                    rows={4}
-                    value={editForm.bio}
-                    onChange={(e) =>
-                      setEditForm({
-                        ...editForm,
-                        bio: e.target.value,
-                      })
-                    }
-                    className="w-full rounded-xl bg-black/20 border border-white/10 p-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-[#8B0000]/40 transition resize-none"
-                  />
-                ) : (
-                  <p className="text-sm bg-black/10 border border-white/5 rounded-xl p-2.5 font-medium text-white/90 leading-relaxed">
-                    {adminData.bio}
                   </p>
                 )}
               </div>
@@ -652,10 +581,11 @@ export default function AdminDashboard() {
     }
 
 /* ------------ SUB-PAGES (INTEGRATED) ------------------ */
-function KPI({ title, value, change, iconSrc }) {
+
+function KPI({ title, value, change, iconSrc, darkMode }) {
   return (
     <div className="bg-white/10 backdrop-blur-md p-6 rounded-xl space-y-3 border border-white/10 shadow-lg">
-      {/* Icon Container with added border and subtle styling match */}
+      
       <div className="w-11 h-11 rounded-lg bg-[#8B0000]/10 backdrop-blur-sm flex items-center justify-center p-2.5 shadow-inner border border-white/20">
         <img 
           src={iconSrc} 
@@ -663,16 +593,21 @@ function KPI({ title, value, change, iconSrc }) {
           className="w-full h-full object-contain" 
         />
       </div>
+
       <p className="text-gray-400 text-sm">{title}</p>
-      <p className="text-3xl font-bold text-[#080616]">{value}</p>
+
+      <p className={`text-3xl font-bold ${darkMode ? "text-white" : "text-[#080616]"}`}>
+        {value}
+      </p>
+
       <p className="text-green-600 text-xs font-bold">{change}</p>
     </div>
   );
 }
 
-function AdminOverview() {
+function AdminOverview({ darkMode }) {
   const [timeframe, setTimeframe] = useState("days");
-  // Dynamic axis increments linked specifically to matching datasets 
+
   const yAxisTicks = {
     days: ["400", "300", "200", "100", "0"],
     week: ["3,000", "2,250", "1,500", "750", "0"],
@@ -708,42 +643,59 @@ function AdminOverview() {
   return (
     <div className="space-y-6">
       <h1 className="text-3xl font-bold text-[#8B0000]">Dashboard Overview</h1>
+      
       {/* KPI Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        
         <KPI 
           title="Total Uploads" 
           value="38" 
           change="+12%" 
-          iconSrc={TotalUploadsIcon} 
+          iconSrc={TotalUploadsIcon}
+          darkMode={darkMode}
         />
+
         <KPI 
           title="Pending Review" 
           value="12" 
           change="+3" 
-          iconSrc={PendingReviewsIcon} 
+          iconSrc={PendingReviewsIcon}
+          darkMode={darkMode}
         />
+
         <KPI 
           title="Total Views" 
           value="22" 
           change="+8" 
-          iconSrc={ActiveUsersIcon} 
+          iconSrc={ActiveUsersIcon}
+          darkMode={darkMode}
         />
+
         <KPI 
           title="Total Users" 
           value="4.7" 
           change="+0.2" 
-          iconSrc={AvgRatingIcon} 
+          iconSrc={AvgRatingIcon}
+          darkMode={darkMode}
         />
       </div>
+
       {/* Dynamic Total Views Graph Section */}
-      <div className="bg-white/80 backdrop-blur-md p-6 rounded-xl shadow-lg border border-gray-200 text-[#080616]">
+      <div
+        className={`backdrop-blur-md p-6 rounded-xl shadow-lg border transition-colors ${
+          darkMode
+            ? "bg-[#1e1b29]/90 border-white/10 text-white"
+            : "bg-white/80 border-gray-200 text-[#080616]"
+        }`}
+      >
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
           <div>
             <h2 className="text-xl font-bold text-[#8B0000]">Total Views Analytics</h2>
-            <p className="text-xs text-gray-500">Track presentation audience engagement cycles</p>
+            <p className={`${darkMode ? "text-white/60" : "text-gray-500"} text-xs`}>
+              Track presentation audience engagement cycles
+            </p>
           </div>
-          
-          {/* Interactive Timeframe Toggle Tabs */}
+
           <div className="flex bg-gray-100 p-1 rounded-xl border border-gray-200 self-start sm:self-auto">
             {[
               { id: "days", label: "Days" },
@@ -765,70 +717,64 @@ function AdminOverview() {
           </div>
         </div>
 
-        {/* Outer Flex Container matching Grid Graph Side-by-Side */}
         <div className="flex items-stretch gap-4">
-          
-          {/* Left Y-Axis Number Scale Track */}
-          <div className="flex flex-col justify-between text-right text-[11px] font-bold text-gray-400 w-12 pr-1 pb-8 pt-4">
+          <div className={`flex flex-col justify-between text-right text-[11px] font-bold w-12 pr-1 pb-8 pt-4 ${darkMode ? "text-white/50" : "text-gray-400"}`}>
             {yAxisTicks[timeframe].map((tick, i) => (
               <span key={i}>{tick}</span>
             ))}
           </div>
 
-          {/* Visualizer Graph Box Layout */}
-          <div className="h-64 flex-1 flex items-end gap-3 px-2 pt-4 border-b border-l border-gray-200">
+          <div className={`h-64 flex-1 flex items-end gap-3 px-2 pt-4 border-b border-l ${darkMode ? "border-white/10" : "border-gray-200"}`}>
             {graphData[timeframe].map((data, index) => (
               <div key={index} className="flex-1 flex flex-col items-center gap-2 h-full justify-end group">
-                {/* Dynamic Data Value Floating Tag */}
-                <span className="text-[10px] font-bold text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity bg-white px-1.5 py-0.5 rounded shadow border border-gray-100 pointer-events-none mb-1">
+                
+                <span className={`text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity px-1.5 py-0.5 rounded shadow border pointer-events-none mb-1 ${
+                  darkMode
+                    ? "bg-[#2b243d] text-white border-white/10"
+                    : "bg-white text-gray-500 border-gray-100"
+                }`}>
                   {data.value.toLocaleString()}
                 </span>
-                {/* Interactive Graphic Bar */}
+
                 <div 
                   className={`w-full max-w-[40px] rounded-t-md bg-gradient-to-t from-[#8B0000] to-[#b30000] transition-all duration-500 ease-out group-hover:brightness-110 shadow-md ${data.height}`}
                 ></div>
-                {/* Label axis */}
-                <span className="text-xs font-semibold text-gray-600 mt-1 pb-2 block text-center truncate w-full">
+
+                <span className={`text-xs font-semibold mt-1 pb-2 block text-center truncate w-full ${
+                  darkMode ? "text-white/70" : "text-gray-600"
+                }`}>
                   {data.label}
                 </span>
               </div>
             ))}
           </div>
-
         </div>
       </div>
     </div>
   );
 }
 
-function StorageManagement() {
-  return (
-    <div>
-      <h1 className="text-3xl font-bold text-[#8B0000] mb-4">Storage Management</h1>
-      <div className="bg-white/80 backdrop-blur-md p-6 rounded-xl shadow-lg text-[#080616] border border-gray-200">
-        <p className="text-gray-600 mb-4">Monitor server storage and usage.</p>
-        <div className="h-4 w-full bg-gray-200 rounded-full overflow-hidden">
-            <div className="h-full bg-[#8B0000]" style={{ width: '65%' }}></div>
-        </div>
-        <p className="mt-2 text-sm font-semibold">65% Capacity Used (325GB / 500GB)</p>
-      </div>
-    </div>
-  );
-}
-
-function FeedbackAnalytics() {
+function FeedbackAnalytics({ darkMode }) {
   return (
     <div>
       <h1 className="text-3xl font-bold text-[#8B0000] mb-4">Feedback Analytics</h1>
-      <div className="bg-white/80 backdrop-blur-md p-6 rounded-xl shadow-lg text-[#080616] border border-gray-200">
+
+      <div
+        className={`backdrop-blur-md p-6 rounded-xl shadow-lg border ${
+          darkMode
+            ? "bg-[#1e1b29]/90 border-white/10 text-white"
+            : "bg-white/80 border-gray-200 text-[#080616]"
+        }`}
+      >
         <p>Charts and student feedback analysis coming soon.</p>
       </div>
     </div>
   );
 }
 
-function AllContent() {
+function AllContent({ darkMode }) {
   const [searchTerm, setSearchTerm] = useState("");
+
   const filteredFilms = mockFilms.filter((film) => 
     film.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
     film.creator.toLowerCase().includes(searchTerm.toLowerCase())
@@ -837,19 +783,42 @@ function AllContent() {
   return (
     <div>
       <h1 className="text-3xl font-bold text-[#8B0000] mb-4">All Content</h1>
+
       <input
         type="text"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         placeholder="Search by title or creator..."
-        className="w-80 rounded-xl border border-gray-300 bg-white/90 px-4 py-3 text-[#080616] outline-none mb-4 focus:ring-2 focus:ring-[#8B0000]/20"
+        className={`w-80 rounded-xl px-4 py-3 outline-none mb-4 focus:ring-2 focus:ring-[#8B0000]/20 transition ${
+          darkMode
+            ? "bg-[#1e1b29] border border-white/10 text-white placeholder-white/40"
+            : "bg-white/90 border border-gray-300 text-[#080616]"
+        }`}
       />
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {filteredFilms.map((film) => (
-          <div key={film.id} className="bg-white/80 backdrop-blur-md p-4 rounded-xl shadow-md border border-gray-200">
-            <img src={film.thumbnail} className="rounded-lg mb-3 h-40 w-full object-cover" alt={film.title} />
-            <p className="font-semibold text-[#080616]">{film.title}</p>
-            <p className="text-gray-500 text-sm">{film.creator}</p>
+          <div
+            key={film.id}
+            className={`backdrop-blur-md p-4 rounded-xl shadow-md border ${
+              darkMode
+                ? "bg-[#1e1b29]/90 border-white/10 text-white"
+                : "bg-white/80 border-gray-200 text-[#080616]"
+            }`}
+          >
+            <img
+              src={film.thumbnail}
+              className="rounded-lg mb-3 h-40 w-full object-cover"
+              alt={film.title}
+            />
+
+            <p className={`font-semibold ${darkMode ? "text-white" : "text-[#080616]"}`}>
+              {film.title}
+            </p>
+
+            <p className={`${darkMode ? "text-white/60" : "text-gray-500"} text-sm`}>
+              {film.creator}
+            </p>
           </div>
         ))}
       </div>
@@ -857,7 +826,8 @@ function AllContent() {
   );
 }
 
-function UserManagement() {
+function UserManagement({ darkMode }) {
+
   const [activeTab, setActiveTab] = useState("students");
   const [users, setUsers] = useState(mockUsers);
   const [actionMenuOpenId, setActionMenuOpenId] = useState(null);
@@ -943,7 +913,7 @@ function UserManagement() {
               type="text"
               value={searchEmail}
               onChange={(e) => setSearchEmail(e.target.value)}
-              placeholder="Search by email..."
+              placeholder="Search by ubmail..."
               className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm text-[#080616] outline-none transition focus:ring-2 focus:ring-[#8B0000]/20"
             />
           </div>
@@ -1059,6 +1029,7 @@ function UserManagement() {
     </div>
   );
 }
+
 
 function SettingsPage({ setSection }) {
   const [activeTab, setActiveTab] = useState('general');
