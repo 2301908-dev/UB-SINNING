@@ -18,6 +18,8 @@ export default function SignInPage({ onBack }) {
     setLoading(true);
     setError("");
 
+    localStorage.setItem("pending_role", selectedRole);
+
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {

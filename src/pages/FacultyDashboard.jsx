@@ -2,9 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import UBLogo from "../components/shared/UBLogo";
 import backgroundImage from "../assets/white_bg.jpg";
+import bryanPhoto from "../assets/teampics/bryan.png";
 import {
   Search, LogOut, CheckCircle, XCircle, Play, Eye,
-  TrendingUp, UserPlus, Film as FilmIcon, Star,
+  TrendingUp, UserPlus, Film as FilmIcon, Star, UserCircle,
 } from "lucide-react";
 
 const ICON_DASHBOARD = "/src/assets/icons/FacultyIcons/dashboardFaculty.png";
@@ -12,6 +13,7 @@ const ICON_FILM = "/src/assets/icons/FacultyIcons/filmFaculty.png";
 const ICON_USER = "/src/assets/icons/FacultyIcons/userFaculty.png";
 const ICON_SETTING = "/src/assets/icons/FacultyIcons/settingFaculty.png";
 const ICON_NOTIFICATION = "/src/assets/icons/FacultyIcons/notificationFaculty.png";
+const ICON_VIDEO = "/src/assets/icons/FacultyIcons/videoFaculty.png";
 
 const mockPendingFilms = [
   { id: 1, title: "Liwanag sa Dilim", student: "Maria Santos", date: "2026-05-15", duration: "12:34", status: "Pending", url: "/liwanag.mp4" },
@@ -21,10 +23,10 @@ const mockPendingFilms = [
 ];
 
 const mockStudents = [
-  { id: 1, name: "Tristan Mirano", course: "BS Multimedia Arts", section: "3-2", films: 3 },
-  { id: 2, name: "Vin Perez", course: "BS Multimedia Arts", section: "3-2", films: 5 },
-  { id: 3, name: "John Ashley Alday", course: "BS Multimedia Arts", section: "3-2", films: 2 },
-  { id: 4, name: "JM Policarpio", course: "BS Multimedia Arts", section: "3-2", films: 1 },
+  { id: 1, name: "Tristan Mirano", studentNo: "2301495", course: "BS Multimedia Arts", section: "3-2" },
+  { id: 2, name: "Vin Perez", studentNo: "2301945", course: "BS Multimedia Arts", section: "3-2" },
+  { id: 3, name: "John Ashley Alday", studentNo: "2301924", course: "BS Multimedia Arts", section: "3-1" },
+  { id: 4, name: "JM Policarpio", studentNo: "2301923", course: "BS Multimedia Arts", section: "3-2" },
 ];
 
 const mockAllFilms = [
@@ -63,7 +65,7 @@ function Toggle({ checked, onChange }) {
     <button
       type="button"
       onClick={() => onChange(!checked)}
-      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${checked ? "bg-[#8B0000]" : "bg-gray-300"}`}
+      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors cursor-pointer ${checked ? "bg-[#8B0000]" : "bg-gray-300"}`}
     >
       <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${checked ? "translate-x-6" : "translate-x-1"}`} />
     </button>
@@ -79,13 +81,13 @@ function ConfirmModal({ title, message, confirmLabel, confirmClass, onConfirm, o
         <div className="flex gap-3 pt-2">
           <button
             onClick={onCancel}
-            className="flex-1 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-600 hover:border-[#8B0000] transition"
+            className="flex-1 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-600 hover:border-[#8B0000] transition cursor-pointer"
           >
             Cancel
           </button>
           <button
             onClick={onConfirm}
-            className={`flex-1 py-2 rounded-lg text-sm font-medium text-white transition ${confirmClass}`}
+            className={`flex-1 py-2 rounded-lg text-sm font-medium text-white transition cursor-pointer ${confirmClass}`}
           >
             {confirmLabel}
           </button>
@@ -107,10 +109,10 @@ export default function FacultyDashboard() {
     { id: "overview", label: "Dashboard", icon: ICON_DASHBOARD },
     { id: "filmReview", label: "Films", icon: ICON_FILM },
     { id: "students", label: "Students", icon: ICON_USER },
-    { id: "workspace", label: "Review Workspace", icon: ICON_FILM },
+    { id: "workspace", label: "Review Workspace", icon: ICON_VIDEO },
   ];
 
-  const profName = user?.email ? user.email.split("@")[0] : "Professor";
+  const profName = "Bry";
 
   useEffect(() => {
     const handler = (e) => {
@@ -136,10 +138,10 @@ export default function FacultyDashboard() {
         backgroundRepeat: "no-repeat",
       }}
     >
-      {/* Sidebar (fixed width, no animation) */}
+      {/* Sidebar */}
       <aside className="w-56 bg-[#8B0000] p-4 rounded-r-lg flex flex-col gap-6 z-20">
         <div className="px-1 py-2">
-          <UBLogo size={64} hideSubtitle titleSizeClass="text-2xl" />
+          <UBLogo size={64} hideSubtitle titleSizeClass="text-sm" />
         </div>
 
         <nav className="space-y-1 flex-1">
@@ -147,9 +149,14 @@ export default function FacultyDashboard() {
             <button
               key={item.id}
               onClick={() => setSection(item.id)}
-              className={`flex items-center gap-2.5 w-full px-3 py-2 rounded-lg ${section === item.id ? "bg-white text-[#8B0000]" : "text-[#E8EDF2] hover:bg-white/20"}`}
+              className={`flex items-center gap-2.5 w-full px-3 py-2 rounded-lg cursor-pointer ${section === item.id ? "bg-white text-[#8B0000]" : "text-[#E8EDF2] hover:bg-white/20"}`}
             >
-              <img src={item.icon} alt="" className="w-4 h-4 shrink-0 object-contain" />
+              <img
+                src={item.icon}
+                alt=""
+                className="w-4 h-4 shrink-0 object-contain"
+                style={section === item.id ? { filter: "brightness(0)" } : { filter: "brightness(0) invert(1)" }}
+              />
               <span className="whitespace-nowrap text-xs font-medium">{item.label}</span>
             </button>
           ))}
@@ -173,11 +180,11 @@ export default function FacultyDashboard() {
               <button
                 type="button"
                 onClick={() => setShowNotifications((v) => !v)}
-                className="relative flex items-center"
+                className="relative flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 transition cursor-pointer"
               >
-                <img src={ICON_NOTIFICATION} alt="Notifications" className="w-6 h-6 object-contain" />
+                <img src={ICON_NOTIFICATION} alt="Notifications" className="w-4 h-4 object-contain" />
                 {mockNotifications.length > 0 && (
-                  <span className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-[#8B0000] text-white text-[10px] flex items-center justify-center font-semibold">
+                  <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#8B0000] text-white text-[9px] flex items-center justify-center font-semibold">
                     {mockNotifications.length}
                   </span>
                 )}
@@ -201,25 +208,25 @@ export default function FacultyDashboard() {
               <button
                 type="button"
                 onClick={() => setShowProfile((v) => !v)}
-                className="w-9 h-9 rounded-full bg-[#8B0000] text-white flex items-center justify-center text-sm font-semibold uppercase"
+                className="w-11 h-11 rounded-full overflow-hidden border-2 border-[#8B0000] cursor-pointer"
               >
-                {profName.slice(0, 2)}
+                <img src={bryanPhoto} alt="Profile" className="w-full h-full object-cover" />
               </button>
               {showProfile && (
                 <div className="absolute right-0 mt-3 w-56 rounded-xl shadow-xl border border-gray-200 bg-white p-2 z-50">
                   <div className="px-3 py-2 border-b border-gray-100">
-                    <p className="text-sm font-semibold text-gray-800">Prof. {profName}</p>
+                    <p className="text-sm font-semibold text-gray-800">Welcome, {profName}</p>
                     <p className="text-xs text-gray-500 truncate">{user?.email || ""}</p>
                   </div>
                   <button
                     onClick={openSettings}
-                    className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-gray-700 hover:bg-gray-50"
+                    className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-gray-700 hover:bg-gray-50 cursor-pointer"
                   >
                     <img src={ICON_SETTING} alt="" className="w-4 h-4 object-contain" /> Settings
                   </button>
                   <button
                     onClick={logout}
-                    className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-[#8B0000] hover:bg-red-50"
+                    className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-[#8B0000] hover:bg-red-50 cursor-pointer"
                   >
                     <LogOut className="w-4 h-4" /> Sign Out
                   </button>
@@ -244,22 +251,22 @@ export default function FacultyDashboard() {
 /* ── Overview ── */
 function OverviewSection({ profName }) {
   const stats = [
-    { label: "Pending Reviews", value: 8 },
+    { label: "Pending Reviews", value: 3 },
     { label: "Approved Films", value: 34 },
     { label: "Active Submissions", value: 12 },
-    { label: "Total Students", value: 47 },
+    { label: "Total Students", value: 4 },
   ];
 
   return (
     <div className="space-y-8">
-      <h1 className="text-3xl font-bold text-[#8B0000]">Welcome, Prof. {profName}</h1>
+      <h1 className="text-3xl font-bold text-[#8B0000]">Welcome, {profName}</h1>
 
-      {/* Quick Stats — all same red background */}
+      {/* Quick Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((s) => (
           <div key={s.label} className="bg-red-50 border border-red-100 rounded-xl p-5 space-y-2">
             <p className="text-sm text-gray-500 font-medium">{s.label}</p>
-            <p className="text-4xl font-bold text-red-600">{s.value}</p>
+            <p className="text-2xl font-bold text-red-600">{s.value}</p>
           </div>
         ))}
       </div>
@@ -289,10 +296,10 @@ function OverviewSection({ profName }) {
         </div>
       </div>
 
-      {/* Pending Review Queue */}
+      {/* Pending Films */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
         <div className="flex items-center justify-between mb-5">
-          <h2 className="text-lg font-semibold text-[#8B0000]">Pending Review Queue</h2>
+          <h2 className="text-lg font-semibold text-[#8B0000]">Pending Films</h2>
           <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">{mockPendingFilms.length} films</span>
         </div>
         <div className="space-y-3">
@@ -320,7 +327,7 @@ function OverviewSection({ profName }) {
 /* ── Film Review ── */
 function FilmReviewSection() {
   const [activeFilter, setActiveFilter] = useState("All");
-  const [confirm, setConfirm] = useState(null); // { type: 'approve'|'reject', film }
+  const [confirm, setConfirm] = useState(null);
   const filters = ["All", "Pending", "Approved", "Rejected"];
 
   const filtered = activeFilter === "All"
@@ -344,7 +351,7 @@ function FilmReviewSection() {
           <button
             key={f}
             onClick={() => setActiveFilter(f)}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition ${activeFilter === f ? "bg-[#8B0000] text-white" : "bg-white border border-gray-200 text-gray-600 hover:border-[#8B0000]"}`}
+            className={`px-4 py-2 rounded-full text-sm font-medium transition cursor-pointer ${activeFilter === f ? "bg-[#8B0000] text-white" : "bg-white border border-gray-200 text-gray-600 hover:border-[#8B0000]"}`}
           >
             {f}
           </button>
@@ -369,19 +376,19 @@ function FilmReviewSection() {
             <div className="flex gap-2 shrink-0">
               <button
                 onClick={() => handleWatch(film)}
-                className="flex items-center gap-1 px-2.5 py-1.5 bg-blue-50 text-blue-700 rounded-lg text-xs font-medium hover:bg-blue-100 transition"
+                className="flex items-center gap-1 px-2.5 py-1.5 bg-blue-50 text-blue-700 rounded-lg text-xs font-medium hover:bg-blue-100 transition cursor-pointer"
               >
                 <Play className="w-3 h-3" /> Watch
               </button>
               <button
                 onClick={() => setConfirm({ type: "approve", film })}
-                className="flex items-center gap-1 px-2.5 py-1.5 bg-green-50 text-green-700 rounded-lg text-xs font-medium hover:bg-green-100 transition"
+                className="flex items-center gap-1 px-2.5 py-1.5 bg-green-50 text-green-700 rounded-lg text-xs font-medium hover:bg-green-100 transition cursor-pointer"
               >
                 <CheckCircle className="w-3 h-3" /> Approve
               </button>
               <button
                 onClick={() => setConfirm({ type: "reject", film })}
-                className="flex items-center gap-1 px-2.5 py-1.5 bg-red-50 text-red-700 rounded-lg text-xs font-medium hover:bg-red-100 transition"
+                className="flex items-center gap-1 px-2.5 py-1.5 bg-red-50 text-red-700 rounded-lg text-xs font-medium hover:bg-red-100 transition cursor-pointer"
               >
                 <XCircle className="w-3 h-3" /> Reject
               </button>
@@ -411,43 +418,79 @@ function FilmReviewSection() {
 /* ── Students ── */
 function StudentsSection() {
   const [showModal, setShowModal] = useState(false);
-  const [newStudent, setNewStudent] = useState({ name: "", course: "", section: "" });
+  const [newStudent, setNewStudent] = useState({ name: "", studentNo: "", course: "", section: "" });
+  const [searchInput, setSearchInput] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filtered = mockStudents.filter((s) => {
+    const q = searchQuery.toLowerCase();
+    return (
+      s.name.toLowerCase().includes(q) ||
+      s.studentNo.toLowerCase().includes(q) ||
+      s.course.toLowerCase().includes(q) ||
+      s.section.toLowerCase().includes(q)
+    );
+  });
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-[#8B0000]">Student Management</h1>
-          <p className="text-gray-500 mt-1">Manage your enrolled students and track their submissions.</p>
-        </div>
+      <div>
+        <h1 className="text-3xl font-bold text-[#8B0000]">Student Management</h1>
+        <p className="text-gray-500 mt-1">Manage your enrolled students.</p>
+      </div>
+
+      {/* Search bar + Add Student */}
+      <div className="flex gap-2">
+        <input
+          type="text"
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && setSearchQuery(searchInput)}
+          placeholder="Search by name, student number, course, or section..."
+          className="flex-1 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B0000]/20 focus:border-[#8B0000]"
+        />
         <button
           onClick={() => setShowModal(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-[#8B0000] text-white rounded-lg text-sm font-medium hover:bg-[#6b0000] transition"
+          className="flex items-center gap-2 px-4 py-2 bg-[#8B0000] text-white rounded-lg text-sm font-medium hover:bg-[#6b0000] transition cursor-pointer"
         >
           <UserPlus className="w-4 h-4" /> Add Student
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {mockStudents.map((student) => (
-          <div key={student.id} className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 space-y-3">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center">
-                <img src={ICON_FILM} alt="" className="w-6 h-6 object-contain" />
-              </div>
-              <div>
-                <p className="font-semibold text-sm">{student.name}</p>
-                <p className="text-xs text-gray-500">{student.course} · Section {student.section}</p>
-              </div>
-            </div>
-            <div className="flex gap-4 text-sm">
-              <div className="flex items-center gap-1 text-gray-600">
-                <FilmIcon className="w-4 h-4" />
-                <span>{student.films} films</span>
-              </div>
-            </div>
-          </div>
-        ))}
+      {/* Table */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="border-b border-gray-100 bg-gray-50">
+              <th className="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Student</th>
+              <th className="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Student Number</th>
+              <th className="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Course</th>
+              <th className="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Section</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filtered.map((student, idx) => (
+              <tr key={student.id} className={`${idx !== filtered.length - 1 ? "border-b border-gray-100" : ""} hover:bg-gray-50 transition`}>
+                <td className="px-5 py-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center shrink-0">
+                      <UserCircle className="w-5 h-5 text-gray-400" />
+                    </div>
+                    <span className="font-medium text-gray-800">{student.name}</span>
+                  </div>
+                </td>
+                <td className="px-5 py-3 text-gray-600">{student.studentNo}</td>
+                <td className="px-5 py-3 text-gray-600">{student.course}</td>
+                <td className="px-5 py-3 text-gray-600">{student.section}</td>
+              </tr>
+            ))}
+            {filtered.length === 0 && (
+              <tr>
+                <td colSpan={4} className="px-5 py-8 text-center text-gray-400 text-sm">No students found.</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
 
       {showModal && (
@@ -455,7 +498,8 @@ function StudentsSection() {
           <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md space-y-5">
             <h2 className="text-xl font-bold text-[#8B0000]">Add New Student</h2>
             {[
-              { key: "name", label: "Fullname" },
+              { key: "name", label: "Full Name" },
+              { key: "studentNo", label: "Student Number" },
               { key: "course", label: "Course" },
               { key: "section", label: "Section" },
             ].map((field) => (
@@ -473,13 +517,13 @@ function StudentsSection() {
             <div className="flex gap-3 pt-2">
               <button
                 onClick={() => setShowModal(false)}
-                className="flex-1 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-600 hover:border-[#8B0000] transition"
+                className="flex-1 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-600 hover:border-[#8B0000] transition cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 onClick={() => setShowModal(false)}
-                className="flex-1 py-2 bg-[#8B0000] text-white rounded-lg text-sm font-medium hover:bg-[#6b0000] transition"
+                className="flex-1 py-2 bg-[#8B0000] text-white rounded-lg text-sm font-medium hover:bg-[#6b0000] transition cursor-pointer"
               >
                 Add Student
               </button>
@@ -529,10 +573,10 @@ function WorkspaceSection() {
             <span>4.8 / 5</span>
           </div>
           <div className="flex gap-3 mt-4">
-            <button className="flex items-center gap-2 bg-white text-black px-5 py-2 rounded-lg text-sm font-medium hover:bg-gray-100">
+            <button className="flex items-center gap-2 bg-white text-black px-5 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 cursor-pointer">
               <Play className="w-4 h-4" /> Play Now
             </button>
-            <button className="bg-[#8B0000] text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-[#6b0000]">
+            <button className="bg-[#8B0000] text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-[#6b0000] cursor-pointer">
               More Info
             </button>
           </div>
@@ -633,7 +677,7 @@ function SettingsSection({ logout }) {
           {["Current Password", "New Password", "Confirm New Password"].map((ph) => (
             <input key={ph} type="password" placeholder={ph} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B0000]/20 focus:border-[#8B0000]" />
           ))}
-          <button className="px-4 py-2 bg-[#8B0000] text-white rounded-lg text-sm font-medium hover:bg-[#6b0000] transition">Update Password</button>
+          <button className="px-4 py-2 bg-[#8B0000] text-white rounded-lg text-sm font-medium hover:bg-[#6b0000] transition cursor-pointer">Update Password</button>
         </div>
         <div className="flex items-center justify-between pt-2 border-t border-gray-100">
           <div>
@@ -647,7 +691,7 @@ function SettingsSection({ logout }) {
       <div className="pb-4">
         <button
           onClick={logout}
-          className="flex items-center gap-2 px-6 py-3 bg-[#8B0000] text-white rounded-xl font-medium hover:bg-[#6b0000] transition"
+          className="flex items-center gap-2 px-6 py-3 bg-[#8B0000] text-white rounded-xl font-medium hover:bg-[#6b0000] transition cursor-pointer"
         >
           <LogOut className="w-4 h-4" /> Sign Out
         </button>

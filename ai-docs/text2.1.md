@@ -123,7 +123,7 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
 }
-Use theme for the FacultyDashboard
+Use this theme for the FacultyDashboard
 
 
 

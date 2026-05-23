@@ -6,6 +6,7 @@ import AuthCallback from "./pages/AuthCallback";
 import AdminDashboard from "./pages/AdminDashboard";
 import StudentDashboard from "./pages/StudentDashboard";
 import FacultyDashboard from "./pages/FacultyDashboard";
+import NotFoundPage from "./pages/NotFoundPage";
 function AppContent() {
   const { user, role, loading, error } = useAuth();
   const [view, setView] = useState("landing"); // "landing" | "signin"
@@ -32,7 +33,8 @@ function AppContent() {
 
   // If there's an auth error, force the user back onto the sign-in page.
   if (view === "signin" || error) return <SignInPage onBack={() => setView("landing")} />;
-  return <LandingPage onNavigateSignIn={() => setView("signin")} />;
+  if (view === "landing") return <LandingPage onNavigateSignIn={() => setView("signin")} />;
+  return <NotFoundPage />;
 }
 
 export default function App() {
