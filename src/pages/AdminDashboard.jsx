@@ -24,7 +24,6 @@ import {
   Upload,
   User,
   ChevronDown,
-  HelpCircle,
   MoreVertical,
   Globe,
   Search,
@@ -293,12 +292,6 @@ export default function AdminDashboard() {
                           <Settings className="w-4 h-4 text-gray-500" />
                           <span className="font-medium">Settings</span>
                         </button>
-                        
-                        {/* Help Center Option */}
-                        <button className="flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm hover:bg-gray-100 transition">
-                          <HelpCircle className="w-4 h-4 text-gray-500" />
-                          <span className="font-medium">Help Center</span>
-                        </button>           
                         <div className="border-t border-gray-100 my-1"></div>
 
                         {/* Logout Option */}
