@@ -121,7 +121,7 @@ function AboutIntro() {
                 border: "1px solid rgba(139,0,0,0.15)",
               }}
             >
-              About UB SINING
+              About UB-SINING
             </div>
           </Reveal>
 

@@ -5,7 +5,7 @@ import backgroundImage from "../assets/white_bg.jpg";
 import bryanPhoto from "../assets/teampics/bryan.png";
 import {
   Search, LogOut, CheckCircle, XCircle, Play, Eye,
-  TrendingUp, UserPlus, Film as FilmIcon, Star, UserCircle,
+  TrendingUp, UserPlus, Film as FilmIcon, Star, UserCircle, MoreVertical,
 } from "lucide-react";
 
 const ICON_DASHBOARD = "/src/assets/icons/FacultyIcons/dashboardFaculty.png";
@@ -291,7 +291,7 @@ function OverviewSection({ profName }) {
           <div>
             <p className="text-sm text-gray-500">Best Genre</p>
             <p className="text-xl font-bold text-gray-800 mt-1">Short Film</p>
-            <p className="text-xs text-gray-500 mt-1">Top-rated category this semester</p>
+            <p className="text-xs text-gray-500 mt-1"></p>
           </div>
         </div>
       </div>
@@ -341,8 +341,7 @@ function FilmReviewSection() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-[#8B0000]">Film Review & Approval</h1>
-        <p className="text-gray-500 mt-1">Review and approve student film submissions.</p>
+        <h1 className="text-3xl font-bold text-[#8B0000]">Film Review</h1>
       </div>
 
       {/* Filter tabs */}
@@ -417,12 +416,24 @@ function FilmReviewSection() {
 
 /* ── Students ── */
 function StudentsSection() {
+  const [students, setStudents] = useState(mockStudents);
   const [showModal, setShowModal] = useState(false);
   const [newStudent, setNewStudent] = useState({ name: "", studentNo: "", course: "", section: "" });
   const [searchInput, setSearchInput] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+  const [openMenuId, setOpenMenuId] = useState(null);
+  const [confirmRemove, setConfirmRemove] = useState(null);
+  const menuRef = useRef(null);
 
-  const filtered = mockStudents.filter((s) => {
+  useEffect(() => {
+    const handler = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) setOpenMenuId(null);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  const filtered = students.filter((s) => {
     const q = searchQuery.toLowerCase();
     return (
       s.name.toLowerCase().includes(q) ||
@@ -432,11 +443,16 @@ function StudentsSection() {
     );
   });
 
+  const handleRemove = () => {
+    setStudents((prev) => prev.filter((s) => s.id !== confirmRemove.id));
+    setConfirmRemove(null);
+    setOpenMenuId(null);
+  };
+
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold text-[#8B0000]">Student Management</h1>
-        <p className="text-gray-500 mt-1">Manage your enrolled students.</p>
       </div>
 
       {/* Search bar + Add Student */}
@@ -462,6 +478,7 @@ function StudentsSection() {
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-gray-100 bg-gray-50">
+              <th className="w-10 px-3 py-3"></th>
               <th className="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Student</th>
               <th className="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Student Number</th>
               <th className="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Course</th>
@@ -471,6 +488,27 @@ function StudentsSection() {
           <tbody>
             {filtered.map((student, idx) => (
               <tr key={student.id} className={`${idx !== filtered.length - 1 ? "border-b border-gray-100" : ""} hover:bg-gray-50 transition`}>
+                <td className="px-3 py-3 relative" ref={openMenuId === student.id ? menuRef : null}>
+                  <button
+                    type="button"
+                    onClick={() => setOpenMenuId(openMenuId === student.id ? null : student.id)}
+                    className="p-1 rounded hover:bg-gray-100 cursor-pointer"
+                    aria-label="Row options"
+                  >
+                    <MoreVertical className="w-4 h-4 text-gray-500" />
+                  </button>
+                  {openMenuId === student.id && (
+                    <div className="absolute left-2 top-10 z-20 min-w-[140px] bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden">
+                      <button
+                        type="button"
+                        onClick={() => setConfirmRemove(student)}
+                        className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 cursor-pointer"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  )}
+                </td>
                 <td className="px-5 py-3">
                   <div className="flex items-center gap-3">
                     <div className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center shrink-0">
@@ -486,12 +524,23 @@ function StudentsSection() {
             ))}
             {filtered.length === 0 && (
               <tr>
-                <td colSpan={4} className="px-5 py-8 text-center text-gray-400 text-sm">No students found.</td>
+                <td colSpan={5} className="px-5 py-8 text-center text-gray-400 text-sm">No students found.</td>
               </tr>
             )}
           </tbody>
         </table>
       </div>
+
+      {confirmRemove && (
+        <ConfirmModal
+          title="Remove Student?"
+          message={`Are you sure you want to remove ${confirmRemove.name}?`}
+          confirmLabel="Remove"
+          confirmClass="bg-red-600 hover:bg-red-700"
+          onConfirm={handleRemove}
+          onCancel={() => setConfirmRemove(null)}
+        />
+      )}
 
       {showModal && (
         <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
