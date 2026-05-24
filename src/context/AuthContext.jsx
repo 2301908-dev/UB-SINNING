@@ -71,7 +71,7 @@ async function applySession(session, { setUser, setRole, setError }) {
 
   if (!user.email?.endsWith("@ub.edu.ph")) {
     await supabase.auth.signOut();
-    setError("Access Denied: Use your official UB email.");
+    setError("Please use your official UB email.");
     setUser(null);
     setRole(null);
     return;
