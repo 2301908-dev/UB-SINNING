@@ -19,7 +19,12 @@ import {
   ShieldCheck,
   Database,
   Save,
-  Upload
+  Upload,
+  // Profile Dropdown Icons
+  User,
+  ChevronDown,
+  Globe,
+  HelpCircle
 } from "lucide-react";
 
 const mockUsers = [
@@ -65,9 +70,9 @@ export default function AdminDashboard() {
   const { logout } = useAuth();
   const [section, setSection] = useState("overview");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
 
-  const openSidebar = () => setSidebarOpen(true);
-  const closeSidebar = () => setSidebarOpen(false);
+
 
   const sidebarItems = [
     { id: "overview", label: "Overview", icon: BarChart3 },
@@ -91,15 +96,56 @@ export default function AdminDashboard() {
     >
       
       {/* Sidebar */}
-      <aside
-        onMouseEnter={openSidebar}
-        onMouseLeave={closeSidebar}
-        className={`relative bg-[#8B0000] p-4 rounded-r-lg space-y-8 transition-all duration-300 overflow-hidden z-20 ${
-          sidebarOpen ? "w-64" : "w-16"
-        }`}
-      >
+      <aside className="relative bg-[#8B0000] p-4 rounded-r-lg space-y-8 w-64">
         <div className="overflow-hidden transition-all duration-300">
           <UBLogo />
+        </div>
+
+        {/* Profile Section */}
+        <div className="relative">
+          <button
+            onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
+            className="flex items-center justify-between w-full p-3 rounded-lg text-[#E8EDF2] hover:bg-white/20 transition"
+          >
+            <div className="flex items-center gap-3">
+              <User className="w-5 h-5" />
+              <span className="font-medium">Admin Profile</span>
+            </div>
+            <ChevronDown className={`w-4 h-4 transition-transform ${profileDropdownOpen ? 'rotate-180' : ''}`} />
+          </button>
+
+          {profileDropdownOpen && (
+            <div className="absolute top-full left-0 w-full bg-white text-[#080616] rounded-lg shadow-lg mt-1 z-10">
+              <button
+                onClick={() => {
+                  setSection('settings');
+                  setProfileDropdownOpen(false);
+                }}
+                className="flex items-center gap-3 w-full p-3 text-left hover:bg-gray-100 transition"
+              >
+                <Settings className="w-4 h-4" />
+                <span>Settings</span>
+              </button>
+              <button className="flex items-center gap-3 w-full p-3 text-left hover:bg-gray-100 transition">
+                <Globe className="w-4 h-4" />
+                <span>Language</span>
+              </button>
+              <button className="flex items-center gap-3 w-full p-3 text-left hover:bg-gray-100 transition">
+                <HelpCircle className="w-4 h-4" />
+                <span>Help</span>
+              </button>
+              <button
+                onClick={() => {
+                  logout();
+                  setProfileDropdownOpen(false);
+                }}
+                className="flex items-center gap-3 w-full p-3 text-left hover:bg-gray-100 transition"
+              >
+                <LogOut className="w-4 h-4" />
+                <span>Logout</span>
+              </button>
+            </div>
+          )}
         </div>
 
         <nav className="space-y-1">
@@ -107,20 +153,14 @@ export default function AdminDashboard() {
             <button
               key={item.id}
               onClick={() => setSection(item.id)}
-              className={`flex items-center gap-3 w-full p-3 rounded-lg transition ${
-                sidebarOpen ? "justify-start" : "justify-center"
-              } ${
+              className={`flex items-center gap-3 w-full p-3 rounded-lg transition justify-start ${
                 section === item.id
                   ? "bg-white text-[#8B0000]"
                   : "text-[#E8EDF2] hover:bg-white/20"
               }`}
             >
               <item.icon className="w-5 h-5" />
-              <span
-                className={`overflow-hidden whitespace-nowrap transition-all duration-300 ${
-                  sidebarOpen ? "max-w-[180px] opacity-100" : "max-w-0 opacity-0"
-                }`}
-              >
+              <span className="overflow-hidden whitespace-nowrap transition-all duration-300 max-w-[180px] opacity-100">
                 {item.label}
               </span>
             </button>
@@ -128,15 +168,13 @@ export default function AdminDashboard() {
         </nav>
 
         {/* Logout */}
-        {sidebarOpen && (
-          <button
+        <button
             onClick={logout}
             className="flex items-center justify-center gap-2 w-full p-2 bg-[#FFFFFF] text-[#8B0000] rounded-lg hover:bg-[#D4AF37] hover:text-[#080616]"
           >
             <LogOut className="w-5 h-5" />
             <span className="whitespace-nowrap">Logout</span>
           </button>
-        )}
       </aside>
 
       {/* Main Content */}
@@ -524,22 +562,9 @@ function SettingsPage({ setSection }) {
                   </select>
                 </div>
 
-                <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                  <div>
-                    <p className="font-semibold text-gray-700">Dark Mode</p>
-                    <p className="text-xs text-gray-500">Set default theme for visitors.</p>
-                  </div>
-                  <input 
-                    type="checkbox" 
-                    checked={darkMode}
-                    onChange={() => setDarkMode(!darkMode)}
-                    className="w-10 h-5 appearance-none bg-gray-300 rounded-full checked:bg-[#8B0000] relative cursor-pointer transition-colors" 
-                  />
-                </div>
-
                 <div className="border-2 border-dashed border-gray-200 rounded-lg p-8 text-center cursor-pointer hover:border-[#8B0000] hover:bg-gray-50 transition-colors" onClick={() => document.getElementById('hero-banner-upload').click()}>
                   <Upload className="mx-auto text-gray-400 mb-2" />
-                  <p className="text-sm text-gray-600">Click to upload or drag & drop new Hero Banner</p>
+                  <p className="text-sm text-gray-600">Click to upload or drag & drop new File</p>
                   <p className="text-xs text-gray-400 mt-1">Recommended size: 1920x1080px</p>
                   <input 
                     id="hero-banner-upload" 
