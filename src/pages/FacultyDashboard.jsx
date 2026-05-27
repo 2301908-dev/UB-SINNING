@@ -4,7 +4,7 @@ import UBLogo from "../components/shared/UBLogo";
 import backgroundImage from "../assets/white_bg.jpg";
 import bryanPhoto from "../assets/teampics/bryan.png";
 import {
-  Search, LogOut, CheckCircle, XCircle, Play, Eye,
+  Search, ArrowRight, LogOut, CheckCircle, XCircle, Play, Eye,
   TrendingUp, UserPlus, Film as FilmIcon, Star, UserCircle, MoreVertical,
 } from "lucide-react";
 
@@ -167,13 +167,21 @@ export default function FacultyDashboard() {
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
         <header className="bg-white/90 backdrop-blur-sm border-b border-gray-100 px-8 py-4 flex items-center justify-between gap-4 sticky top-0 z-10">
-          <div className="relative w-72">
+          <div className="relative w-80">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input
-              type="text"
+              type="search"
+              aria-label="Search films and students"
               placeholder="Search films, students..."
-              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-200 text-sm bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#8B0000]/20 focus:border-[#8B0000]"
+              className="w-full rounded-full border border-gray-200 bg-gray-50 pl-10 pr-12 py-2 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#8B0000]/20 focus:border-[#8B0000]"
             />
+            <button
+              type="button"
+              aria-label="Submit search"
+              className="absolute right-1 top-1/2 -translate-y-1/2 inline-flex h-8 w-8 items-center justify-center text-[#8B0000] transition hover:text-[#6e0000]"
+            >
+              <ArrowRight className="w-4 h-4" />
+            </button>
           </div>
           <div className="flex items-center gap-4">
             <div className="relative" ref={notifRef}>
