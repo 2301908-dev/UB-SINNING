@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import UBLogo from "../components/shared/UBLogo";
-import backgroundImage from "../assets/white_bg.jpg";
 import bryanPhoto from "../assets/teampics/bryan.png";
 import {
   Search, ArrowRight, LogOut, CheckCircle, XCircle, Play, Eye,
   TrendingUp, UserPlus, Film as FilmIcon, Star, UserCircle, MoreVertical,
+  Palette, User, HelpCircle,
 } from "lucide-react";
 
 const ICON_DASHBOARD = "/src/assets/icons/FacultyIcons/dashboardFaculty.png";
@@ -129,51 +129,44 @@ export default function FacultyDashboard() {
   };
 
   return (
-    <div
-      className="flex min-h-screen text-[#080616]"
-      style={{
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }}
-    >
+    <div className="flex min-h-screen bg-slate-50 text-slate-800">
       {/* Sidebar */}
-      <aside className="w-56 bg-[#8B0000] p-4 rounded-r-lg flex flex-col gap-6 z-20">
-        <div className="px-1 py-2">
-          <UBLogo size={64} hideSubtitle titleSizeClass="text-sm" />
+      <aside className="relative bg-[#8B0000] p-4 rounded-r-lg flex flex-col justify-between w-52 shadow-xl z-20">
+        <div className="space-y-3">
+          <div className="-ml-2">
+            <UBLogo hideSubtitle titleClass="text-white" size={64} />
+          </div>
+          <nav className="space-y-1">
+            {sidebarItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => setSection(item.id)}
+                className={`flex items-center gap-2 w-full p-2 rounded-lg transition justify-start ${section === item.id ? "bg-white text-[#8B0000]" : "text-[#E8EDF2] hover:bg-white/20"}`}
+              >
+                <img
+                  src={item.icon}
+                  alt=""
+                  className="w-5 h-5 shrink-0 object-contain"
+                  style={section === item.id ? { filter: "brightness(0)" } : { filter: "brightness(0) invert(1)" }}
+                />
+                <span className="font-medium text-sm">{item.label}</span>
+              </button>
+            ))}
+          </nav>
         </div>
-
-        <nav className="space-y-1 flex-1">
-          {sidebarItems.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => setSection(item.id)}
-              className={`flex items-center gap-2.5 w-full px-3 py-2 rounded-lg cursor-pointer ${section === item.id ? "bg-white text-[#8B0000]" : "text-[#E8EDF2] hover:bg-white/20"}`}
-            >
-              <img
-                src={item.icon}
-                alt=""
-                className="w-4 h-4 shrink-0 object-contain"
-                style={section === item.id ? { filter: "brightness(0)" } : { filter: "brightness(0) invert(1)" }}
-              />
-              <span className="whitespace-nowrap text-xs font-medium">{item.label}</span>
-            </button>
-          ))}
-        </nav>
       </aside>
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
         <header className="bg-white/90 backdrop-blur-sm border-b border-gray-100 px-8 py-4 flex items-center justify-between gap-4 sticky top-0 z-10">
-          <div className="relative w-80">
+          <div className="relative w-72">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input
               type="search"
               aria-label="Search films and students"
               placeholder="Search films, students..."
-              className="w-full rounded-full border border-gray-200 bg-gray-50 pl-10 pr-12 py-2 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#8B0000]/20 focus:border-[#8B0000]"
+              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-200 text-sm bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#8B0000]/20 focus:border-[#8B0000]"
             />
             <button
               type="button"
@@ -188,7 +181,7 @@ export default function FacultyDashboard() {
               <button
                 type="button"
                 onClick={() => setShowNotifications((v) => !v)}
-                className="relative flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 transition cursor-pointer"
+                className="relative flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 transition cursor-pointer"
               >
                 <img src={ICON_NOTIFICATION} alt="Notifications" className="w-4 h-4 object-contain" />
                 {mockNotifications.length > 0 && (
@@ -198,13 +191,13 @@ export default function FacultyDashboard() {
                 )}
               </button>
               {showNotifications && (
-                <div className="absolute right-0 mt-3 w-80 rounded-xl shadow-xl border border-gray-200 bg-white p-3 z-50">
+                <div className="absolute right-0 mt-3 w-80 rounded-xl shadow-lg border border-slate-200 bg-white p-3 z-50">
                   <h3 className="text-sm font-semibold mb-2 text-[#8B0000]">Notifications</h3>
                   <div className="space-y-2 max-h-72 overflow-y-auto">
                     {mockNotifications.map((n) => (
-                      <div key={n.id} className="p-3 rounded-lg border border-gray-100 hover:border-[#8B0000]/40 transition">
-                        <p className="text-sm text-gray-700">{n.text}</p>
-                        <p className="text-xs text-gray-400 mt-0.5">{n.time}</p>
+                      <div key={n.id} className="p-3 rounded-lg border border-slate-100 hover:border-[#8B0000]/30 transition">
+                        <p className="text-sm text-slate-700">{n.text}</p>
+                        <p className="text-xs text-slate-400 mt-0.5">{n.time}</p>
                       </div>
                     ))}
                   </div>
@@ -216,27 +209,27 @@ export default function FacultyDashboard() {
               <button
                 type="button"
                 onClick={() => setShowProfile((v) => !v)}
-                className="w-11 h-11 rounded-full overflow-hidden border-2 border-[#8B0000] cursor-pointer"
+                className="w-9 h-9 rounded-full overflow-hidden border-2 border-[#8B0000] cursor-pointer"
               >
                 <img src={bryanPhoto} alt="Profile" className="w-full h-full object-cover" />
               </button>
               {showProfile && (
-                <div className="absolute right-0 mt-3 w-56 rounded-xl shadow-xl border border-gray-200 bg-white p-2 z-50">
-                  <div className="px-3 py-2 border-b border-gray-100">
-                    <p className="text-sm font-semibold text-gray-800">Welcome, {profName}</p>
-                    <p className="text-xs text-gray-500 truncate">{user?.email || ""}</p>
+                <div className="absolute right-0 mt-3 w-56 rounded-xl shadow-lg border border-slate-200 bg-white p-2 z-50">
+                  <div className="px-3 py-2 border-b border-slate-100">
+                    <p className="text-sm font-semibold text-slate-800">Welcome, {profName}</p>
+                    <p className="text-xs text-slate-500 truncate">{user?.email || ""}</p>
                   </div>
                   <button
                     onClick={openSettings}
-                    className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-gray-700 hover:bg-gray-50 cursor-pointer"
+                    className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-slate-600 hover:bg-slate-50 cursor-pointer"
                   >
-                    <img src={ICON_SETTING} alt="" className="w-4 h-4 object-contain" /> Settings
+                    <img src={ICON_SETTING} alt="" className="w-4 h-4 object-contain opacity-60" /> Settings
                   </button>
                   <button
                     onClick={logout}
                     className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-[#8B0000] hover:bg-red-50 cursor-pointer"
                   >
-                    <LogOut className="w-4 h-4" /> Sign Out
+                    <LogOut className="w-4 h-4" /> Logout
                   </button>
                 </div>
               )}
@@ -269,50 +262,46 @@ function OverviewSection({ profName }) {
     <div className="space-y-8">
       <h1 className="text-3xl font-bold text-[#8B0000]">Welcome, {profName}</h1>
 
-      {/* Quick Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((s) => (
-          <div key={s.label} className="bg-red-50 border border-red-100 rounded-xl p-5 space-y-2">
-            <p className="text-sm text-gray-500 font-medium">{s.label}</p>
-            <p className="text-2xl font-bold text-red-600">{s.value}</p>
+          <div key={s.label} className="bg-white border border-slate-200 rounded-xl p-5 space-y-2 shadow-sm">
+            <p className="text-sm text-slate-500 font-medium">{s.label}</p>
+            <p className="text-2xl font-bold text-[#8B0000]">{s.value}</p>
           </div>
         ))}
       </div>
 
-      {/* Most Viewed Film + Best Genre */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex items-start gap-4">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex items-start gap-4">
           <div className="p-3 bg-red-50 rounded-lg">
             <Eye className="w-6 h-6 text-[#8B0000]" />
           </div>
           <div>
-            <p className="text-sm text-gray-500">Most Viewed Film</p>
-            <p className="text-xl font-bold text-gray-800 mt-1">Liwanag sa Dilim</p>
-            <p className="text-xs text-gray-500 mt-1">1,248 views</p>
+            <p className="text-sm text-slate-500">Most Viewed Film</p>
+            <p className="text-xl font-bold text-slate-800 mt-1">Liwanag sa Dilim</p>
+            <p className="text-xs text-slate-400 mt-1">1,248 views</p>
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex items-start gap-4">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex items-start gap-4">
           <div className="p-3 bg-red-50 rounded-lg">
             <Star className="w-6 h-6 text-[#8B0000]" />
           </div>
           <div>
-            <p className="text-sm text-gray-500">Best Genre</p>
-            <p className="text-xl font-bold text-gray-800 mt-1">Short Film</p>
-            <p className="text-xs text-gray-500 mt-1"></p>
+            <p className="text-sm text-slate-500">Best Genre</p>
+            <p className="text-xl font-bold text-slate-800 mt-1">Short Film</p>
           </div>
         </div>
       </div>
 
-      {/* Pending Films */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
         <div className="flex items-center justify-between mb-5">
-          <h2 className="text-lg font-semibold text-[#8B0000]">Pending Films</h2>
-          <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">{mockPendingFilms.length} films</span>
+          <h2 className="text-lg font-semibold text-slate-800">Pending Films</h2>
+          <span className="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded-full">{mockPendingFilms.length} films</span>
         </div>
         <div className="space-y-3">
           {mockPendingFilms.map((film, idx) => (
-            <div key={film.id} className="flex items-center gap-4 p-3 rounded-lg border border-gray-100 hover:border-[#8B0000]/20 hover:bg-gray-50 transition">
+            <div key={film.id} className="flex items-center gap-4 p-3 rounded-lg border border-slate-100 hover:border-slate-200 hover:bg-slate-50 transition">
               <div
                 className="w-16 h-10 rounded-lg shrink-0 flex items-center justify-center"
                 style={{ background: THUMBNAIL_COLORS[idx % THUMBNAIL_COLORS.length] }}
@@ -320,8 +309,8 @@ function OverviewSection({ profName }) {
                 <FilmIcon className="w-4 h-4 text-white/70" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="font-semibold text-sm truncate">{film.title}</p>
-                <p className="text-xs text-gray-500">{film.student} · {film.date} · {film.duration}</p>
+                <p className="font-semibold text-sm truncate text-slate-700">{film.title}</p>
+                <p className="text-xs text-slate-400">{film.student} · {film.date} · {film.duration}</p>
               </div>
               <StatusBadge status={film.status} />
             </div>
@@ -348,27 +337,23 @@ function FilmReviewSection() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-[#8B0000]">Film Review</h1>
-      </div>
+      <h1 className="text-3xl font-bold text-[#8B0000]">Film Review</h1>
 
-      {/* Filter tabs */}
       <div className="flex gap-2">
         {filters.map((f) => (
           <button
             key={f}
             onClick={() => setActiveFilter(f)}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition cursor-pointer ${activeFilter === f ? "bg-[#8B0000] text-white" : "bg-white border border-gray-200 text-gray-600 hover:border-[#8B0000]"}`}
+            className={`px-4 py-2 rounded-full text-sm font-medium transition cursor-pointer ${activeFilter === f ? "bg-[#8B0000] text-white" : "bg-white border border-slate-200 text-slate-600 hover:border-[#8B0000]"}`}
           >
             {f}
           </button>
         ))}
       </div>
 
-      {/* Film list */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
         {filtered.map((film, idx) => (
-          <div key={film.id} className={`flex items-center gap-4 p-4 ${idx !== filtered.length - 1 ? "border-b border-gray-100" : ""} hover:bg-gray-50 transition`}>
+          <div key={film.id} className={`flex items-center gap-4 p-4 ${idx !== filtered.length - 1 ? "border-b border-slate-100" : ""} hover:bg-slate-50 transition`}>
             <div
               className="w-20 h-12 rounded-lg shrink-0 flex items-center justify-center"
               style={{ background: THUMBNAIL_COLORS[idx % THUMBNAIL_COLORS.length] }}
@@ -376,8 +361,8 @@ function FilmReviewSection() {
               <FilmIcon className="w-5 h-5 text-white/70" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="font-semibold text-sm">{film.title}</p>
-              <p className="text-xs text-gray-500">{film.student} · {film.date} · {film.duration}</p>
+              <p className="font-semibold text-sm text-slate-700">{film.title}</p>
+              <p className="text-xs text-slate-400">{film.student} · {film.date} · {film.duration}</p>
             </div>
             <StatusBadge status={film.status} />
             <div className="flex gap-2 shrink-0">
@@ -459,11 +444,8 @@ function StudentsSection() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-[#8B0000]">Student Management</h1>
-      </div>
+      <h1 className="text-3xl font-bold text-[#8B0000]">Student Management</h1>
 
-      {/* Search bar + Add Student */}
       <div className="flex gap-2">
         <input
           type="text"
@@ -471,7 +453,7 @@ function StudentsSection() {
           onChange={(e) => setSearchInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && setSearchQuery(searchInput)}
           placeholder="Search by name, student number, course, or section..."
-          className="flex-1 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B0000]/20 focus:border-[#8B0000]"
+          className="flex-1 border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#8B0000]/20 focus:border-[#8B0000]"
         />
         <button
           onClick={() => setShowModal(true)}
@@ -481,32 +463,31 @@ function StudentsSection() {
         </button>
       </div>
 
-      {/* Table */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-gray-100 bg-gray-50">
+            <tr className="border-b border-slate-100 bg-slate-50">
               <th className="w-10 px-3 py-3"></th>
-              <th className="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Student</th>
-              <th className="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Student Number</th>
-              <th className="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Course</th>
-              <th className="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Section</th>
+              <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Student</th>
+              <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Student Number</th>
+              <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Course</th>
+              <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Section</th>
             </tr>
           </thead>
           <tbody>
             {filtered.map((student, idx) => (
-              <tr key={student.id} className={`${idx !== filtered.length - 1 ? "border-b border-gray-100" : ""} hover:bg-gray-50 transition`}>
+              <tr key={student.id} className={`${idx !== filtered.length - 1 ? "border-b border-slate-100" : ""} hover:bg-slate-50 transition`}>
                 <td className="px-3 py-3 relative" ref={openMenuId === student.id ? menuRef : null}>
                   <button
                     type="button"
                     onClick={() => setOpenMenuId(openMenuId === student.id ? null : student.id)}
-                    className="p-1 rounded hover:bg-gray-100 cursor-pointer"
+                    className="p-1 rounded hover:bg-slate-100 cursor-pointer"
                     aria-label="Row options"
                   >
-                    <MoreVertical className="w-4 h-4 text-gray-500" />
+                    <MoreVertical className="w-4 h-4 text-slate-400" />
                   </button>
                   {openMenuId === student.id && (
-                    <div className="absolute left-2 top-10 z-20 min-w-[140px] bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden">
+                    <div className="absolute left-2 top-10 z-20 min-w-[140px] bg-white border border-slate-200 rounded-lg shadow-lg overflow-hidden">
                       <button
                         type="button"
                         onClick={() => setConfirmRemove(student)}
@@ -519,15 +500,15 @@ function StudentsSection() {
                 </td>
                 <td className="px-5 py-3">
                   <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center shrink-0">
-                      <UserCircle className="w-5 h-5 text-gray-400" />
+                    <div className="w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center shrink-0">
+                      <UserCircle className="w-5 h-5 text-slate-400" />
                     </div>
-                    <span className="font-medium text-gray-800">{student.name}</span>
+                    <span className="font-medium text-slate-700">{student.name}</span>
                   </div>
                 </td>
-                <td className="px-5 py-3 text-gray-600">{student.studentNo}</td>
-                <td className="px-5 py-3 text-gray-600">{student.course}</td>
-                <td className="px-5 py-3 text-gray-600">{student.section}</td>
+                <td className="px-5 py-3 text-slate-500">{student.studentNo}</td>
+                <td className="px-5 py-3 text-slate-500">{student.course}</td>
+                <td className="px-5 py-3 text-slate-500">{student.section}</td>
               </tr>
             ))}
             {filtered.length === 0 && (
@@ -592,7 +573,7 @@ function StudentsSection() {
   );
 }
 
-/* ── Workspace (like Student Dashboard home) ── */
+/* ── Workspace ── */
 function WorkspaceSection() {
   const featuredFilms = [
     { title: "Liwanag sa Dilim", genre: "Drama", rating: 4.8, color: "#5C1A1A" },
@@ -617,7 +598,6 @@ function WorkspaceSection() {
 
   return (
     <div className="space-y-10">
-      {/* Hero */}
       <div className="relative rounded-2xl overflow-hidden h-72 bg-gradient-to-br from-[#5C1A1A] to-[#8B0000]">
         <div className="absolute inset-0 flex flex-col justify-end p-8 bg-gradient-to-t from-black/70 to-transparent">
           <span className="inline-flex w-fit px-3 py-1 bg-[#8B0000] text-xs text-white rounded-lg">
@@ -677,80 +657,63 @@ function FilmRow({ title, films }) {
   );
 }
 
-/* ── Settings (accessed via profile dropdown) ── */
+/* ── Settings ── */
 function SettingsSection({ logout }) {
-  const [notifToggles, setNotifToggles] = useState({
-    newSubmission: true, revisionRequest: true, studentMessage: false,
-    approvalNotif: true, deadlineReminder: true, emailNotif: true,
-  });
-  const [securityToggles, setSecurityToggles] = useState({ twoFactor: false });
+  const [activeTab, setActiveTab] = useState('general');
+  const TabButton = ({ id, icon: Icon, label }) => (
+    <button onClick={() => setActiveTab(id)} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition ${activeTab === id ? 'bg-[#8B0000] text-white shadow-md' : 'text-gray-600 hover:bg-gray-100'}`}>
+      <Icon size={20} />
+      <span className="font-medium">{label}</span>
+    </button>
+  );
 
   return (
-    <div className="space-y-8 max-w-3xl">
-      <h1 className="text-3xl font-bold text-[#8B0000]">Settings</h1>
+    <div>
+      <h1 className="text-3xl font-bold text-[#8B0000] mb-4">Settings</h1>
+      <div className="flex flex-col md:flex-row gap-8 bg-white rounded-xl shadow-xl border border-gray-100 min-h-[500px] overflow-hidden">
 
-      <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 space-y-5">
-        <h2 className="text-lg font-semibold text-[#8B0000]">Account</h2>
-        {[
-          { label: "Full Name", placeholder: "Prof. Faculty Name", type: "text" },
-          { label: "Email Address", placeholder: "faculty@ub.edu.ph", type: "email" },
-          { label: "Phone Number", placeholder: "+63 9XX XXX XXXX", type: "tel" },
-        ].map((f) => (
-          <div key={f.label} className="space-y-1">
-            <label className="text-sm font-medium text-gray-700">{f.label}</label>
-            <input
-              type={f.type}
-              placeholder={f.placeholder}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B0000]/20 focus:border-[#8B0000]"
-            />
+        {/* SIDEBAR NAVIGATION */}
+        <div className="w-full md:w-64 p-4 border-r border-gray-100 bg-gray-50/50">
+          <div className="space-y-1">
+            <TabButton id="general" icon={Palette} label="General" />
+            <div className="pl-4">
+              <TabButton id="account" icon={User} label="Account" />
+            </div>
+            <div className="pl-4">
+              <TabButton id="help" icon={HelpCircle} label="Help Center" />
+            </div>
           </div>
-        ))}
-      </section>
-
-      <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 space-y-4">
-        <h2 className="text-lg font-semibold text-[#8B0000]">Notifications</h2>
-        {[
-          { key: "newSubmission", label: "New Submission Alerts" },
-          { key: "revisionRequest", label: "Revision Request Alerts" },
-          { key: "studentMessage", label: "Student Message Notifications" },
-          { key: "approvalNotif", label: "Approval Notifications" },
-          { key: "deadlineReminder", label: "Deadline Reminders" },
-          { key: "emailNotif", label: "Email Notifications" },
-        ].map((item) => (
-          <div key={item.key} className="flex items-center justify-between py-1">
-            <span className="text-sm text-gray-700">{item.label}</span>
-            <Toggle
-              checked={notifToggles[item.key]}
-              onChange={(val) => setNotifToggles({ ...notifToggles, [item.key]: val })}
-            />
-          </div>
-        ))}
-      </section>
-
-      <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 space-y-5">
-        <h2 className="text-lg font-semibold text-[#8B0000]">Security</h2>
-        <div className="space-y-3">
-          <p className="text-sm font-medium text-gray-700">Change Password</p>
-          {["Current Password", "New Password", "Confirm New Password"].map((ph) => (
-            <input key={ph} type="password" placeholder={ph} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B0000]/20 focus:border-[#8B0000]" />
-          ))}
-          <button className="px-4 py-2 bg-[#8B0000] text-white rounded-lg text-sm font-medium hover:bg-[#6b0000] transition cursor-pointer">Update Password</button>
         </div>
-        <div className="flex items-center justify-between pt-2 border-t border-gray-100">
-          <div>
-            <p className="text-sm font-medium text-gray-700">Two-Factor Authentication</p>
-            <p className="text-xs text-gray-400">Add an extra layer of security</p>
-          </div>
-          <Toggle checked={securityToggles.twoFactor} onChange={(val) => setSecurityToggles({ ...securityToggles, twoFactor: val })} />
-        </div>
-      </section>
 
-      <div className="pb-4">
+        {/* MAIN CONTENT AREA */}
+        <div className="flex-1 p-6">
+          {activeTab === 'general' && (
+            <div>
+              <h2 className="text-xl font-bold text-gray-800 mb-4">General Settings</h2>
+              <p className="text-gray-600 text-sm">Manage your overall preferences here.</p>
+            </div>
+          )}
+          {activeTab === 'account' && (
+            <div>
+              <h2 className="text-xl font-bold text-gray-800 mb-4">Account Settings</h2>
+              <p className="text-gray-600 text-sm">Manage your profile, email, and security details.</p>
+            </div>
+          )}
+          {activeTab === 'help' && (
+            <div>
+              <h2 className="text-xl font-bold text-gray-800 mb-4">Help Center</h2>
+              <p className="text-gray-600 text-sm">Find guides, FAQs, and contact support.</p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="pt-6 pb-4">
         <button
           onClick={logout}
           className="flex items-center gap-2 px-6 py-3 bg-[#8B0000] text-white rounded-xl font-medium hover:bg-[#6b0000] transition cursor-pointer"
         >
-          <LogOut className="w-4 h-4" /> Sign Out
+          <LogOut className="w-4 h-4" /> Logout
         </button>
       </div>
     </div>
