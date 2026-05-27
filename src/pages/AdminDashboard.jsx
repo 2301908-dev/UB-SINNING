@@ -92,7 +92,6 @@ export default function AdminDashboard() {
 
   const sidebarItems = [
     { id: "overview", label: "Dashboard", icon: BarChart3 },
-    { id: "feedback", label: "Feedback Analytics", icon: MessageSquare },
     { id: "content", label: "All Content", icon: Film },
     { id: "users", label: "Users", icon: Users },
   ];
@@ -322,7 +321,6 @@ export default function AdminDashboard() {
             {/* DYNAMIC SECTION RENDERING */}
             <div className="animate-in fade-in duration-500">
               {section === "overview" && <AdminOverview darkMode={darkMode} />}
-              {section === "feedback" && <FeedbackAnalytics darkMode={darkMode} />}
               {section === "content" && <AllContent darkMode={darkMode} />}
               {section === "users" && <UserManagement darkMode={darkMode} />}
               {section === "settings" && (
@@ -748,23 +746,6 @@ function AdminOverview({ darkMode }) {
   );
 }
 
-function FeedbackAnalytics({ darkMode }) {
-  return (
-    <div>
-      <h1 className="text-3xl font-bold text-[#8B0000] mb-4">Feedback Analytics</h1>
-
-      <div
-        className={`backdrop-blur-md p-6 rounded-xl shadow-lg border ${darkMode
-          ? "bg-[#1e1b29]/90 border-white/10 text-white"
-          : "bg-white/80 border-gray-200 text-[#080616]"
-          }`}
-      >
-        <p>Charts and student feedback analysis coming soon.</p>
-      </div>
-    </div>
-  );
-}
-
 function AllContent({ darkMode }) {
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -1078,28 +1059,103 @@ function SettingsPage({ setSection }) {
     <div>
       <h1 className="text-3xl font-bold text-[#8B0000] mb-4">Settings</h1>
       <div className="flex flex-col md:flex-row gap-8 bg-white rounded-xl shadow-xl border border-gray-100 min-h-[500px] overflow-hidden">
+
+        {/* SIDEBAR NAVIGATION */}
         <div className="w-full md:w-64 p-4 border-r border-gray-100 bg-gray-50/50">
           <div className="space-y-1">
-            <TabButton id="general" icon={Palette} label="General & Theme" />
-            <TabButton id="workflow" icon={FileVideo} label="Submission Rules" />
-            <TabButton id="permissions" icon={ShieldCheck} label="Access Control" />
-            <TabButton id="storage" icon={Database} label="Storage & API" />
+            {/* Main General Tab */}
+            <TabButton
+              id="general"
+              icon={Palette}
+              label="General"
+              isActive={activeTab === 'general'}
+              onClick={() => setActiveTab('general')}
+            />
+
+            {/* Nested Account Tab under General */}
+            <div className="pl-4">
+              <TabButton
+                id="account"
+                icon={User}
+                label="Account"
+                isActive={activeTab === 'account'}
+                onClick={() => setActiveTab('account')}
+              />
+            </div>
+
+            {/* Nested Notification Tab under General */}
+            <div className="pl-4">
+              <TabButton
+                id="notification"
+                icon={Bell}
+                label="Notification"
+                isActive={activeTab === 'notification'}
+                onClick={() => setActiveTab('notification')}
+              />
+            </div>
+
+            {/* Nested Help Center Tab under General */}
+            <div className="pl-4">
+              <TabButton
+                id="help"
+                icon={HelpCircle}
+                label="Help Center"
+                isActive={activeTab === 'help'}
+                onClick={() => setActiveTab('help')}
+              />
+            </div>
+
+            {/* System Tab */}
+            <TabButton
+              id="workflow"
+              icon={FileVideo}
+              label="System"
+              isActive={activeTab === 'workflow'}
+              onClick={() => setActiveTab('workflow')}
+            />
           </div>
         </div>
 
-        <div className="flex-1 p-8 text-[#080616]">
-          {activeTab === 'general' && (
-            <div className="space-y-6">
-              <h3 className="text-xl font-bold text-[#8B0000]">Visual Identity</h3>
-              <div className="flex flex-col gap-2">
-                <label className="text-sm font-semibold">Showcase Title</label>
-                <input type="text" className="border rounded-md p-2 outline-none focus:ring-1 focus:ring-[#8B0000]" placeholder="UB Sining 2026" />
-              </div>
+        {/* MAIN CONTENT AREA */}
+        <div className="flex-1 p-6">
 
-              <div className="border-2 border-dashed border-gray-200 rounded-lg p-8 text-center cursor-pointer hover:border-[#8B0000]">
-                <Upload className="mx-auto text-gray-400 mb-2" />
-                <p className="text-sm text-gray-600">Upload Hero Banner</p>
-              </div>
+          {/* Placeholder for General Tab Content */}
+          {activeTab === 'general' && (
+            <div>
+              <h2 className="text-xl font-bold text-gray-800 mb-4">General Settings</h2>
+              <p className="text-gray-600 text-sm">Manage your overall preferences here.</p>
+            </div>
+          )}
+
+          {/* Placeholder for Account Tab Content */}
+          {activeTab === 'account' && (
+            <div>
+              <h2 className="text-xl font-bold text-gray-800 mb-4">Account Settings</h2>
+              <p className="text-gray-600 text-sm">Manage your profile, email, and security details.</p>
+            </div>
+          )}
+
+          {/* Placeholder for Notification Tab Content */}
+          {activeTab === 'notification' && (
+            <div>
+              <h2 className="text-xl font-bold text-gray-800 mb-4">Notification Settings</h2>
+              <p className="text-gray-600 text-sm">Manage your notification preferences here.</p>
+            </div>
+          )}
+
+          {/* Placeholder for Help Center Content */}
+          {activeTab === 'help' && (
+            <div>
+              <h2 className="text-xl font-bold text-gray-800 mb-4">Help Center</h2>
+              <p className="text-gray-600 text-sm">Find guides, FAQs, and contact support.</p>
+            </div>
+          )}
+
+          {/* Placeholder for System Content */}
+          {activeTab === 'workflow' && (
+            <div>
+              <h2 className="text-xl font-bold text-gray-800 mb-4">System Settings</h2>
+              <p className="text-gray-600 text-sm">Configure background configurations and system logs.</p>
             </div>
           )}
         </div>
