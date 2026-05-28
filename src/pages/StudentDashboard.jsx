@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import UBLogo from "../components/shared/UBLogo";
+import Footer from "../components/shared/Footer";
 import { mockFilms } from "../data/mockFilms";
 import CategoryRow from "../components/student/CategoryRow";
 import DirectorsStudio from "../components/student/DirectorsStudio";
 import FilmUploadPortal from "../components/student/FilmUploadPortal";
-
-import Footer from "../components/shared/Footer";
-import UserProfileDropdown from "../components/UserProfileDropdown";
+import ProfileMenuHub from "../components/student/ProfileMenuHub";
+import GenreFilter from "../components/student/GenreFilter";
+import SettingsControlPanel from "../components/student/SettingsControlPanel";
 import { Bell, Search, Star, StarHalf } from "lucide-react";
 
 function renderRatingStars(rating) {
@@ -39,6 +40,8 @@ export default function StudentDashboard() {
 
   // Tabs
   const [activeTab, setActiveTab] = useState("home");
+  const [showSettings, setShowSettings] = useState(false);
+  const [selectedGenre, setSelectedGenre] = useState(null);
 
   // Notifications
   const [showNotifications, setShowNotifications] = useState(false);
@@ -61,7 +64,6 @@ export default function StudentDashboard() {
 
   // Tabs
   const tabs = [
-    { id: "home", label: "Home" },
     { id: "studentFilms", label: "Student Films" },
     { id: "musicFilms", label: "Music Films" },
     { id: "portfolio", label: "My Portfolio" },
@@ -71,16 +73,22 @@ export default function StudentDashboard() {
   const featured = mockFilms[0];
 
   return (
-    <div
-      className="relative min-h-screen text-slate-900 bg-cover bg-center"
-      style={{ backgroundImage: "url('/studentbackround.png')" }}
-    >
-      <div className="pointer-events-none absolute inset-0 bg-slate-950/10" />
-      <div className="relative z-10">
-        {/* ================= NAVBAR ================= */}
-        <nav className="bg-white text-slate-900 flex flex-col gap-6 px-4 py-6 border-b border-gray-200 lg:flex-row lg:items-center lg:justify-between lg:px-10">
+    <>
+      <div
+        className="relative min-h-screen text-slate-900 bg-cover bg-center"
+        style={{ backgroundImage: "url('/studentbackround.png')" }}
+      >
+        <div className="pointer-events-none absolute inset-0 bg-slate-950/10" />
+        <div className="relative z-10">
+          {/* ================= NAVBAR ================= */}
+          <nav className="bg-white text-slate-900 flex flex-col gap-6 px-4 py-6 border-b border-gray-200 lg:flex-row lg:items-center lg:justify-between lg:px-10">
           <div className="flex items-center justify-between gap-6">
-            <UBLogo titleClass="text-[#8B0000]" subtitleClass="text-gray-500" />
+            <button
+              onClick={() => setActiveTab("home")}
+              className="cursor-pointer hover:scale-[1.01] transition-transform duration-200"
+            >
+              <UBLogo titleClass="text-[#8B0000]" subtitleClass="text-gray-500" />
+            </button>
             <div className="flex gap-4 lg:hidden">
               <button className="rounded-full bg-[#FFF4D4] p-3 text-[#8B0000] hover:bg-[#F3E1A1]">
                 <Bell className="w-5 h-5" />
@@ -159,10 +167,17 @@ export default function StudentDashboard() {
                 )}
               </div>
 
-              <UserProfileDropdown />
+              <ProfileMenuHub onOpenSettings={() => setShowSettings(true)} />
             </div>
           </div>
         </nav>
+
+        {/* ================= GENRE FILTER BAR ================= */}
+        {activeTab === "home" && (
+          <div className="bg-white border-b border-gray-200">
+            <GenreFilter selectedGenre={selectedGenre} onGenreChange={setSelectedGenre} />
+          </div>
+        )}
 
         {/* ================= PAGE CONTENT ================= */}
         <main className="px-4 py-10 sm:px-6 lg:px-10">
@@ -175,11 +190,16 @@ export default function StudentDashboard() {
             }[activeTab]
           }
         </main>
-        <Footer />
-
        
+        </div>
       </div>
-    </div>
+
+      {showSettings && (
+        <SettingsControlPanel onClose={() => setShowSettings(false)} />
+      )}
+
+      <Footer />
+    </>
   );
 }
 

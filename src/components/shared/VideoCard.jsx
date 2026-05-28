@@ -108,6 +108,7 @@ export default function VideoCard({ film }) {
               <X className="w-5 h-5" />
             </button>
             <div className="grid gap-6 lg:grid-cols-[1.3fr_0.9fr] p-6 md:p-8">
+              {/* Left column */}
               <div className="space-y-4">
                 <div className="relative h-72 overflow-hidden rounded-3xl bg-slate-100">
                   <video
@@ -124,8 +125,17 @@ export default function VideoCard({ film }) {
                   <h2 className="text-2xl font-semibold text-slate-900">{film.title}</h2>
                   <p className="text-sm text-slate-500">Directed by {film.creator}</p>
                   <p className="text-sm text-slate-600">{film.description}</p>
+                  {/* ── Play button ── */}
+                  <button
+                    onClick={() => film.previewUrl && window.open(film.previewUrl, "_blank")}
+                    className="flex items-center gap-2 mt-2 px-5 py-2 bg-[#8B0000] text-white rounded-xl text-sm font-bold hover:bg-[#6b0000] transition shadow-md"
+                  >
+                    <Play className="w-4 h-4" fill="currentColor" /> Play Now
+                  </button>
                 </div>
               </div>
+
+              {/* Right column */}
               <div className="space-y-5 rounded-3xl bg-[#8B0000] p-6 text-white">
                 <div>
                   <h3 className="text-xs uppercase tracking-[0.3em] font-bold text-[#FFD700] mb-3">Why Watch</h3>
@@ -172,9 +182,11 @@ export default function VideoCard({ film }) {
                     </div>
                   </div>
                 </div>
+
+                {/* ── Your Rating (fixed) ── */}
                 <div className="rounded-2xl bg-white/95 p-4 shadow-md">
-                  <p className="text-xs uppercase tracking-[0.16em] text-[#8B0000] font-bold">Your Rating</p>
-                  <div className="mt-3 flex items-center gap-2">
+                  <p className="text-xs uppercase tracking-[0.16em] text-[#8B0000] font-bold mb-3">Your Rating</p>
+                  <div className="flex items-center gap-1">
                     {Array.from({ length: 5 }).map((_, index) => (
                       <button
                         key={index}
@@ -183,7 +195,7 @@ export default function VideoCard({ film }) {
                           event.stopPropagation();
                           setUserRating(index + 1);
                         }}
-                        className={`rounded-full p-2 transition ${
+                        className={`rounded-full p-1 transition ${
                           userRating >= index + 1
                             ? "text-[#D4AF37]"
                             : "text-gray-400 hover:text-[#D4AF37]"
@@ -195,11 +207,12 @@ export default function VideoCard({ film }) {
                         />
                       </button>
                     ))}
-                    <span className="text-sm text-slate-600">
-                      {userRating ? `${userRating} star${userRating === 1 ? "" : "s"}` : "Tap a star to rate"}
-                    </span>
                   </div>
+                  <p className="text-sm text-slate-500 mt-2">
+                    {userRating ? `${userRating} star${userRating === 1 ? "" : "s"}` : "Tap a star to rate"}
+                  </p>
                 </div>
+
                 <button
                   onClick={() => {
                     setSaved(true);

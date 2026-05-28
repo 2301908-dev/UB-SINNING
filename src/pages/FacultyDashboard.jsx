@@ -129,6 +129,7 @@ export default function FacultyDashboard() {
   };
 
   return (
+<<<<<<< Updated upstream
     <div className="flex min-h-screen bg-slate-50 text-slate-800">
       {/* Sidebar */}
       <aside className="relative bg-[#8B0000] p-4 rounded-r-lg flex flex-col justify-between w-52 shadow-xl z-20">
@@ -154,6 +155,38 @@ export default function FacultyDashboard() {
             ))}
           </nav>
         </div>
+=======
+    <div
+      className="flex min-h-screen text-[#080616]"
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      {/* Sidebar (fixed width, no animation) */}
+      <aside className="w-56 bg-[#8B0000] p-4 rounded-r-lg flex flex-col gap-6 z-20">
+        <button
+          onClick={() => setSection("overview")}
+          className="px-1 py-2 cursor-pointer hover:opacity-80 transition"
+        >
+          <UBLogo size={64} hideSubtitle titleSizeClass="text-2xl" />
+        </button>
+
+        <nav className="space-y-1 flex-1">
+          {sidebarItems.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => setSection(item.id)}
+              className={`flex items-center gap-2.5 w-full px-3 py-2 rounded-lg ${section === item.id ? "bg-white text-[#8B0000]" : "text-[#E8EDF2] hover:bg-white/20"}`}
+            >
+              <img src={item.icon} alt="" className="w-4 h-4 shrink-0 object-contain" />
+              <span className="whitespace-nowrap text-xs font-medium">{item.label}</span>
+            </button>
+          ))}
+        </nav>
+>>>>>>> Stashed changes
       </aside>
 
       {/* Main Content */}

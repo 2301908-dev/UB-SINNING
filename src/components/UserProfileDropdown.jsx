@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
-export default function UserProfileDropdown() {
+export default function UserProfileDropdown({ onOpenSettings }) {
   const { logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -93,12 +93,17 @@ export default function UserProfileDropdown() {
             </p>
 
             <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-slate-900 hover:bg-[#8B0000]/10 transition group">
-              <User className="w-4 h-4 text-[#8B0000] group-hover:scale-110 transition" />
+              <Settings className="w-4 h-4 text-[#8B0000] group-hover:scale-110 transition" />
               <span className="flex-1 text-left">Edit Profile</span>
               <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition" />
             </button>
 
-            <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-slate-900 hover:bg-[#8B0000]/10 transition group">
+            <button 
+              onClick={() => {
+                setIsOpen(false);
+                onOpenSettings?.();
+              }}
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-slate-900 hover:bg-[#8B0000]/10 transition group">
               <Settings className="w-4 h-4 text-[#8B0000] group-hover:scale-110 transition" />
               <span className="flex-1 text-left">Account Settings</span>
               <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition" />

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Upload, CheckCircle } from "lucide-react";
+import GenreFilter from "./GenreFilter";
 
 const initialForm = {
   title: "",
@@ -106,16 +107,12 @@ export default function FilmUploadPortal() {
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="category" className="block text-sm font-medium text-gray-700">
-                Genre / Category
-              </label>
-              <input
-                id="category"
-                name="category"
-                value={formData.category}
-                onChange={handleInputChange}
-                placeholder="e.g. Documentary, Animation, Experimental"
-                className="w-full rounded-3xl border border-gray-200 bg-white px-4 py-3 text-gray-900 outline-none transition focus:border-[#8B0000] focus:ring-2 focus:ring-[#8B0000]/20"
+              <GenreFilter 
+                selectedGenre={formData.category}
+                onGenreChange={(value) => handleInputChange({
+                  target: { name: "category", value, type: "text" }
+                })}
+                isSelect={true}
               />
             </div>
 
