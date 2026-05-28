@@ -103,7 +103,7 @@ export default function VideoCard({ film }) {
           <div className="relative w-full max-w-3xl overflow-hidden rounded-[32px] border border-gray-200 bg-white shadow-2xl">
             <button
               onClick={() => setShowModal(false)}
-              className="absolute right-4 top-4 rounded-full bg-[#FFF3D2] p-2 text-[#8B0000] shadow-sm transition hover:bg-[#F4DD8B]"
+              className="absolute right-4 top-4 rounded-full bg-white p-2 text-[#8B0000] shadow-sm transition hover:bg-gray-100"
             >
               <X className="w-5 h-5" />
             </button>
@@ -126,18 +126,18 @@ export default function VideoCard({ film }) {
                   <p className="text-sm text-slate-600">{film.description}</p>
                 </div>
               </div>
-              <div className="space-y-4 rounded-3xl bg-[#FBF3DF] p-5 text-slate-900">
+              <div className="space-y-5 rounded-3xl bg-[#8B0000] p-6 text-white">
                 <div>
-                  <h3 className="text-sm uppercase tracking-[0.2em] text-[#8B0000]">Why Watch</h3>
-                  <p className="mt-2 text-sm text-slate-700">
+                  <h3 className="text-xs uppercase tracking-[0.3em] font-bold text-[#FFD700] mb-3">Why Watch</h3>
+                  <p className="text-sm leading-relaxed text-white/90">
                     Experience a cinematic preview with exclusive behind-the-scenes commentary, student production notes, and festival buzz.
                   </p>
                 </div>
                 <div className="grid gap-3 sm:grid-cols-2">
-                  <div className="rounded-2xl bg-white p-4 shadow-sm">
-                    <p className="text-xs uppercase tracking-[0.16em] text-gray-500">Rating</p>
+                  <div className="rounded-2xl bg-white/95 p-4 shadow-md hover:shadow-lg transition">
+                    <p className="text-xs uppercase tracking-[0.16em] text-[#8B0000] font-bold">Rating</p>
                     <div className="mt-3 space-y-2">
-                      <span className="inline-flex rounded-full bg-[#FFF4D4] px-3 py-1 text-sm font-semibold text-[#8B0000]">
+                      <span className="inline-flex rounded-full bg-[#8B0000] px-3 py-1 text-sm font-bold text-white">
                         {film.rating.toFixed(1)}
                       </span>
                       <div className="flex items-center gap-1">
@@ -145,35 +145,35 @@ export default function VideoCard({ film }) {
                       </div>
                     </div>
                   </div>
-                  <div className="rounded-2xl bg-white p-4 shadow-sm">
-                    <p className="text-xs uppercase tracking-[0.16em] text-gray-500">Category</p>
-                    <p className="mt-2 text-lg font-semibold text-slate-900">{film.category}</p>
+                  <div className="rounded-2xl bg-white/95 p-4 shadow-md hover:shadow-lg transition">
+                    <p className="text-xs uppercase tracking-[0.16em] text-[#8B0000] font-bold">Category</p>
+                    <p className="mt-3 text-base font-bold text-[#8B0000]">{film.category}</p>
                   </div>
                 </div>
-                <div className="space-y-4 rounded-3xl bg-white/5 p-4">
-                  <div className="flex items-center gap-3">
-                    <FilmIcon className="h-5 w-5 text-[#D4AF37]" />
-                    <p className="text-sm font-semibold text-white">Behind the Scenes Assets</p>
+                <div className="space-y-3 rounded-2xl bg-white/10 border border-white/20 p-4">
+                  <div className="flex items-center gap-2">
+                    <FilmIcon className="h-5 w-5 text-[#FFD700]" />
+                    <p className="text-sm font-bold text-white uppercase tracking-widest">Behind the Scenes</p>
                   </div>
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    <div className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-white p-3 shadow-sm">
-                      <Camera className="h-5 w-5 text-[#D4AF37]" />
-                      <div>
-                        <p className="text-sm font-semibold text-slate-900">Production Stills</p>
-                        <p className="text-xs text-slate-600">On-set imagery and set design notes.</p>
+                  <div className="grid gap-2 sm:grid-cols-2">
+                    <div className="flex items-start gap-3 rounded-xl bg-white/95 p-3 shadow-sm hover:shadow-md transition">
+                      <Camera className="h-4 w-4 text-[#8B0000] mt-0.5 flex-shrink-0" />
+                      <div className="min-w-0">
+                        <p className="text-xs font-bold text-[#8B0000]">Production Stills</p>
+                        <p className="text-xs text-slate-600 mt-1">On-set imagery & design</p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-white p-3 shadow-sm">
-                      <Info className="h-5 w-5 text-[#D4AF37]" />
-                      <div>
-                        <p className="text-sm font-semibold text-slate-900">Storyboards & Notes</p>
-                        <p className="text-xs text-slate-600">Draft frames, moodboards, and director cues.</p>
+                    <div className="flex items-start gap-3 rounded-xl bg-white/95 p-3 shadow-sm hover:shadow-md transition">
+                      <Info className="h-4 w-4 text-[#8B0000] mt-0.5 flex-shrink-0" />
+                      <div className="min-w-0">
+                        <p className="text-xs font-bold text-[#8B0000]">Storyboards & Notes</p>
+                        <p className="text-xs text-slate-600 mt-1">Director cues & frames</p>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="rounded-3xl bg-white p-4 shadow-sm">
-                  <p className="text-xs uppercase tracking-[0.16em] text-gray-500">Your Rating</p>
+                <div className="rounded-2xl bg-white/95 p-4 shadow-md">
+                  <p className="text-xs uppercase tracking-[0.16em] text-[#8B0000] font-bold">Your Rating</p>
                   <div className="mt-3 flex items-center gap-2">
                     {Array.from({ length: 5 }).map((_, index) => (
                       <button
@@ -205,9 +205,9 @@ export default function VideoCard({ film }) {
                     setSaved(true);
                     setShowModal(false);
                   }}
-                  className="w-full rounded-2xl bg-ub-maroon px-5 py-3 text-sm font-semibold text-white transition hover:bg-ub-maroon-light"
+                  className="w-full rounded-2xl bg-white text-[#8B0000] px-5 py-3 text-sm font-bold transition hover:bg-gray-50 shadow-md hover:shadow-lg"
                 >
-                  Addsadas
+                  Add to Watchlist
                 </button>
               </div>
             </div>

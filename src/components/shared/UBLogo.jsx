@@ -1,3 +1,5 @@
+import logoSrc from "../../assets/ublogo.png";
+
 export default function UBLogo({
   size = 48,
   titleClass = "text-[#8B0000]",
@@ -8,7 +10,7 @@ export default function UBLogo({
   return (
     <div className="flex items-center gap-3">
       <img
-        src="/src/assets/ublogo.png"
+        src={logoSrc}
         alt="UB SINING Logo"
         width={size}
         height={size}

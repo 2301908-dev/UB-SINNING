@@ -68,7 +68,7 @@ export default function DirectorsStudio() {
             Curate your festival-ready work, manage version history, and keep your student films protected in the UB Director’s Studio.
           </p>
         </div>
-        <button className="inline-flex items-center gap-2 rounded-full border border-[#D4AF37] bg-[#FFF3D0] px-5 py-3 text-sm font-semibold text-[#8B0000] transition hover:bg-[#FFE8A0]">
+        <button className="inline-flex items-center gap-2 rounded-full border border-[#8B0000] bg-[#8B0000] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#A00000] shadow-md">
           <Download className="h-4 w-4" /> Download Digital Portfolio
         </button>
       </div>
@@ -84,8 +84,8 @@ export default function DirectorsStudio() {
                 onClick={() => setActiveGenre(genre)}
                 className={`whitespace-nowrap rounded-full px-5 py-3 text-sm font-semibold transition ${
                   active
-                    ? "border-b-4 border-[#8B0000] bg-[#FFF5E1] text-[#D4AF37]"
-                    : "bg-white text-gray-600 hover:bg-gray-50"
+                    ? "border-b-4 border-[#8B0000] bg-[#8B0000] text-white shadow-md"
+                    : "bg-white text-gray-600 hover:bg-gray-50 border border-gray-200"
                 }`}
               >
                 {genre}
@@ -105,8 +105,8 @@ export default function DirectorsStudio() {
                 onClick={() => setSelectedFilmId(film.id)}
                 className={`group flex flex-col overflow-hidden rounded-[28px] border px-4 py-4 text-left transition shadow-sm ${
                   film.id === selectedFilmId
-                    ? "border-[#8B0000] bg-[#FFFAF4] shadow-md"
-                    : "border-gray-200 bg-white hover:border-[#D4AF37]"
+                    ? "border-[#8B0000] bg-white shadow-lg border-2"
+                    : "border-gray-200 bg-white hover:border-[#8B0000]/50"
                 }`}
               >
                 <div className="mb-4 overflow-hidden rounded-3xl bg-slate-950">
@@ -115,7 +115,7 @@ export default function DirectorsStudio() {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between gap-3">
                     <h3 className="text-base font-semibold text-[#8B0000]">{film.title}</h3>
-                    <span className="rounded-full bg-[#FFF2D5] px-3 py-1 text-[11px] font-semibold text-[#8B0000]">
+                    <span className="rounded-full bg-[#8B0000]/10 px-3 py-1 text-[11px] font-semibold text-[#8B0000]">
                       {versionHistory[film.id]}
                     </span>
                   </div>
@@ -130,7 +130,7 @@ export default function DirectorsStudio() {
             ))}
           </div>
 
-          <div className="rounded-[28px] border border-[#E5E5E5] bg-[#FCFBF7] p-6">
+          <div className="rounded-[28px] border border-[#E5E5E5] bg-white p-6 shadow-sm">
             <div className="mb-4 flex items-center gap-3">
               <History className="h-5 w-5 text-[#8B0000]" />
               <h3 className="text-lg font-semibold text-[#8B0000]">Version History</h3>
@@ -168,9 +168,9 @@ export default function DirectorsStudio() {
         </div>
 
         <aside className="space-y-6 rounded-[28px] border border-[#E5E5E5] bg-[#FAFAFA] p-6 shadow-sm">
-          <div className="space-y-4 rounded-[24px] border border-[#D4AF37]/30 bg-white p-5">
+          <div className="space-y-4 rounded-[24px] border border-[#8B0000]/20 bg-white p-5 shadow-sm">
             <div className="flex items-center gap-3">
-              <div className="flex h-14 w-14 items-center justify-center rounded-3xl bg-[#8B0000]/10 text-[#8B0000]">
+              <div className="flex h-14 w-14 items-center justify-center rounded-3xl bg-[#8B0000] text-white">
                 <Film className="h-6 w-6" />
               </div>
               <div>
@@ -181,7 +181,7 @@ export default function DirectorsStudio() {
             <p className="text-sm text-gray-600">
               Emerging filmmaker and UB student focusing on cinematic storytelling, festival-ready narratives, and experimental visual essays.
             </p>
-            <div className="grid gap-3 rounded-3xl bg-[#FFF7E5] p-4 text-sm text-gray-700">
+            <div className="grid gap-3 rounded-3xl bg-white p-4 text-sm text-gray-700 border border-[#8B0000]/20">
               <div className="flex items-center gap-2">
                 <Users className="h-4 w-4 text-[#8B0000]" />
                 <span>12 films in development</span>

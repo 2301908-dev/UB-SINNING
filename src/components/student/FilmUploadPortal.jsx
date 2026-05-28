@@ -83,7 +83,7 @@ export default function FilmUploadPortal() {
             Upload your project safely and submit it for faculty review with AI screening and status tracking.
           </p>
         </div>
-        <div className="rounded-full bg-[#FAF0D8] px-4 py-3 text-sm text-[#8B0000] shadow-sm">
+        <div className="rounded-full bg-white px-4 py-3 text-sm text-[#8B0000] shadow-sm border border-[#8B0000]/20 font-semibold">
           Official UB Light Mode experience
         </div>
       </div>
@@ -101,7 +101,7 @@ export default function FilmUploadPortal() {
                 value={formData.title}
                 onChange={handleInputChange}
                 placeholder="Enter your film title"
-                className="w-full rounded-3xl border border-gray-200 bg-[#FAFAFA] px-4 py-3 text-gray-900 outline-none transition focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20"
+                className="w-full rounded-3xl border border-gray-200 bg-white px-4 py-3 text-gray-900 outline-none transition focus:border-[#8B0000] focus:ring-2 focus:ring-[#8B0000]/20"
               />
             </div>
 
@@ -115,7 +115,7 @@ export default function FilmUploadPortal() {
                 value={formData.category}
                 onChange={handleInputChange}
                 placeholder="e.g. Documentary, Animation, Experimental"
-                className="w-full rounded-3xl border border-gray-200 bg-[#FAFAFA] px-4 py-3 text-gray-900 outline-none transition focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20"
+                className="w-full rounded-3xl border border-gray-200 bg-white px-4 py-3 text-gray-900 outline-none transition focus:border-[#8B0000] focus:ring-2 focus:ring-[#8B0000]/20"
               />
             </div>
 
@@ -130,11 +130,11 @@ export default function FilmUploadPortal() {
                 value={formData.synopsis}
                 onChange={handleInputChange}
                 placeholder="Write a concise summary of your film"
-                className="w-full rounded-3xl border border-gray-200 bg-[#FAFAFA] px-4 py-3 text-gray-900 outline-none transition focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20"
+                className="w-full rounded-3xl border border-gray-200 bg-white px-4 py-3 text-gray-900 outline-none transition focus:border-[#8B0000] focus:ring-2 focus:ring-[#8B0000]/20"
               />
             </div>
 
-            <label className="inline-flex items-center gap-3 rounded-3xl border border-gray-200 bg-[#FAFAFA] px-5 py-4">
+            <label className="inline-flex items-center gap-3 rounded-3xl border border-gray-200 bg-white px-5 py-4">
               <input
                 type="checkbox"
                 name="certified"
@@ -148,7 +148,7 @@ export default function FilmUploadPortal() {
             </label>
           </div>
 
-          <div className="space-y-6 rounded-[28px] border border-gray-200 bg-[#FCFBF7] p-6">
+          <div className="space-y-6 rounded-[28px] border border-gray-200 bg-white p-6 shadow-sm">
             <div
               onDragOver={(event) => {
                 event.preventDefault();
@@ -157,7 +157,7 @@ export default function FilmUploadPortal() {
               onDragLeave={() => setIsDragging(false)}
               onDrop={handleDrop}
               className={`group flex min-h-[220px] cursor-pointer flex-col items-center justify-center gap-4 rounded-[24px] border-2 border-dashed px-5 text-center transition ${
-                isDragging ? "border-[#8B0000] bg-[#FFF3D4]" : "border-gray-300 bg-white"
+                isDragging ? "border-[#8B0000] bg-[#8B0000]/5" : "border-gray-300 bg-white"
               }`}
               onClick={() => fileInputRef.current?.click()}
             >
@@ -189,7 +189,7 @@ export default function FilmUploadPortal() {
                   <span>Upload Progress</span>
                   <span>{uploadProgress}%</span>
                 </div>
-                <div className="h-3 overflow-hidden rounded-full bg-[#F1E7C9]">
+                <div className="h-3 overflow-hidden rounded-full bg-gray-200">
                   <div
                     className="h-full rounded-full bg-[#8B0000] transition-all duration-300"
                     style={{ width: `${uploadProgress}%` }}
@@ -197,8 +197,8 @@ export default function FilmUploadPortal() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 rounded-3xl border border-[#E1D4A6] bg-[#FFF8E4] px-4 py-3 text-sm text-gray-700">
-                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#8B0000]/10 text-[#8B0000]">
+              <div className="flex items-center gap-2 rounded-3xl border border-[#8B0000]/20 bg-white px-4 py-3 text-sm text-gray-700 shadow-sm">
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#8B0000] text-white">
                   •
                 </span>
                 <div>
@@ -210,7 +210,7 @@ export default function FilmUploadPortal() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-4 rounded-[28px] border border-[#E5D9A2] bg-[#FFF9E3] p-6 text-sm text-gray-700 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-4 rounded-[28px] border border-[#8B0000]/20 bg-white p-6 text-sm text-gray-700 shadow-sm sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="font-semibold text-gray-900">Upload instructions</p>
             <p>Complete all fields and wait for the upload to finish before submitting.</p>
@@ -221,7 +221,7 @@ export default function FilmUploadPortal() {
             disabled={!isFormComplete}
             className={`inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold uppercase tracking-[0.18em] transition ${
               isFormComplete
-                ? "bg-[#D4AF37] text-black shadow-lg shadow-[#D4AF37]/30 hover:bg-[#c79e2d]"
+                ? "bg-[#8B0000] text-white shadow-lg shadow-[#8B0000]/30 hover:bg-[#A00000]"
                 : "bg-gray-200 text-gray-400 cursor-not-allowed"
             }`}
           >
@@ -230,7 +230,7 @@ export default function FilmUploadPortal() {
         </div>
 
         {isSubmitted && (
-          <div className="flex items-center gap-4 rounded-[28px] border border-[#D4AF37] bg-[#FEF6D9] px-6 py-5 text-gray-900 shadow-sm">
+          <div className="flex items-center gap-4 rounded-[28px] border border-[#8B0000]/20 bg-white px-6 py-5 text-gray-900 shadow-sm">
             <CheckCircle className="h-8 w-8 text-[#8B0000]" />
             <div>
               <p className="font-semibold">Film submitted for Faculty Review.</p>

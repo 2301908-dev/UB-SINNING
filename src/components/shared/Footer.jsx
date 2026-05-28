@@ -2,16 +2,16 @@ import logoSrc from "../../assets/ublogo.png";
 
 export default function Footer() {
   return (
-    <footer className="bg-ub-maroon border-t-2 border-[#D4AF37] text-white">
-      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-10">
-        <div className="grid gap-8 lg:grid-cols-4">
+    <footer className="bg-[#600000] border-t border-[#D4AF37]/30 text-white">
+      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-10">
+        <div className="grid gap-6 lg:grid-cols-4">
           <div className="space-y-3">
             <div className="flex items-center gap-3">
               <img src={logoSrc} alt="UB Sining Logo" className="h-10 w-10 rounded-lg object-cover" />
               <span className="text-xl font-semibold text-[#D4AF37]">UB Sining</span>
             </div>
             <p className="max-w-sm text-sm leading-6 text-white/90">
-              The Official Digital Media Repository of the University of Batangas. Empowering the next generation of Filipino filmmakers through AI and VR technology.
+              The official cinematic hub of the University of Batangas – curating student films, immersive VR experiences, and AI-assisted screenings that nurture the next generation of Filipino storytellers.
             </p>
           </div>
 
@@ -47,10 +47,10 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-white/10 bg-[#660000]">
-        <div className="mx-auto flex flex-col gap-3 px-4 py-4 text-sm text-white sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-10">
+      <div className="border-t border-white/10 bg-[#600000]">
+        <div className="mx-auto flex flex-col gap-2 px-4 py-3 text-xs text-white sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-10">
           <p className="leading-5">
-            © 2026 University of Batangas. All Rights Reserved. | Content Moderation Powered by UB Sining AI Screening.
+            © 2026 University of Batangas. All Rights Reserved. | UB Sining · Office of Student Affairs · College of Information and Communications Technology.
           </p>
           <div className="flex items-center gap-3">
             <a href="#" className="transition duration-200 hover:text-[#D4AF37]" aria-label="Facebook">
