@@ -44,25 +44,6 @@ function Reveal({ children, delay = 0, className = "", style = {} }) {
   );
 }
 
-// ─── Data ────
-const WHY_ITEMS = [
-  {
-    number: "01",
-    heading: "Student Films Had No Permanent Home",
-    body: "Films created inside UB were screened once — at a showcase or department event — then disappeared. There was no archive, no platform, no way to revisit what students had poured their passion into. UB Sining was built to change that.",
-  },
-  {
-    number: "02",
-    heading: "Talented Creators Deserved a Real Audience",
-    body: "UB students were producing remarkable films, but their reach stopped at the classroom door. UB Sining opens that door — giving every creator visibility beyond their batch, their department, and their graduation.",
-  },
-  {
-    number: "03",
-    heading: "Storytelling Is Too Powerful to Be Forgotten",
-    body: "Film is among the most powerful forms of human expression. UB Sining was created to honor that power, and to ensure the stories born inside UB's walls are never lost to time.",
-  },
-];
-
 // ─── Video Reel Component ───
 function VideoReel({ video, title }) {
   const videoRef = useRef(null);
@@ -121,7 +102,7 @@ function AboutIntro() {
                 border: "1px solid rgba(139,0,0,0.15)",
               }}
             >
-              About UB SINING
+              About UB-SINING
             </div>
           </Reveal>
 
@@ -161,70 +142,6 @@ UB-SINING is a streaming, showcasing, and archiving platform for student produce
   );
 }
 
-// ─── Why Section ────
-function WhySection() {
-  return (
-    <div className="w-full max-w-5xl mx-auto px-4 sm:px-10 py-16 pb-36">
-      <Reveal>
-        <div className="text-center mb-14">
-          <p className="text-[11px] uppercase tracking-[0.35em] mb-3" style={{ color: "#8B0000", fontFamily: "'Poppins', sans-serif", fontWeight: 600 }}>
-            The Origin Story
-          </p>
-          <h3
-            className="text-[clamp(24px,3vw,38px)] font-bold"
-            style={{ fontFamily: "'Montserrat', sans-serif", color: "#111827", letterSpacing: "-0.3px" }}
-          >
-            Why Was{" "}
-            <span style={{ backgroundImage: "linear-gradient(90deg,#8B0000 30%,#D4AF37 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-              UB Sining
-            </span>{" "}
-            Created?
-          </h3>
-        </div>
-      </Reveal>
-
-      <div className="relative flex flex-col">
-        {/* Decorative Timeline Line */}
-        <div
-          className="absolute left-[27px] top-7 bottom-16 w-[2px] hidden md:block pointer-events-none"
-          style={{ background: "linear-gradient(180deg,#8B0000 0%,#D4AF37 60%,rgba(212,175,55,0.05) 100%)" }}
-        />
-
-        {WHY_ITEMS.map((item, i) => {
-          const badgeBg =
-            i === 0
-              ? "#8B0000"
-              : i === 1
-              ? "linear-gradient(135deg,#8B0000 0%,#B86A2A 100%)"
-              : "linear-gradient(135deg,#8B0000 0%,#D4AF37 100%)";
-
-          return (
-          <Reveal key={item.number} delay={i * 0.13}>
-            <div className="flex gap-6 items-start mb-20 last:mb-0">
-              <div
-                className="relative flex-shrink-0 w-14 h-14 rounded-full flex items-center justify-center font-bold text-white text-sm z-10"
-                style={{
-                  background: badgeBg,
-                  fontFamily: "'Montserrat', sans-serif",
-                  boxShadow: "0 0 0 5px rgba(139,0,0,0.10), 0 4px 14px rgba(139,0,0,0.25)",
-                }}
-              >
-                {item.number}
-              </div>
-
-              <div className="flex-1 rounded-2xl px-7 py-6" style={glassCard}>
-                <h4 className="text-[15px] font-bold mb-2" style={{ color: "#8B0000", fontFamily: "'Poppins', sans-serif" }}>{item.heading}</h4>
-                <p className="text-[13.5px] leading-[1.85] text-gray-600" style={{ fontFamily: "'Poppins', sans-serif" }}>{item.body}</p>
-              </div>
-            </div>
-          </Reveal>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
 // ─── Root Export ──────────────────────────────────────────────────────────────
 export default function AboutSection() {
   return (
@@ -240,11 +157,6 @@ export default function AboutSection() {
       </div>
 
       {/* Center divider between Intro and Origin Story */}
-      <div className="relative z-10 w-full max-w-5xl mx-auto px-10 h-px" style={{ background: "rgba(139,0,0,0.08)" }} />
-
-      <div className="relative z-10 w-full">
-        <WhySection />
-      </div>
 
     </section>
   );

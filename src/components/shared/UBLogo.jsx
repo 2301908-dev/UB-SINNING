@@ -2,7 +2,7 @@ import logoSrc from "../../assets/ublogo.png";
 
 export default function UBLogo({
   size = 48,
-  titleClass = "text-[#D4AF37]",
+  titleClass = "text-[#8B0000]",
   subtitleClass = "text-gray-400",
   hideSubtitle = false,
   titleSizeClass = "text-xl",
@@ -16,8 +16,9 @@ export default function UBLogo({
         height={size}
         className="rounded-full"
       />
-      <div className="flex flex-col">
-        <span className={`${titleClass} ${titleSizeClass} font-bold`}>UB-SINING</span>
+
+      <div className="flex flex-col -ml-2 mt-2">
+        <span className={`${titleClass} ${titleSizeClass} font-bold whitespace-nowrap`}>UB-SINING</span>
         {!hideSubtitle && (
           <span className={`${subtitleClass} text-xs tracking-wide`}>STUDENT FILM SHOWCASE</span>
         )}

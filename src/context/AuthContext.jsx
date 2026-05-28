@@ -4,6 +4,10 @@ import { supabase } from "../lib/supabaseClient";
 const AuthContext = createContext();
 
 async function resolveRole(user) {
+  // Consume any role the user explicitly selected on the sign-in page.
+  const pendingRole = localStorage.getItem("pending_role");
+  if (pendingRole) localStorage.removeItem("pending_role");
+
   const { data, error } = await supabase
     .from("profiles")
     .select("role")
@@ -14,24 +18,28 @@ async function resolveRole(user) {
     console.error("Error fetching profile:", error);
   }
 
+  // If the user chose a role at sign-in, persist it and use it.
+  if (pendingRole) {
+    const { error: upsertError } = await supabase
+      .from("profiles")
+      .upsert(
+        { id: user.id, email: user.email, role: pendingRole, updated_at: new Date().toISOString() },
+        { onConflict: "id" }
+      );
+    if (upsertError) console.error("Error saving role:", upsertError);
+    return pendingRole;
+  }
+
   if (data?.role) return data.role;
 
-  // No profile row yet — create one with default "student" role.
+  // No profile and no pending role — default to student.
   const { error: upsertError } = await supabase
     .from("profiles")
     .upsert(
-      {
-        id: user.id,
-        email: user.email,
-        role: "student",
-        updated_at: new Date().toISOString(),
-      },
+      { id: user.id, email: user.email, role: "student", updated_at: new Date().toISOString() },
       { onConflict: "id" }
     );
-
-  if (upsertError) {
-    console.error("Error creating profile:", upsertError);
-  }
+  if (upsertError) console.error("Error creating profile:", upsertError);
 
   return "student";
 }
@@ -50,10 +58,20 @@ async function applySession(session, { setUser, setRole, setError }) {
   }
 
   const user = session.user;
+  const adminEmail = import.meta.env.VITE_ADMIN_EMAIL;
+
+  // Admin bypass: skip domain check, always route to AdminDashboard.
+  if (adminEmail && user.email === adminEmail) {
+    setUser(user);
+    setError(null);
+    cleanAuthCallbackUrl();
+    setRole("admin");
+    return;
+  }
 
   if (!user.email?.endsWith("@ub.edu.ph")) {
     await supabase.auth.signOut();
-    setError("Access Denied: Use your official UB email.");
+    setError("Please use your official UB email.");
     setUser(null);
     setRole(null);
     return;
@@ -90,6 +108,18 @@ export function AuthProvider({ children }) {
         }
 
         const sessionUser = session.user;
+        const adminEmail = import.meta.env.VITE_ADMIN_EMAIL;
+
+        // Admin bypass: skip domain check, always route to AdminDashboard.
+        if (adminEmail && sessionUser.email === adminEmail) {
+          setUser(sessionUser);
+          setError(null);
+          cleanAuthCallbackUrl();
+          setLoading(false);
+          setRole("admin");
+          return;
+        }
+
         if (!sessionUser.email?.endsWith("@ub.edu.ph")) {
           await supabase.auth.signOut();
           if (cancelled) return;
@@ -103,8 +133,6 @@ export function AuthProvider({ children }) {
         setUser(sessionUser);
         setError(null);
         cleanAuthCallbackUrl();
-        // Unblock the UI before resolving role — the profiles query can hang
-        // (e.g. Supabase auth-lock contention) and we don't want to stall here.
         setLoading(false);
 
         resolveRole(sessionUser)
