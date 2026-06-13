@@ -2,18 +2,17 @@ import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import UBLogo from "../components/shared/UBLogo";
 import bryanPhoto from "../assets/teampics/bryan.png";
+import { mockFilms } from "../data/mockFilms";
+import CategoryRow from "../components/student/CategoryRow";
 import {
-  Search, ArrowRight, LogOut, CheckCircle, XCircle, Play, Eye,
-  TrendingUp, UserPlus, Film as FilmIcon, Star, UserCircle, MoreVertical,
-  Palette, User, HelpCircle,
+  Search, LogOut, CheckCircle, XCircle, Play, Eye,
+  TrendingUp, UserPlus, Film as FilmIcon, Star, StarHalf, UserCircle, MoreVertical,
+  Palette, User, HelpCircle, ClipboardList, GraduationCap,
+  Users, BookOpen, ChevronRight, ChevronDown, Trash2,
 } from "lucide-react";
 
-const ICON_DASHBOARD = "/src/assets/icons/FacultyIcons/dashboardFaculty.png";
-const ICON_FILM = "/src/assets/icons/FacultyIcons/filmFaculty.png";
-const ICON_USER = "/src/assets/icons/FacultyIcons/userFaculty.png";
 const ICON_SETTING = "/src/assets/icons/FacultyIcons/settingFaculty.png";
 const ICON_NOTIFICATION = "/src/assets/icons/FacultyIcons/notificationFaculty.png";
-const ICON_VIDEO = "/src/assets/icons/FacultyIcons/videoFaculty.png";
 
 const mockPendingFilms = [
   { id: 1, title: "Liwanag sa Dilim", student: "Maria Santos", date: "2026-05-15", duration: "12:34", status: "Pending", url: "/liwanag.mp4" },
@@ -93,9 +92,16 @@ function ConfirmModal({ title, message, confirmLabel, confirmClass, onConfirm, o
           </button>
         </div>
       </div>
-    </div>
+    </div>  
   );
 }
+
+const tabs = [
+  { id: "overview",   label: "Overview" },
+  { id: "workspace",  label: "Student Films" },
+  { id: "filmReview", label: "Film Review" },
+  { id: "students",   label: "Student Class" },
+];
 
 export default function FacultyDashboard() {
   const { user, logout } = useAuth();
@@ -104,13 +110,6 @@ export default function FacultyDashboard() {
   const [showProfile, setShowProfile] = useState(false);
   const notifRef = useRef(null);
   const profileRef = useRef(null);
-
-  const sidebarItems = [
-    { id: "overview", label: "Dashboard", icon: ICON_DASHBOARD },
-    { id: "filmReview", label: "Films", icon: ICON_FILM },
-    { id: "students", label: "Students", icon: ICON_USER },
-    { id: "workspace", label: "Review Workspace", icon: ICON_VIDEO },
-  ];
 
   const profName = "Bry";
 
@@ -129,53 +128,39 @@ export default function FacultyDashboard() {
   };
 
   return (
-    <div className="flex min-h-screen bg-slate-50 text-slate-800">
-      {/* Sidebar */}
-      <aside className="relative bg-[#8B0000] p-4 rounded-r-lg flex flex-col justify-between w-52 shadow-xl z-20">
-        <div className="space-y-3">
-          <div className="-ml-2">
-            <UBLogo hideSubtitle titleClass="text-white" size={64} />
-          </div>
-          <nav className="space-y-1">
-            {sidebarItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => setSection(item.id)}
-                className={`flex items-center gap-2 w-full p-2 rounded-lg transition justify-start ${section === item.id ? "bg-white text-[#8B0000]" : "text-[#E8EDF2] hover:bg-white/20"}`}
-              >
-                <img
-                  src={item.icon}
-                  alt=""
-                  className="w-5 h-5 shrink-0 object-contain"
-                  style={section === item.id ? { filter: "brightness(0)" } : { filter: "brightness(0) invert(1)" }}
-                />
-                <span className="font-medium text-sm">{item.label}</span>
-              </button>
-            ))}
-          </nav>
-        </div>
-      </aside>
+    <div className="relative min-h-screen bg-slate-50 text-slate-800">
+      {/* Navbar */}
+      <nav className="bg-white text-slate-900 flex flex-col gap-6 px-4 py-6 border-b border-gray-200 lg:flex-row lg:items-center lg:justify-between lg:px-10">
+        <UBLogo titleClass="text-[#8B0000]" subtitleClass="text-gray-500" />
 
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Header */}
-        <header className="bg-white/90 backdrop-blur-sm border-b border-gray-100 px-8 py-4 flex items-center justify-between gap-4 sticky top-0 z-10">
-          <div className="relative w-72">
+        {/* Tabs */}
+        <div className="flex flex-wrap justify-center gap-4 lg:gap-8">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setSection(tab.id)}
+              className={`text-sm font-medium pb-1 transition cursor-pointer ${
+                section === tab.id
+                  ? "text-[#8B0000] border-b-2 border-[#8B0000]"
+                  : "text-black hover:text-[#8B0000]"
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Search + Notifications + Profile */}
+        <div className="flex flex-col gap-4 items-stretch sm:flex-row sm:items-center sm:justify-end sm:gap-6">
+          <div className="relative w-full sm:w-44">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input
               type="search"
-              aria-label="Search films and students"
-              placeholder="Search films, students..."
-              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-200 text-sm bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#8B0000]/20 focus:border-[#8B0000]"
+              placeholder="Search..."
+              className="bg-gray-100 pl-9 pr-3 py-2 rounded-lg border border-gray-300 w-full text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#8B0000]/20 focus:border-[#8B0000]"
             />
-            <button
-              type="button"
-              aria-label="Submit search"
-              className="absolute right-1 top-1/2 -translate-y-1/2 inline-flex h-8 w-8 items-center justify-center text-[#8B0000] transition hover:text-[#6e0000]"
-            >
-              <ArrowRight className="w-4 h-4" />
-            </button>
           </div>
+
           <div className="flex items-center gap-4">
             <div className="relative" ref={notifRef}>
               <button
@@ -235,15 +220,79 @@ export default function FacultyDashboard() {
               )}
             </div>
           </div>
-        </header>
+        </div>
+      </nav>
 
-        <main className="flex-1 p-8 overflow-y-auto">
-          {section === "overview" && <OverviewSection profName={profName} />}
-          {section === "filmReview" && <FilmReviewSection />}
-          {section === "students" && <StudentsSection />}
-          {section === "workspace" && <WorkspaceSection />}
-          {section === "settings" && <SettingsSection logout={logout} />}
-        </main>
+      <main className="px-4 py-10 sm:px-6 lg:px-10">
+        {section === "overview" && <OverviewSection profName={profName} />}
+        {section === "filmReview" && <FilmReviewSection />}
+        {section === "students" && <StudentsSection />}
+        {section === "workspace" && <WorkspaceSection />}
+        {section === "settings" && <SettingsSection logout={logout} />}
+      </main>
+    </div>
+  );
+}
+
+/* ── Bar Chart ── */
+const CHART_DATA = [
+  { month: "Jan", value: 3 },
+  { month: "Feb", value: 5 },
+  { month: "Mar", value: 4 },
+  { month: "Apr", value: 8 },
+  { month: "May", value: 12 },
+  { month: "Jun", value: 7 },
+  { month: "Jul", value: 9 },
+  { month: "Aug", value: 6 },
+  { month: "Sep", value: 10 },
+  { month: "Oct", value: 5 },
+];
+const CHART_MAX = Math.max(...CHART_DATA.map((d) => d.value));
+const Y_LABELS = [12, 9, 6, 3, 0];
+
+function BarChart() {
+  return (
+    <div className="flex gap-3">
+      {/* Y-axis labels */}
+      <div className="flex flex-col justify-between pb-6 text-right shrink-0">
+        {Y_LABELS.map((v) => (
+          <span key={v} className="text-[11px] text-slate-400 leading-none">{v}</span>
+        ))}
+      </div>
+
+      {/* Chart area */}
+      <div className="flex-1 flex flex-col gap-1">
+        {/* Grid lines + bars */}
+        <div className="relative flex-1" style={{ height: 160 }}>
+          {/* Horizontal grid lines */}
+          {Y_LABELS.slice(0, -1).map((_, i) => (
+            <div
+              key={i}
+              className="absolute left-0 right-0 border-t border-slate-100"
+              style={{ top: `${(i / (Y_LABELS.length - 1)) * 100}%` }}
+            />
+          ))}
+          {/* Bars */}
+          <div className="absolute inset-0 flex items-end gap-1.5 px-0.5">
+            {CHART_DATA.map((d) => (
+              <div key={d.month} className="flex-1 flex items-end">
+                <div
+                  className="w-full bg-slate-800 rounded-sm hover:bg-[#8B0000] transition-colors cursor-pointer"
+                  style={{ height: `${(d.value / CHART_MAX) * 100}%` }}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* X-axis labels */}
+        <div className="flex gap-1.5 px-0.5">
+          {CHART_DATA.map((d) => (
+            <div key={d.month} className="flex-1 text-center">
+              <span className="text-[11px] text-slate-400">{d.month}</span>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -252,44 +301,61 @@ export default function FacultyDashboard() {
 /* ── Overview ── */
 function OverviewSection({ profName }) {
   const stats = [
-    { label: "Pending Reviews", value: 3 },
-    { label: "Approved Films", value: 34 },
-    { label: "Active Submissions", value: 12 },
-    { label: "Total Students", value: 4 },
+    { label: "Pending Reviews",    value: 3,  delta: "+1 from last week",    Icon: ClipboardList },
+    { label: "Approved Films",     value: 34, delta: "+3 from last week",    Icon: CheckCircle   },
+    { label: "Active Submissions", value: 12, delta: "+2 from last week",    Icon: TrendingUp    },
+    { label: "Total Students",     value: 4,  delta: "+0 from last week",    Icon: GraduationCap },
   ];
 
   return (
     <div className="space-y-8">
-      <h1 className="text-3xl font-bold text-[#8B0000]">Welcome, {profName}</h1>
+      <h1 className="text-3xl font-bold text-[#8B0000]">Dashboard</h1>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((s) => (
-          <div key={s.label} className="bg-white border border-slate-200 rounded-xl p-5 space-y-2 shadow-sm">
-            <p className="text-sm text-slate-500 font-medium">{s.label}</p>
+          <div key={s.label} className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+            <div className="flex items-start justify-between mb-4">
+              <p className="text-sm font-medium text-slate-500">{s.label}</p>
+              <s.Icon className="w-4 h-4 text-[#8B0000] shrink-0 mt-0.5" />
+            </div>
             <p className="text-2xl font-bold text-[#8B0000]">{s.value}</p>
+            <p className="text-xs text-slate-400 mt-1">{s.delta}</p>
           </div>
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex items-start gap-4">
-          <div className="p-3 bg-red-50 rounded-lg">
-            <Eye className="w-6 h-6 text-[#8B0000]" />
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-6">
+        {/* Bar chart — left */}
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+          <div className="mb-6">
+            <h2 className="text-base font-semibold text-slate-800">Overview</h2>
+            <p className="text-xs text-slate-400 mt-0.5">Film submissions this year</p>
           </div>
-          <div>
-            <p className="text-sm text-slate-500">Most Viewed Film</p>
-            <p className="text-xl font-bold text-slate-800 mt-1">Liwanag sa Dilim</p>
-            <p className="text-xs text-slate-400 mt-1">1,248 views</p>
-          </div>
+          <BarChart />
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex items-start gap-4">
-          <div className="p-3 bg-red-50 rounded-lg">
-            <Star className="w-6 h-6 text-[#8B0000]" />
+        {/* Info cards — right */}
+        <div className="flex flex-col gap-4">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5 flex items-start gap-4 flex-1">
+            <div className="p-2.5 bg-red-50 rounded-lg shrink-0">
+              <Eye className="w-5 h-5 text-[#8B0000]" />
+            </div>
+            <div>
+              <p className="text-xs text-slate-400 font-medium uppercase tracking-wider">Most Viewed Film</p>
+              <p className="text-base font-bold text-slate-800 mt-1">Liwanag sa Dilim</p>
+              <p className="text-xs text-slate-400 mt-0.5">1,248 views</p>
+            </div>
           </div>
-          <div>
-            <p className="text-sm text-slate-500">Best Genre</p>
-            <p className="text-xl font-bold text-slate-800 mt-1">Short Film</p>
+
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5 flex items-start gap-4 flex-1">
+            <div className="p-2.5 bg-red-50 rounded-lg shrink-0">
+              <Star className="w-5 h-5 text-[#8B0000]" />
+            </div>
+            <div>
+              <p className="text-xs text-slate-400 font-medium uppercase tracking-wider">Best Genre</p>
+              <p className="text-base font-bold text-slate-800 mt-1">Short Film</p>
+              <p className="text-xs text-slate-400 mt-0.5">Top category this semester</p>
+            </div>
           </div>
         </div>
       </div>
@@ -407,113 +473,215 @@ function FilmReviewSection() {
   );
 }
 
-/* ── Students ── */
-function StudentsSection() {
-  const [students, setStudents] = useState(mockStudents);
-  const [showModal, setShowModal] = useState(false);
-  const [newStudent, setNewStudent] = useState({ name: "", studentNo: "", course: "", section: "" });
-  const [searchInput, setSearchInput] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [openMenuId, setOpenMenuId] = useState(null);
-  const [confirmRemove, setConfirmRemove] = useState(null);
-  const menuRef = useRef(null);
+/* ── Custom Dropdown ── */
+function Dropdown({ value, onChange, options }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
 
   useEffect(() => {
     const handler = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) setOpenMenuId(null);
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
+  return (
+    <div className="relative shrink-0" ref={ref}>
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="flex items-center justify-between gap-3 min-w-[160px] bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-700 font-medium shadow-sm hover:border-slate-300 transition cursor-pointer"
+      >
+        <span>{options.find((o) => o.value === value)?.label ?? value}</span>
+        <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${open ? "rotate-180" : ""}`} />
+      </button>
+
+      {open && (
+        <div className="absolute right-0 mt-1 min-w-full bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden z-30">
+          {options.map((opt) => (
+            <button
+              key={opt.value}
+              type="button"
+              onClick={() => { onChange(opt.value); setOpen(false); }}
+              className={`w-full text-left px-4 py-2.5 text-sm transition cursor-pointer ${
+                opt.value === value
+                  ? "bg-slate-100 text-slate-900 font-semibold"
+                  : "text-slate-700 hover:bg-slate-50"
+              }`}
+            >
+              {opt.label}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ── Students ── */
+function InitialsAvatar({ name }) {
+  const initials = name.split(" ").map((w) => w[0]).slice(0, 2).join("").toUpperCase();
+  const hue = (name.charCodeAt(0) * 37 + (name.charCodeAt(1) || 0) * 17) % 360;
+  return (
+    <div
+      className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 text-white text-xs font-bold shadow-sm"
+      style={{ background: `hsl(${hue}, 55%, 40%)` }}
+    >
+      {initials}
+    </div>
+  );
+}
+
+function StudentsSection() {
+  const [students, setStudents] = useState(mockStudents);
+  const [showModal, setShowModal] = useState(false);
+  const [newStudent, setNewStudent] = useState({ name: "", studentNo: "", course: "", section: "" });
+  const [search, setSearch] = useState("");
+  const [sectionFilter, setSectionFilter] = useState("All");
+  const [confirmRemove, setConfirmRemove] = useState(null);
+
+  const sections = ["All", ...Array.from(new Set(students.map((s) => s.section))).sort()];
+
   const filtered = students.filter((s) => {
-    const q = searchQuery.toLowerCase();
-    return (
-      s.name.toLowerCase().includes(q) ||
-      s.studentNo.toLowerCase().includes(q) ||
-      s.course.toLowerCase().includes(q) ||
-      s.section.toLowerCase().includes(q)
-    );
+    const q = search.toLowerCase();
+    const matchSearch = s.name.toLowerCase().includes(q) || s.studentNo.includes(q) || s.course.toLowerCase().includes(q);
+    const matchSection = sectionFilter === "All" || s.section === sectionFilter;
+    return matchSearch && matchSection;
   });
 
   const handleRemove = () => {
     setStudents((prev) => prev.filter((s) => s.id !== confirmRemove.id));
     setConfirmRemove(null);
-    setOpenMenuId(null);
   };
+
+  const handleAddStudent = () => {
+    if (!newStudent.name.trim()) return;
+    setStudents((prev) => [...prev, { ...newStudent, id: Date.now() }]);
+    setNewStudent({ name: "", studentNo: "", course: "", section: "" });
+    setShowModal(false);
+  };
+
+  const sec31 = students.filter((s) => s.section === "3-1").length;
+  const sec32 = students.filter((s) => s.section === "3-2").length;
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold text-[#8B0000]">Student Management</h1>
+      <h1 className="text-3xl font-bold text-[#8B0000]">Class List</h1>
 
-      <div className="flex gap-2">
-        <input
-          type="text"
-          value={searchInput}
-          onChange={(e) => setSearchInput(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && setSearchQuery(searchInput)}
-          placeholder="Search by name, student number, course, or section..."
-          className="flex-1 border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#8B0000]/20 focus:border-[#8B0000]"
-        />
-        <button
-          onClick={() => setShowModal(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-[#8B0000] text-white rounded-lg text-sm font-medium hover:bg-[#6b0000] transition cursor-pointer"
-        >
-          <UserPlus className="w-4 h-4" /> Add Student
-        </button>
+      {/* Stat cards */}
+      <div className="grid grid-cols-3 gap-4">
+        {[
+          { label: "Total Students", value: students.length, Icon: Users,     iconBg: "bg-red-50",    iconColor: "text-[#8B0000]" },
+          { label: "Section 3-1",    value: sec31,           Icon: BookOpen,  iconBg: "bg-blue-50",   iconColor: "text-blue-600"  },
+          { label: "Section 3-2",    value: sec32,           Icon: BookOpen,  iconBg: "bg-violet-50", iconColor: "text-violet-600"},
+        ].map((s) => (
+          <div key={s.label} className="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow">
+            <div className="flex items-start justify-between mb-4">
+              <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">{s.label}</p>
+              <div className={`p-2 rounded-xl ${s.iconBg}`}>
+                <s.Icon className={`w-4 h-4 ${s.iconColor}`} />
+              </div>
+            </div>
+            <p className="text-3xl font-bold text-slate-800">{s.value}</p>
+            <p className="text-xs text-slate-400 mt-1">enrolled students</p>
+          </div>
+        ))}
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+      {/* Search + filter + add */}
+      <div className="flex items-center justify-between gap-3">
+        {/* Search — left */}
+        <div className="relative w-72">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search by name, ID, or course..."
+            className="w-full border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-sm bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#8B0000]/20 focus:border-[#8B0000]"
+          />
+        </div>
+
+        {/* Section dropdown + Add Student — fixed far right */}
+        <div className="flex items-center gap-3">
+          <Dropdown
+            value={sectionFilter}
+            onChange={setSectionFilter}
+            options={sections.map((s) => ({ value: s, label: s === "All" ? "All Sections" : `Section ${s}` }))}
+          />
+          <button
+            onClick={() => setShowModal(true)}
+            className="flex items-center gap-2 px-4 py-2.5 bg-[#8B0000] text-white rounded-xl text-sm font-semibold hover:bg-[#6b0000] transition cursor-pointer shadow-md shrink-0"
+          >
+            <UserPlus className="w-4 h-4" /> Add Student
+          </button>
+        </div>
+      </div>
+
+      {/* Table */}
+      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-slate-100 bg-slate-50">
-              <th className="w-10 px-3 py-3"></th>
-              <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Student</th>
-              <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Student Number</th>
-              <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Course</th>
-              <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Section</th>
+              <th className="px-5 py-3.5 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">Student</th>
+              <th className="px-5 py-3.5 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">Student ID</th>
+              <th className="px-5 py-3.5 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">Course</th>
+              <th className="px-5 py-3.5 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">Section</th>
+              <th className="px-5 py-3.5 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">Status</th>
+              <th className="px-5 py-3.5 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
           <tbody>
             {filtered.map((student, idx) => (
-              <tr key={student.id} className={`${idx !== filtered.length - 1 ? "border-b border-slate-100" : ""} hover:bg-slate-50 transition`}>
-                <td className="px-3 py-3 relative" ref={openMenuId === student.id ? menuRef : null}>
-                  <button
-                    type="button"
-                    onClick={() => setOpenMenuId(openMenuId === student.id ? null : student.id)}
-                    className="p-1 rounded hover:bg-slate-100 cursor-pointer"
-                    aria-label="Row options"
-                  >
-                    <MoreVertical className="w-4 h-4 text-slate-400" />
-                  </button>
-                  {openMenuId === student.id && (
-                    <div className="absolute left-2 top-10 z-20 min-w-[140px] bg-white border border-slate-200 rounded-lg shadow-lg overflow-hidden">
-                      <button
-                        type="button"
-                        onClick={() => setConfirmRemove(student)}
-                        className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 cursor-pointer"
-                      >
-                        Remove
-                      </button>
-                    </div>
-                  )}
-                </td>
-                <td className="px-5 py-3">
+              <tr
+                key={student.id}
+                className={`${idx !== filtered.length - 1 ? "border-b border-slate-100" : ""} hover:bg-slate-50 transition`}
+              >
+                <td className="px-5 py-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center shrink-0">
-                      <UserCircle className="w-5 h-5 text-slate-400" />
+                    <InitialsAvatar name={student.name} />
+                    <div className="min-w-0">
+                      <p className="font-semibold text-slate-800 truncate">{student.name}</p>
+                      <p className="text-xs text-slate-400 truncate">{student.studentNo}@student.ub.edu.ph</p>
                     </div>
-                    <span className="font-medium text-slate-700">{student.name}</span>
                   </div>
                 </td>
-                <td className="px-5 py-3 text-slate-500">{student.studentNo}</td>
-                <td className="px-5 py-3 text-slate-500">{student.course}</td>
-                <td className="px-5 py-3 text-slate-500">{student.section}</td>
+                <td className="px-5 py-4 text-sm text-slate-500">{student.studentNo}</td>
+                <td className="px-5 py-4 text-slate-500 text-sm">{student.course}</td>
+                <td className="px-5 py-4">
+                  <span className="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600 text-xs font-semibold">
+                    {student.section}
+                  </span>
+                </td>
+                <td className="px-5 py-4">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                    Active
+                  </span>
+                </td>
+                <td className="px-5 py-4">
+                  <div className="flex items-center gap-2">
+                    <button className="flex items-center gap-1 text-xs font-semibold text-[#8B0000] hover:underline cursor-pointer">
+                      View <ChevronRight className="w-3.5 h-3.5" />
+                    </button>
+                    <button
+                      onClick={() => setConfirmRemove(student)}
+                      className="p-1.5 rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 transition cursor-pointer"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </td>
               </tr>
             ))}
             {filtered.length === 0 && (
               <tr>
-                <td colSpan={5} className="px-5 py-8 text-center text-gray-400 text-sm">No students found.</td>
+                <td colSpan={6} className="px-5 py-14 text-center">
+                  <Users className="w-10 h-10 text-slate-200 mx-auto mb-3" />
+                  <p className="text-slate-400 text-sm font-medium">No students found</p>
+                  <p className="text-slate-300 text-xs mt-1">Try adjusting your search or filter</p>
+                </td>
               </tr>
             )}
           </tbody>
@@ -523,7 +691,7 @@ function StudentsSection() {
       {confirmRemove && (
         <ConfirmModal
           title="Remove Student?"
-          message={`Are you sure you want to remove ${confirmRemove.name}?`}
+          message={`Are you sure you want to remove ${confirmRemove.name} from your class?`}
           confirmLabel="Remove"
           confirmClass="bg-red-600 hover:bg-red-700"
           onConfirm={handleRemove}
@@ -532,36 +700,41 @@ function StudentsSection() {
       )}
 
       {showModal && (
-        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center backdrop-blur-sm">
           <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md space-y-5">
-            <h2 className="text-xl font-bold text-[#8B0000]">Add New Student</h2>
+            <div className="flex items-center gap-3 mb-2">
+              <div className="p-2 bg-red-50 rounded-xl">
+                <UserPlus className="w-5 h-5 text-[#8B0000]" />
+              </div>
+              <h2 className="text-xl font-bold text-slate-800">Add New Student</h2>
+            </div>
             {[
-              { key: "name", label: "Full Name" },
-              { key: "studentNo", label: "Student Number" },
-              { key: "course", label: "Course" },
-              { key: "section", label: "Section" },
+              { key: "name",      label: "Full Name",      placeholder: "Enter full name" },
+              { key: "studentNo", label: "Student Number", placeholder: "Enter student number" },
+              { key: "course",    label: "Course",         placeholder: "Enter course" },
+              { key: "section",   label: "Section",        placeholder: "Enter section" },
             ].map((field) => (
-              <div key={field.key} className="space-y-1">
-                <label className="text-sm font-medium text-gray-700">{field.label}</label>
+              <div key={field.key} className="space-y-1.5">
+                <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{field.label}</label>
                 <input
                   type="text"
                   value={newStudent[field.key]}
                   onChange={(e) => setNewStudent({ ...newStudent, [field.key]: e.target.value })}
-                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B0000]/20 focus:border-[#8B0000]"
-                  placeholder={`Enter ${field.label.toLowerCase()}`}
+                  className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B0000]/20 focus:border-[#8B0000]"
+                  placeholder={field.placeholder}
                 />
               </div>
             ))}
             <div className="flex gap-3 pt-2">
               <button
                 onClick={() => setShowModal(false)}
-                className="flex-1 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-600 hover:border-[#8B0000] transition cursor-pointer"
+                className="flex-1 py-2.5 border border-slate-200 rounded-xl text-sm font-semibold text-slate-600 hover:border-[#8B0000] transition cursor-pointer"
               >
                 Cancel
               </button>
               <button
-                onClick={() => setShowModal(false)}
-                className="flex-1 py-2 bg-[#8B0000] text-white rounded-lg text-sm font-medium hover:bg-[#6b0000] transition cursor-pointer"
+                onClick={handleAddStudent}
+                className="flex-1 py-2.5 bg-[#8B0000] text-white rounded-xl text-sm font-semibold hover:bg-[#6b0000] transition cursor-pointer"
               >
                 Add Student
               </button>
@@ -574,84 +747,67 @@ function StudentsSection() {
 }
 
 /* ── Workspace ── */
-function WorkspaceSection() {
-  const featuredFilms = [
-    { title: "Liwanag sa Dilim", genre: "Drama", rating: 4.8, color: "#5C1A1A" },
-    { title: "Bagong Umaga", genre: "Documentary", rating: 4.6, color: "#1A3A5C" },
-    { title: "Sa Aming Lahi", genre: "Short Film", rating: 4.9, color: "#1A5C2E" },
-    { title: "Habang Buhay", genre: "Romance", rating: 4.5, color: "#4A1A5C" },
-  ];
-
-  const topRated = [
-    { title: "Sa Aming Lahi", student: "Class 3A Ensemble", genre: "Short Film", rating: 4.9, color: "#1A5C2E" },
-    { title: "Liwanag sa Dilim", student: "Maria Santos", genre: "Drama", rating: 4.8, color: "#5C1A1A" },
-    { title: "Bagong Umaga", student: "Lea Fernandez", genre: "Documentary", rating: 4.6, color: "#1A3A5C" },
-    { title: "Pagbabalik", student: "Carlos Mendoza", genre: "Short Film", rating: 4.4, color: "#4A1A5C" },
-  ];
-
-  const recommended = [
-    { title: "Habang Buhay", student: "Juan dela Cruz", genre: "Romance", rating: 4.5, color: "#4A1A5C" },
-    { title: "Hanap-buhay", student: "Maria Santos", genre: "Drama", rating: 4.3, color: "#5C4A1A" },
-    { title: "Lupa at Langit", student: "Juan dela Cruz", genre: "Drama", rating: 4.2, color: "#1A5C5C" },
-    { title: "Sa Aking Puso", student: "Ana Reyes", genre: "Romance", rating: 4.1, color: "#5C3A1A" },
-  ];
-
+function renderRatingStars(rating) {
+  const fullStars = Math.floor(rating);
+  const hasHalf = rating - fullStars >= 0.5;
+  const emptyStars = 5 - fullStars - (hasHalf ? 1 : 0);
   return (
-    <div className="space-y-10">
-      <div className="relative rounded-2xl overflow-hidden h-72 bg-gradient-to-br from-[#5C1A1A] to-[#8B0000]">
-        <div className="absolute inset-0 flex flex-col justify-end p-8 bg-gradient-to-t from-black/70 to-transparent">
-          <span className="inline-flex w-fit px-3 py-1 bg-[#8B0000] text-xs text-white rounded-lg">
-            Top 10 – Highlight Film
-          </span>
-          <h1 className="text-4xl font-bold text-white mt-3">Liwanag sa Dilim</h1>
-          <p className="text-gray-200 text-sm mt-1">Maria Santos · 2026 · Student Film</p>
-          <div className="flex items-center gap-2 mt-2 text-yellow-300 text-sm">
-            <Star className="w-4 h-4" fill="currentColor" />
-            <span>4.8 / 5</span>
-          </div>
-          <div className="flex gap-3 mt-4">
-            <button className="flex items-center gap-2 bg-white text-black px-5 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 cursor-pointer">
-              <Play className="w-4 h-4" /> Play Now
-            </button>
-            <button className="bg-[#8B0000] text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-[#6b0000] cursor-pointer">
-              More Info
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <FilmRow title="Top Rated" films={topRated} />
-      <FilmRow title="Trending Now" films={featuredFilms} />
-      <FilmRow title="Recommended For You" films={recommended} />
+    <div className="flex items-center gap-1">
+      {Array.from({ length: fullStars }).map((_, i) => (
+        <Star key={`f${i}`} className="w-4 h-4 text-[#FFD700]" fill="currentColor" />
+      ))}
+      {hasHalf && <StarHalf key="half" className="w-4 h-4 text-[#FFD700]" />}
+      {Array.from({ length: emptyStars }).map((_, i) => (
+        <Star key={`e${i}`} className="w-4 h-4 text-gray-400" />
+      ))}
     </div>
   );
 }
 
-function FilmRow({ title, films }) {
+function WorkspaceSection() {
+  const featured = mockFilms[0];
+
   return (
-    <div>
-      <h2 className="text-xl font-semibold text-[#8B0000] mb-4">{title}</h2>
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {films.map((film) => (
-          <div
-            key={film.title}
-            className="relative rounded-xl overflow-hidden shadow-md group cursor-pointer"
-            style={{ background: film.color, height: 200 }}
-          >
-            <div className="absolute inset-0 flex flex-col justify-end p-4 bg-gradient-to-t from-black/70 to-transparent">
-              <span className="text-[10px] text-white/70 uppercase tracking-wider">{film.genre}</span>
-              <p className="text-white font-bold text-sm">{film.title}</p>
-              {film.student && <p className="text-white/70 text-xs mt-0.5">{film.student}</p>}
-              <div className="flex items-center gap-1 mt-1">
-                <TrendingUp className="w-3 h-3 text-yellow-400" />
-                <span className="text-xs text-yellow-300">{film.rating}</span>
-              </div>
+    <div className="space-y-8">
+      {/* Cinematic hero */}
+      <div className="relative h-[60vh] w-full overflow-hidden rounded-2xl shadow-xl">
+        <video
+          className="absolute inset-0 w-full h-full object-cover"
+          autoPlay loop muted playsInline
+        >
+          <source src="/liwanag.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black/80 to-transparent" />
+        <div className="relative z-10 h-full flex items-center px-8 sm:px-10">
+          <div className="max-w-2xl space-y-4">
+            <span className="inline-flex px-3 py-1 bg-[#8B0000] text-xs text-white rounded-lg">
+              Top 10 – Highlight Film
+            </span>
+            <h1 className="text-4xl font-bold text-white drop-shadow-lg sm:text-5xl">{featured.title}</h1>
+            <p className="text-gray-300 text-sm drop-shadow-md">{featured.creator} · 2026 · Student Film</p>
+            <div className="flex items-center gap-3 text-gray-200">
+              {renderRatingStars(featured.rating)}
+              <span className="text-sm">{featured.rating.toFixed(1)} / 5</span>
             </div>
-            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition bg-black/30">
-              <Play className="w-10 h-10 text-white" />
+            <p className="text-gray-200 text-sm max-w-xl drop-shadow-lg">{featured.description}</p>
+            <div className="flex flex-wrap gap-3 mt-4">
+              <button className="bg-white text-black px-6 py-3 rounded-lg font-medium hover:bg-gray-100 cursor-pointer shadow-sm">
+                Play Now
+              </button>
+              <button className="bg-[#8B0000] text-white px-6 py-3 rounded-lg font-medium hover:bg-[#6b0000] cursor-pointer shadow-sm">
+                More Info
+              </button>
             </div>
           </div>
-        ))}
+        </div>
+      </div>
+
+      {/* Film rows */}
+      <div className="space-y-6">
+        <CategoryRow title="Recommended For You" films={mockFilms} />
+        <CategoryRow title="Trending Now" films={mockFilms} />
+        <CategoryRow title="Top Rated" films={mockFilms} />
       </div>
     </div>
   );
