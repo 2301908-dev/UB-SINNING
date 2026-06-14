@@ -81,96 +81,69 @@ export default function StudentDashboard() {
         <div className="pointer-events-none absolute inset-0 bg-slate-950/10" />
         <div className="relative z-10">
           {/* ================= NAVBAR ================= */}
-          <nav className="bg-white text-slate-900 flex flex-col gap-6 px-4 py-6 border-b border-gray-200 lg:flex-row lg:items-center lg:justify-between lg:px-10">
-          <div className="flex items-center justify-between gap-6">
+          <nav className="bg-white text-slate-900 flex items-center justify-between gap-6 px-4 py-4 border-b border-gray-200 lg:px-10">
             <button
               onClick={() => setActiveTab("home")}
-              className="cursor-pointer hover:scale-[1.01] transition-transform duration-200"
+              className="cursor-pointer hover:scale-[1.01] transition-transform duration-200 flex items-center gap-2"
             >
-              <UBLogo titleClass="text-[#8B0000]" subtitleClass="text-gray-500" />
+              <UBLogo hideSubtitle titleClass="text-[#8B0000]" size={40} />
+              <span className="text-lg font-bold text-[#8B0000] hidden sm:inline">UB-SINING</span>
             </button>
-            <div className="flex gap-4 lg:hidden">
-              <button className="rounded-full bg-[#FFF4D4] p-3 text-[#8B0000] hover:bg-[#F3E1A1]">
-                <Bell className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
 
-          {/* Tabs */}
-          <div className="flex flex-wrap justify-center gap-4 lg:gap-8">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`
-                  text-sm font-medium pb-1 transition
-                  ${
-                    activeTab === tab.id
-                      ? "text-[#8B0000] border-b-2 border-[#8B0000]"
-                      : "text-black hover:text-[#8B0000]"
-                  }
-                `}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Search + Notifications + Logout */}
-          <div className="flex flex-col gap-4 items-stretch sm:flex-row sm:items-center sm:justify-end sm:gap-6">
-            <div className="relative w-full sm:w-72">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
-              <input
-                placeholder="Search showcases..."
-                className="bg-gray-100 pl-10 pr-4 py-2 rounded-lg border border-gray-300 w-full text-sm text-gray-900"
-              />
-            </div>
-
-            <div className="flex items-center gap-4">
-              <div className="relative notif-area hidden sm:block">
-                <button
-                  onClick={() => setShowNotifications(!showNotifications)}
-                  className="relative"
-                >
-                  <Bell className="text-gray-600 hover:text-black transition" />
-                  <span className="absolute -top-1 -right-1 w-4 h-4 text-xs rounded-full bg-ub-maroon flex items-center justify-center text-white">
-                    {notifications.length}
-                  </span>
-                </button>
-
-                {showNotifications && (
-                  <div className="absolute right-0 mt-3 w-72 rounded-xl shadow-xl border border-gray-200 bg-white/95 backdrop-blur-xl p-3 z-50 animate-fade-in-up">
-                    <h3 className="text-sm font-semibold mb-2 text-slate-900">
-                      Notifications
-                    </h3>
-
-                    <div className="space-y-2 max-h-60 overflow-y-auto">
-                      {notifications.map((n) => (
-                        <div
-                          key={n.id}
-                          className="p-3 bg-white rounded-lg border border-gray-200 hover:border-ub-gold transition flex flex-col"
-                        >
-                          <span className="text-sm text-slate-900">
-                            {n.text}
-                          </span>
-                          <span className="text-xs text-gray-500">
-                            {n.time}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-
-                    <button className="w-full text-xs text-slate-500 mt-3 hover:text-ub-maroon">
-                      View All Notifications
-                    </button>
-                  </div>
-                )}
+            <div className="flex flex-col gap-4 items-stretch sm:flex-row sm:items-center sm:justify-end sm:gap-6">
+              <div className="relative w-full sm:w-72">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+                <input
+                  placeholder="Search showcases..."
+                  className="bg-gray-100 pl-10 pr-4 py-2 rounded-lg border border-gray-300 w-full text-sm text-gray-900"
+                />
               </div>
 
-              <ProfileMenuHub onOpenSettings={() => setShowSettings(true)} />
+              <div className="flex items-center gap-4">
+                <div className="relative notif-area hidden sm:block">
+                  <button
+                    onClick={() => setShowNotifications(!showNotifications)}
+                    className="relative"
+                  >
+                    <Bell className="text-gray-600 hover:text-black transition" />
+                    <span className="absolute -top-1 -right-1 w-4 h-4 text-xs rounded-full bg-ub-maroon flex items-center justify-center text-white">
+                      {notifications.length}
+                    </span>
+                  </button>
+
+                  {showNotifications && (
+                    <div className="absolute right-0 mt-3 w-72 rounded-xl shadow-xl border border-gray-200 bg-white/95 backdrop-blur-xl p-3 z-50 animate-fade-in-up">
+                      <h3 className="text-sm font-semibold mb-2 text-slate-900">
+                        Notifications
+                      </h3>
+
+                      <div className="space-y-2 max-h-60 overflow-y-auto">
+                        {notifications.map((n) => (
+                          <div
+                            key={n.id}
+                            className="p-3 bg-white rounded-lg border border-gray-200 hover:border-ub-gold transition flex flex-col"
+                          >
+                            <span className="text-sm text-slate-900">
+                              {n.text}
+                            </span>
+                            <span className="text-xs text-gray-500">
+                              {n.time}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+
+                      <button className="w-full text-xs text-slate-500 mt-3 hover:text-ub-maroon">
+                        View All Notifications
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                <ProfileMenuHub onOpenSettings={() => setShowSettings(true)} />
+              </div>
             </div>
-          </div>
-        </nav>
+          </nav>
 
         {/* ================= GENRE FILTER BAR ================= */}
         {activeTab === "home" && (
