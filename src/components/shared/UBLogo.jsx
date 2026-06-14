@@ -17,7 +17,7 @@ export default function UBLogo({
         className="rounded-full"
       />
 
-      <div className="flex flex-col -ml-2 mt-2">
+      <div className="flex flex-col">
         <span className={`${titleClass} ${titleSizeClass} font-bold whitespace-nowrap`}>UB-SINING</span>
         {!hideSubtitle && (
           <span className={`${subtitleClass} text-xs tracking-wide`}>STUDENT FILM SHOWCASE</span>

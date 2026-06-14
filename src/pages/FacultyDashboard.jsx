@@ -1,19 +1,21 @@
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import UBLogo from "../components/shared/UBLogo";
-import ProfileMenuHub from "../components/student/ProfileMenuHub";
 import bryanPhoto from "../assets/teampics/bryan.png";
 import { mockFilms } from "../data/mockFilms";
 import CategoryRow from "../components/student/CategoryRow";
 import {
-  Bell, Search, LogOut, CheckCircle, XCircle, Play, Eye,
+  Search, LogOut, CheckCircle, XCircle, Play, Eye,
   TrendingUp, UserPlus, Film as FilmIcon, Star, StarHalf,
   Palette, User, HelpCircle, ClipboardList, GraduationCap,
   Users, BookOpen, ChevronRight, ChevronDown, Trash2,
 } from "lucide-react";
 
+const ICON_NOTIFICATION = "/src/assets/icons/FacultyIcons/notificationFaculty.png";
+const ICON_SETTING = "/src/assets/icons/FacultyIcons/settingFaculty.png";
+
 const sidebarItems = [
-  { id: "overview",   label: "Dashboard" },
+  { id: "overview",   label: "Overview" },
   { id: "workspace",  label: "Student Films" },
   { id: "filmReview", label: "Film Review" },
   { id: "students",   label: "Student Class" },
@@ -101,46 +103,37 @@ export default function FacultyDashboard() {
   const { user, logout } = useAuth();
   const [section, setSection] = useState("overview");
   const [showNotifications, setShowNotifications] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
   const notifRef = useRef(null);
+  const profileRef = useRef(null);
 
   const profName = "Bry";
 
   useEffect(() => {
     const handler = (e) => {
       if (notifRef.current && !notifRef.current.contains(e.target)) setShowNotifications(false);
+      if (profileRef.current && !profileRef.current.contains(e.target)) setShowProfile(false);
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
   const openSettings = () => {
+    setShowProfile(false);
     setSection("settings");
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800">
-      <header className="bg-white text-slate-900 flex flex-col gap-6 px-4 py-6 border-b border-gray-200 lg:flex-row lg:items-center lg:justify-between lg:px-10">
-        <div className="flex items-center justify-between gap-6">
-          <button
-            type="button"
-            onClick={() => setSection("overview")}
-            className="cursor-pointer hover:scale-[1.01] transition-transform duration-200"
-          >
-            <UBLogo titleClass="text-[#8B0000]" subtitleClass="text-gray-500" />
-          </button>
-          <div className="flex gap-4 lg:hidden">
-            <button className="rounded-full bg-[#FFF4D4] p-3 text-[#8B0000] hover:bg-[#F3E1A1]">
-              <Bell className="w-5 h-5" />
-            </button>
-          </div>
-        </div>
+    <div className="relative min-h-screen bg-slate-50 text-slate-800">
+      <nav className="bg-white text-slate-900 flex flex-col gap-6 px-4 py-6 border-b border-gray-200 lg:flex-row lg:items-center lg:justify-between lg:px-10">
+        <UBLogo titleClass="text-[#8B0000]" subtitleClass="text-gray-500" />
 
         <div className="flex flex-wrap justify-center gap-4 lg:gap-8">
           {sidebarItems.map((item) => (
             <button
               key={item.id}
               onClick={() => setSection(item.id)}
-              className={`text-sm font-medium pb-1 transition ${
+              className={`text-sm font-medium pb-1 transition cursor-pointer ${
                 section === item.id
                   ? "text-[#8B0000] border-b-2 border-[#8B0000]"
                   : "text-black hover:text-[#8B0000]"
@@ -153,52 +146,75 @@ export default function FacultyDashboard() {
 
         <div className="flex flex-col gap-4 items-stretch sm:flex-row sm:items-center sm:justify-end sm:gap-6">
           <div className="relative w-full sm:w-72">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input
               type="search"
               placeholder="Search..."
-              className="bg-gray-100 pl-10 pr-4 py-2 rounded-lg border border-gray-300 w-full text-sm text-gray-900"
+              className="bg-gray-100 pl-9 pr-3 py-2 rounded-lg border border-gray-300 w-full text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#8B0000]/20 focus:border-[#8B0000]"
             />
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="relative notif-area hidden sm:block" ref={notifRef}>
+            <div className="relative" ref={notifRef}>
               <button
                 type="button"
                 onClick={() => setShowNotifications((v) => !v)}
-                className="relative"
+                className="relative flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 transition cursor-pointer"
               >
-                <Bell className="text-gray-600 hover:text-black transition" />
-                <span className="absolute -top-1 -right-1 w-4 h-4 text-xs rounded-full bg-ub-maroon flex items-center justify-center text-white">
-                  {mockNotifications.length}
-                </span>
+                <img src={ICON_NOTIFICATION} alt="Notifications" className="w-4 h-4 object-contain" />
+                {mockNotifications.length > 0 && (
+                  <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#8B0000] text-white text-[9px] flex items-center justify-center font-semibold">
+                    {mockNotifications.length}
+                  </span>
+                )}
               </button>
-
               {showNotifications && (
-                <div className="absolute right-0 mt-3 w-72 rounded-xl shadow-xl border border-gray-200 bg-white/95 backdrop-blur-xl p-3 z-50 animate-fade-in-up">
-                  <h3 className="text-sm font-semibold mb-2 text-slate-900">Notifications</h3>
-                  <div className="space-y-2 max-h-60 overflow-y-auto">
+                <div className="absolute right-0 mt-3 w-80 rounded-xl shadow-lg border border-slate-200 bg-white p-3 z-50">
+                  <h3 className="text-sm font-semibold mb-2 text-[#8B0000]">Notifications</h3>
+                  <div className="space-y-2 max-h-72 overflow-y-auto">
                     {mockNotifications.map((n) => (
-                      <div
-                        key={n.id}
-                        className="p-3 bg-white rounded-lg border border-gray-200 hover:border-ub-gold transition flex flex-col"
-                      >
-                        <span className="text-sm text-slate-900">{n.text}</span>
-                        <span className="text-xs text-gray-500">{n.time}</span>
+                      <div key={n.id} className="p-3 rounded-lg border border-slate-100 hover:border-[#8B0000]/30 transition">
+                        <p className="text-sm text-slate-700">{n.text}</p>
+                        <p className="text-xs text-slate-400 mt-0.5">{n.time}</p>
                       </div>
                     ))}
                   </div>
-                  <button className="w-full text-xs text-slate-500 mt-3 hover:text-ub-maroon">
-                    View All Notifications
-                  </button>
                 </div>
               )}
             </div>
 
-            <ProfileMenuHub onOpenSettings={openSettings} />
+            <div className="relative" ref={profileRef}>
+              <button
+                type="button"
+                onClick={() => setShowProfile((v) => !v)}
+                className="w-9 h-9 rounded-full overflow-hidden border-2 border-[#8B0000] cursor-pointer"
+              >
+                <img src={bryanPhoto} alt="Profile" className="w-full h-full object-cover" />
+              </button>
+              {showProfile && (
+                <div className="absolute right-0 mt-3 w-56 rounded-xl shadow-lg border border-slate-200 bg-white p-2 z-50">
+                  <div className="px-3 py-2 border-b border-slate-100">
+                    <p className="text-sm font-semibold text-slate-800">Welcome, {profName}</p>
+                    <p className="text-xs text-slate-500 truncate">{user?.email || ""}</p>
+                  </div>
+                  <button
+                    onClick={openSettings}
+                    className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-slate-600 hover:bg-slate-50 cursor-pointer"
+                  >
+                    <img src={ICON_SETTING} alt="" className="w-4 h-4 object-contain opacity-60" /> Settings
+                  </button>
+                  <button
+                    onClick={logout}
+                    className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-[#8B0000] hover:bg-red-50 cursor-pointer"
+                  >
+                    <LogOut className="w-4 h-4" /> Logout
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
-      </header>
+      </nav>
 
       <main className="px-4 py-10 sm:px-6 lg:px-10">
         {section === "overview" && <OverviewSection profName={profName} />}
