@@ -224,10 +224,10 @@ export default function AdminDashboard() {
                 </button>
 
                 {profileDropdownOpen && (
-                  <div className="absolute right-0 mt-3 w-56 rounded-xl bg-white text-[#080616] shadow-2xl ring-1 ring-black/5 overflow-visible animate-in zoom-in-95 duration-200">
-                    <div className="px-4 py-4 border-b border-gray-100 bg-gray-50/50 rounded-t-xl">
-                      <p className="text-sm font-bold text-[#8B0000]">{adminData.firstName} {adminData.lastName}</p>
-                      <p className="text-xs text-gray-500 truncate">{adminData.email}</p>
+                  <div className="absolute right-0 mt-3 w-56 overflow-visible rounded-[28px] border border-white/10 bg-[#171315] text-white shadow-[0_30px_120px_rgba(0,0,0,0.45)] animate-in zoom-in-95 duration-200">
+                    <div className="rounded-t-[28px] border-b border-white/10 bg-white/5 px-4 py-4">
+                      <p className="text-sm font-bold text-white">{adminData.firstName} {adminData.lastName}</p>
+                      <p className="truncate text-xs text-white/55">{adminData.email}</p>
                     </div>
 
                     <div className="py-1 relative">
@@ -235,9 +235,9 @@ export default function AdminDashboard() {
                       {/* Edit Profile Option */}
                       <button
                         onClick={() => { navigateTo("edit-profile"); setProfileDropdownOpen(false); setLanguageMenuOpen(false); }}
-                        className="flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm hover:bg-gray-100 transition"
+                        className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm transition hover:bg-white/10"
                       >
-                        <User className="w-4 h-4 text-gray-500" />
+                        <User className="h-4 w-4 text-[#D4AF37]" />
                         <span className="font-medium">My Profile</span>
                       </button>
 
@@ -248,15 +248,15 @@ export default function AdminDashboard() {
                             e.stopPropagation();
                             setLanguageMenuOpen(!languageMenuOpen);
                           }}
-                          className={`flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm transition ${languageMenuOpen ? 'bg-gray-50 text-[#8B0000]' : 'hover:bg-gray-100'}`}
+                          className={`flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm transition ${languageMenuOpen ? 'bg-white/10 text-white' : 'hover:bg-white/10'}`}
                         >
-                          <Globe className="w-4 h-4 text-gray-500" />
+                          <Globe className="h-4 w-4 text-[#D4AF37]" />
                           <span className="font-medium">Language</span>
-                          <span className="ml-auto text-[10px] bg-gray-200 px-1.5 py-0.5 rounded text-gray-600 font-bold">{language.code}</span>
+                          <span className="ml-auto rounded bg-[#D4AF37]/10 px-1.5 py-0.5 text-[10px] font-bold text-[#D4AF37]">{language.code}</span>
                         </button>
 
                         {languageMenuOpen && (
-                          <div className="absolute right-full top-0 mr-2 w-48 rounded-xl border border-gray-200 bg-white shadow-xl py-1 animate-in slide-in-from-right-2 duration-150">
+                          <div className="absolute right-full top-0 mr-2 w-48 rounded-xl border border-white/10 bg-[#171315] py-1 text-white shadow-[0_20px_60px_rgba(0,0,0,0.45)] animate-in slide-in-from-right-2 duration-150">
                             {[
                               { label: "English (US)", code: "EN" },
                               { label: "Filipino", code: "TL" },
@@ -267,10 +267,10 @@ export default function AdminDashboard() {
                                   setLanguage(option);
                                   setLanguageMenuOpen(false);
                                 }}
-                                className={`flex items-center justify-between w-full px-4 py-2 text-left text-sm transition hover:bg-gray-100 ${language.code === option.code ? 'text-[#8B0000]' : 'text-gray-600'}`}
+                                className={`flex w-full items-center justify-between px-4 py-2 text-left text-sm transition hover:bg-white/10 ${language.code === option.code ? 'text-[#D4AF37]' : 'text-white/75'}`}
                               >
                                 <span>{option.label}</span>
-                                <span className="text-[10px] bg-gray-100 px-1.5 py-0.5 rounded text-gray-500">{option.code}</span>
+                                <span className="rounded bg-white/10 px-1.5 py-0.5 text-[10px] text-white/50">{option.code}</span>
                               </button>
                             ))}
                           </div>
@@ -280,20 +280,20 @@ export default function AdminDashboard() {
                       {/* Settings Option */}
                       <button
                         onClick={() => { setSection("settings"); setProfileDropdownOpen(false); setLanguageMenuOpen(false); }}
-                        className="flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm hover:bg-gray-100 transition"
+                        className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm transition hover:bg-white/10"
                       >
-                        <Settings className="w-4 h-4 text-gray-500" />
+                        <Settings className="h-4 w-4 text-[#D4AF37]" />
                         <span className="font-medium">Settings</span>
                       </button>
 
-                      <div className="border-t border-gray-100 my-1"></div>
+                      <div className="my-1 border-t border-white/10"></div>
 
                       {/* Logout Option */}
                       <button
                         onClick={() => { logout(); setProfileDropdownOpen(false); }}
-                        className="flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm text-red-600 hover:bg-red-50 transition"
+                        className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm text-[#D4AF37] transition hover:bg-white/10"
                       >
-                        <LogOut className="w-4 h-4" />
+                        <LogOut className="h-4 w-4" />
                         <span className="font-medium">Logout</span>
                       </button>
                     </div>

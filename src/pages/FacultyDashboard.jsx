@@ -104,6 +104,7 @@ export default function FacultyDashboard() {
   const [showProfile, setShowProfile] = useState(false);
   const notifRef = useRef(null);
   const profileRef = useRef(null);
+  const backgroundImage = "";
 
   const sidebarItems = [
     { id: "overview", label: "Dashboard", icon: ICON_DASHBOARD },
@@ -129,33 +130,6 @@ export default function FacultyDashboard() {
   };
 
   return (
-<<<<<<< Updated upstream
-    <div className="flex min-h-screen bg-slate-50 text-slate-800">
-      {/* Sidebar */}
-      <aside className="relative bg-[#8B0000] p-4 rounded-r-lg flex flex-col justify-between w-52 shadow-xl z-20">
-        <div className="space-y-3">
-          <div className="-ml-2">
-            <UBLogo hideSubtitle titleClass="text-white" size={64} />
-          </div>
-          <nav className="space-y-1">
-            {sidebarItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => setSection(item.id)}
-                className={`flex items-center gap-2 w-full p-2 rounded-lg transition justify-start ${section === item.id ? "bg-white text-[#8B0000]" : "text-[#E8EDF2] hover:bg-white/20"}`}
-              >
-                <img
-                  src={item.icon}
-                  alt=""
-                  className="w-5 h-5 shrink-0 object-contain"
-                  style={section === item.id ? { filter: "brightness(0)" } : { filter: "brightness(0) invert(1)" }}
-                />
-                <span className="font-medium text-sm">{item.label}</span>
-              </button>
-            ))}
-          </nav>
-        </div>
-=======
     <div
       className="flex min-h-screen text-[#080616]"
       style={{
@@ -186,7 +160,6 @@ export default function FacultyDashboard() {
             </button>
           ))}
         </nav>
->>>>>>> Stashed changes
       </aside>
 
       {/* Main Content */}

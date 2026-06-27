@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { User, ShieldCheck, Bell, KeyRound, Loader, Save, X, CheckCircle2, Play, Link2 } from "lucide-react";
 
-export default function SettingsControlPanel({ onClose }) {
+export default function SettingsControlPanel({ onClose, initialTab = "profile", embedded = false }) {
   const [activeTab, setActiveTab] = useState("profile");
   const [isSaving, setIsSaving] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
@@ -25,6 +25,10 @@ export default function SettingsControlPanel({ onClose }) {
   const handleStateChange = () => {
     setHasChanges(true);
   };
+
+  useEffect(() => {
+    setActiveTab(initialTab);
+  }, [initialTab]);
 
   const handleSave = async () => {
     setIsSaving(true);
@@ -55,26 +59,28 @@ export default function SettingsControlPanel({ onClose }) {
   ];
 
   return (
-    <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-5xl max-h-[90vh] flex flex-col">
+    <div className={embedded ? "w-full" : "fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4 backdrop-blur-md"}>
+      <div className={embedded ? "flex w-full min-h-0 flex-col overflow-hidden rounded-[30px] border border-white/10 bg-[#171315] text-white shadow-[0_30px_120px_rgba(0,0,0,0.55)]" : "flex max-h-[90vh] w-full max-w-5xl flex-col overflow-hidden rounded-[30px] border border-white/10 bg-[#171315] text-white shadow-[0_30px_120px_rgba(0,0,0,0.55)]"}>
         {/* Header */}
-        <div className="border-b border-gray-200 px-8 py-6 flex items-center justify-between">
+        <div className="flex items-center justify-between border-b border-white/10 px-8 py-6">
           <div>
-            <h1 className="text-2xl font-bold text-[#8B0000]">Settings & Director Control</h1>
-            <p className="text-sm text-gray-500 mt-1">Manage your professional presence and content protection</p>
+            <p className="text-sm uppercase tracking-[0.28em] text-[#D4AF37]">Settings & Director Control</p>
+            <h1 className="mt-2 text-2xl font-bold text-white">Manage your professional presence and content protection</h1>
           </div>
-          <button
-            onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-lg transition"
-          >
-            <X className="w-5 h-5 text-gray-400" />
-          </button>
+          {onClose && (
+            <button
+              onClick={onClose}
+              className="rounded-lg p-2 transition hover:bg-white/10"
+            >
+              <X className="h-5 w-5 text-white/60" />
+            </button>
+          )}
         </div>
 
         {/* Main Content */}
         <div className="flex-1 flex overflow-hidden">
           {/* Left Sidebar Navigation */}
-          <aside className="w-56 border-r border-gray-200 bg-gray-50 overflow-y-auto">
+          <aside className="w-56 overflow-y-auto border-r border-white/10 bg-white/5">
             <nav className="p-4 space-y-2">
               {menuItems.map((item) => {
                 const IconComponent = item.icon;
@@ -84,8 +90,8 @@ export default function SettingsControlPanel({ onClose }) {
                     onClick={() => setActiveTab(item.id)}
                     className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                       activeTab === item.id
-                        ? "bg-[#8B0000] text-white"
-                        : "text-gray-700 hover:bg-gray-200"
+                        ? "bg-[#8B0000] text-white shadow-sm shadow-black/20"
+                        : "text-white/70 hover:bg-white/10"
                     }`}
                   >
                     <IconComponent className="w-5 h-5 flex-shrink-0" />
@@ -103,13 +109,13 @@ export default function SettingsControlPanel({ onClose }) {
               {activeTab === "profile" && (
                 <div className="space-y-6 max-w-2xl">
                   <div>
-                    <h2 className="text-xl font-bold text-[#8B0000] mb-1">Director Profile Customization</h2>
-                    <p className="text-sm text-gray-600">Manage your professional brand identity on the platform.</p>
+                    <h2 className="mb-1 text-xl font-bold text-white">Director Profile Customization</h2>
+                    <p className="text-sm text-white/65">Manage your professional brand identity on the platform.</p>
                   </div>
 
                   {/* Display Name */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="mb-2 block text-sm font-medium text-white/75">
                       Auteur Display Name
                     </label>
                     <input
@@ -120,13 +126,13 @@ export default function SettingsControlPanel({ onClose }) {
                         handleStateChange();
                       }}
                       placeholder="e.g., Maria Santos"
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D4AF37] focus:border-transparent transition"
+                      className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-white outline-none transition placeholder:text-white/35 focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20"
                     />
                   </div>
 
                   {/* Studio Name */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="mb-2 block text-sm font-medium text-white/75">
                       Production Studio Name
                     </label>
                     <input
@@ -137,17 +143,17 @@ export default function SettingsControlPanel({ onClose }) {
                         handleStateChange();
                       }}
                       placeholder="e.g., Santos Cinema Productions"
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D4AF37] focus:border-transparent transition"
+                      className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-white outline-none transition placeholder:text-white/35 focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20"
                     />
                   </div>
 
                   {/* Director's Statement */}
                   <div>
-                    <div className="flex items-center justify-between mb-2">
-                      <label className="block text-sm font-medium text-gray-700">
+                    <div className="mb-2 flex items-center justify-between">
+                      <label className="block text-sm font-medium text-white/75">
                         Director's Statement / Cinematic Bio
                       </label>
-                      <span className="text-xs text-gray-500">
+                      <span className="text-xs text-white/45">
                         {directorBio.length}/500 characters
                       </span>
                     </div>
@@ -162,18 +168,18 @@ export default function SettingsControlPanel({ onClose }) {
                       placeholder="Share your cinematic vision and artistic philosophy..."
                       maxLength={500}
                       rows="4"
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D4AF37] focus:border-transparent transition resize-none"
+                      className="w-full resize-none rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-white outline-none transition placeholder:text-white/35 focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20"
                     />
                   </div>
 
                   {/* External Portfolios */}
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="mb-2 block text-sm font-medium text-white/75">
                         Vimeo Portfolio Link
                       </label>
                       <div className="flex items-center gap-2">
-                        <Play className="w-5 h-5 text-gray-400" />
+                        <Play className="h-5 w-5 text-white/40" />
                         <input
                           type="url"
                           value={vimeoLink}
@@ -182,17 +188,17 @@ export default function SettingsControlPanel({ onClose }) {
                             handleStateChange();
                           }}
                           placeholder="vimeo.com/yourprofile"
-                          className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D4AF37] focus:border-transparent transition"
+                          className="flex-1 rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-white outline-none transition placeholder:text-white/35 focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="mb-2 block text-sm font-medium text-white/75">
                         LinkedIn Profile
                       </label>
                       <div className="flex items-center gap-2">
-                        <Link2 className="w-5 h-5 text-gray-400" />
+                        <Link2 className="h-5 w-5 text-white/40" />
                         <input
                           type="url"
                           value={linkedinLink}
@@ -201,7 +207,7 @@ export default function SettingsControlPanel({ onClose }) {
                             handleStateChange();
                           }}
                           placeholder="linkedin.com/in/yourprofile"
-                          className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D4AF37] focus:border-transparent transition"
+                          className="flex-1 rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-white outline-none transition placeholder:text-white/35 focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20"
                         />
                       </div>
                     </div>
@@ -213,8 +219,8 @@ export default function SettingsControlPanel({ onClose }) {
               {activeTab === "privacy" && (
                 <div className="space-y-6 max-w-2xl">
                   <div>
-                    <h2 className="text-xl font-bold text-[#8B0000] mb-1">Intellectual Property & Exhibition Safeguards</h2>
-                    <p className="text-sm text-gray-600">Protect your creative work and control its distribution.</p>
+                    <h2 className="mb-1 text-xl font-bold text-white">Intellectual Property & Exhibition Safeguards</h2>
+                    <p className="text-sm text-white/65">Protect your creative work and control its distribution.</p>
                   </div>
 
                   {/* Festival Mode */}
@@ -245,8 +251,8 @@ export default function SettingsControlPanel({ onClose }) {
               {activeTab === "notifications" && (
                 <div className="space-y-6 max-w-2xl">
                   <div>
-                    <h2 className="text-xl font-bold text-[#8B0000] mb-1">Communication Preferences</h2>
-                    <p className="text-sm text-gray-600">Manage your notification channels and alerts.</p>
+                    <h2 className="mb-1 text-xl font-bold text-white">Communication Preferences</h2>
+                    <p className="text-sm text-white/65">Manage your notification channels and alerts.</p>
                   </div>
 
                   {/* Faculty Critique Alerts */}
@@ -277,43 +283,43 @@ export default function SettingsControlPanel({ onClose }) {
               {activeTab === "verification" && (
                 <div className="space-y-6 max-w-2xl">
                   <div>
-                    <h2 className="text-xl font-bold text-[#8B0000] mb-1">Institutional Verification & Security</h2>
-                    <p className="text-sm text-gray-600">View and manage your account security settings.</p>
+                    <h2 className="mb-1 text-xl font-bold text-white">Institutional Verification & Security</h2>
+                    <p className="text-sm text-white/65">View and manage your account security settings.</p>
                   </div>
 
                   {/* Email Display */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="mb-2 block text-sm font-medium text-white/75">
                       Institutional Email Address
                     </label>
                     <input
                       type="email"
                       value="student.name@ub.edu.ph"
                       disabled
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-500 cursor-not-allowed"
+                      className="w-full cursor-not-allowed rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-white/45"
                     />
                   </div>
 
                   {/* Verification Badge */}
-                  <div className="flex items-center gap-3 p-4 bg-[#F9FAFB] border border-[#D4AF37] rounded-lg">
+                  <div className="flex items-center gap-3 rounded-lg border border-[#D4AF37]/20 bg-[#1f1618] p-4">
                     <CheckCircle2 className="w-6 h-6 text-[#D4AF37] flex-shrink-0" />
                     <div>
-                      <p className="text-sm font-medium text-gray-900">Verified UB Academic Account</p>
-                      <p className="text-xs text-gray-600 mt-0.5">Your identity has been verified through the University system</p>
+                      <p className="text-sm font-medium text-white">Verified UB Academic Account</p>
+                      <p className="mt-0.5 text-xs text-white/60">Your identity has been verified through the University system</p>
                     </div>
                   </div>
 
                   {/* Session Termination */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-3">
+                    <label className="mb-3 block text-sm font-medium text-white/75">
                       Remote Session Management
                     </label>
                     <button
-                      className="w-full px-4 py-2 border-2 border-red-300 text-red-600 rounded-lg hover:bg-red-50 transition font-medium text-sm"
+                      className="w-full rounded-lg border border-[#8B0000] px-4 py-2 text-sm font-medium text-white transition hover:bg-[#8B0000]/20"
                     >
                       Terminate All Remote Sessions
                     </button>
-                    <p className="text-xs text-gray-600 mt-2">This will log you out from all devices except the current one.</p>
+                    <p className="mt-2 text-xs text-white/55">This will log you out from all devices except the current one.</p>
                   </div>
                 </div>
               )}
@@ -322,14 +328,14 @@ export default function SettingsControlPanel({ onClose }) {
         </div>
 
         {/* Footer Actions */}
-        <div className="border-t border-gray-200 bg-gray-50 px-8 py-4 flex items-center justify-end gap-3">
+        <div className="flex items-center justify-end gap-3 border-t border-white/10 bg-[#120d0e] px-8 py-4">
           <button
             onClick={handleDiscard}
             disabled={!hasChanges}
             className={`px-6 py-2 rounded-lg text-sm font-medium transition ${
               hasChanges
-                ? "text-gray-700 hover:bg-gray-200"
-                : "text-gray-400 cursor-not-allowed"
+                ? "text-white/75 hover:bg-white/10"
+                : "cursor-not-allowed text-white/30"
             }`}
           >
             Discard Changes
@@ -340,7 +346,7 @@ export default function SettingsControlPanel({ onClose }) {
             className={`px-6 py-2 rounded-lg text-sm font-medium text-white flex items-center gap-2 transition ${
               hasChanges && !isSaving
                 ? "bg-[#8B0000] hover:bg-[#6B0000] cursor-pointer"
-                : "bg-gray-300 cursor-not-allowed"
+                : "cursor-not-allowed bg-white/10 text-white/30"
             }`}
           >
             {isSaving ? (
@@ -364,15 +370,15 @@ export default function SettingsControlPanel({ onClose }) {
 /* ─── Toggle Option Component ─── */
 function ToggleOption({ enabled, onChange, title, description }) {
   return (
-    <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+    <div className="flex items-start gap-4 rounded-lg border border-white/10 bg-white/5 p-4">
       <div className="flex-1 pt-1">
-        <h3 className="text-sm font-medium text-gray-900">{title}</h3>
-        <p className="text-xs text-gray-600 mt-1 leading-relaxed">{description}</p>
+        <h3 className="text-sm font-medium text-white">{title}</h3>
+        <p className="mt-1 text-xs leading-relaxed text-white/60">{description}</p>
       </div>
       <button
         onClick={() => onChange(!enabled)}
         className={`flex-shrink-0 relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-          enabled ? "bg-[#8B0000]" : "bg-gray-300"
+          enabled ? "bg-[#8B0000]" : "bg-white/20"
         }`}
       >
         <span
@@ -388,16 +394,16 @@ function ToggleOption({ enabled, onChange, title, description }) {
 /* ─── Checkbox Option Component ─── */
 function CheckboxOption({ checked, onChange, title, description }) {
   return (
-    <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+    <div className="flex items-start gap-4 rounded-lg border border-white/10 bg-white/5 p-4">
       <input
         type="checkbox"
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}
-        className="flex-shrink-0 w-5 h-5 rounded border-gray-300 text-[#8B0000] focus:ring-2 focus:ring-[#D4AF37] cursor-pointer mt-0.5"
+        className="mt-0.5 h-5 w-5 flex-shrink-0 cursor-pointer rounded border-white/20 text-[#8B0000] focus:ring-2 focus:ring-[#D4AF37]"
       />
       <div className="flex-1">
-        <h3 className="text-sm font-medium text-gray-900">{title}</h3>
-        <p className="text-xs text-gray-600 mt-1 leading-relaxed">{description}</p>
+        <h3 className="text-sm font-medium text-white">{title}</h3>
+        <p className="mt-1 text-xs leading-relaxed text-white/60">{description}</p>
       </div>
     </div>
   );

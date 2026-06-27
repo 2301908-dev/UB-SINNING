@@ -184,6 +184,11 @@ export function AuthProvider({ children }) {
     setRole(null);
     setError(null);
     cleanAuthCallbackUrl();
+
+    if (typeof window !== "undefined") {
+      window.location.replace("/");
+    }
+
     try {
       await supabase.auth.signOut();
     } catch (err) {

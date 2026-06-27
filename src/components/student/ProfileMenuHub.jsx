@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import {
   User,
   Settings,
@@ -6,7 +7,6 @@ import {
   Globe,
   LogOut,
   ChevronRight,
-  Menu,
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 
@@ -14,15 +14,15 @@ export default function ProfileMenuHub({ onOpenSettings, onOpenHelp }) {
   const { logout, user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState("en");
+  const [menuPosition, setMenuPosition] = useState({ top: 0, right: 0 });
   const dropdownRef = useRef(null);
+  const buttonRef = useRef(null);
 
-  // Mock user data
   const userData = {
     name: user?.email?.split("@")[0] || "Director",
     avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.email || "default"}`,
   };
 
-  // Handle outside click
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -34,110 +34,140 @@ export default function ProfileMenuHub({ onOpenSettings, onOpenHelp }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleMenuClick = (action, callback) => {
+  const handleMenuClick = (callback) => {
     setIsOpen(false);
-    if (callback) callback();
+    callback?.();
   };
+
+  const openSettingsWorkspace = (tab = "profile") => {
+    window.location.assign(`/student/settings-workspace?tab=${tab}`);
+  };
+
+  const settingsPages = [
+    { id: "profile", label: "Director Profile" },
+    { id: "privacy", label: "Privacy & IP" },
+    { id: "notifications", label: "Notifications" },
+    { id: "verification", label: "Account Security" },
+  ];
+
+  useEffect(() => {
+    if (!isOpen || !buttonRef.current) {
+      return;
+    }
+
+    const rect = buttonRef.current.getBoundingClientRect();
+    setMenuPosition({
+      top: rect.bottom + 12,
+      right: Math.max(window.innerWidth - rect.right, 16),
+    });
+  }, [isOpen]);
 
   return (
     <div className="relative" ref={dropdownRef}>
-      {/* Avatar Button */}
       <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-[#8B0000] hover:border-[#D4AF37] transition-colors hover:shadow-md focus:outline-none"
+        ref={buttonRef}
+        onClick={() => setIsOpen((current) => !current)}
+        className="relative h-10 w-10 overflow-hidden rounded-full border-2 border-[#8B0000] transition-colors hover:border-[#D4AF37] hover:shadow-md focus:outline-none"
         aria-label="Open profile menu"
         aria-expanded={isOpen}
       >
-        <img
-          src={userData.avatar}
-          alt={userData.name}
-          className="w-full h-full object-cover"
-        />
+        <img src={userData.avatar} alt={userData.name} className="h-full w-full object-cover" />
       </button>
 
-      {/* Dropdown Menu */}
-      {isOpen && (
-        <div className="absolute top-full right-0 mt-3 w-64 rounded-xl bg-white shadow-2xl border border-gray-200 z-50 overflow-hidden animate-fade-in-up">
-          {/* Header - User Identity */}
-          <div className="px-4 py-3 border-b border-gray-200 bg-gray-50">
-            <div className="flex items-center gap-2">
+      {isOpen && createPortal(
+        <div
+          className="fixed z-[9999] w-72 overflow-hidden rounded-[28px] border border-white/10 bg-[#171315] text-white shadow-[0_30px_120px_rgba(0,0,0,0.45)] animate-fade-in-up"
+          style={{ top: menuPosition.top, right: menuPosition.right }}
+        >
+          <div className="border-b border-white/10 bg-white/5 px-5 py-4">
+            <div className="flex items-center gap-3">
               <img
                 src={userData.avatar}
                 alt={userData.name}
-                className="w-10 h-10 rounded-full border border-[#8B0000]"
+                className="h-11 w-11 rounded-full border border-[#D4AF37]/30"
               />
-              <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-bold text-slate-900 truncate">
-                  {userData.name}
-                </h3>
-                <p className="text-xs text-gray-600 truncate">{user?.email || "student@ub.edu.ph"}</p>
+              <div className="min-w-0 flex-1">
+                <h3 className="truncate text-sm font-bold text-white">{userData.name}</h3>
+                <p className="truncate text-xs text-white/55">{user?.email || "student@ub.edu.ph"}</p>
               </div>
             </div>
           </div>
 
-          {/* Menu Items */}
-          <div className="py-2 px-1">
-            {/* My Profile */}
-            <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-slate-900 hover:bg-gray-100 transition group">
-              <User className="w-4 h-4 text-[#8B0000] group-hover:scale-110 transition" />
+          <div className="px-2 py-2">
+            <button className="group flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-white/85 transition hover:bg-white/10">
+              <User className="h-4 w-4 text-[#D4AF37] transition group-hover:scale-110" />
               <span className="flex-1 text-left">My Profile</span>
-              <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition" />
+              <ChevronRight className="h-4 w-4 opacity-0 transition group-hover:opacity-100" />
             </button>
 
-            {/* Settings */}
             <button
-              onClick={() => handleMenuClick("settings", onOpenSettings)}
-              className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-slate-900 hover:bg-gray-100 transition group"
+              onClick={() => handleMenuClick(() => openSettingsWorkspace("profile"))}
+              className="group flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-white/85 transition hover:bg-white/10"
             >
-              <Settings className="w-4 h-4 text-[#8B0000] group-hover:scale-110 transition" />
+              <Settings className="h-4 w-4 text-[#D4AF37] transition group-hover:scale-110" />
               <span className="flex-1 text-left">Settings Workspace</span>
-              <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition" />
+              <ChevronRight className="h-4 w-4 opacity-0 transition group-hover:opacity-100" />
             </button>
 
-            {/* Help & Support */}
+            <div className="mt-2 space-y-1 rounded-2xl border border-white/10 bg-white/5 p-2">
+              {settingsPages.map((page) => (
+                <button
+                  key={page.id}
+                  onClick={() => handleMenuClick(() => openSettingsWorkspace(page.id))}
+                  className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-xs text-white/70 transition hover:bg-white/10 hover:text-white"
+                >
+                  <span>{page.label}</span>
+                  <ChevronRight className="h-3.5 w-3.5 text-[#D4AF37]" />
+                </button>
+              ))}
+            </div>
+
             <button
-              onClick={() => handleMenuClick("help", onOpenHelp)}
-              className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-slate-900 hover:bg-gray-100 transition group"
+              onClick={() => handleMenuClick(onOpenHelp)}
+              className="group flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-white/85 transition hover:bg-white/10"
             >
-              <HelpCircle className="w-4 h-4 text-[#8B0000] group-hover:scale-110 transition" />
+              <HelpCircle className="h-4 w-4 text-[#D4AF37] transition group-hover:scale-110" />
               <span className="flex-1 text-left">Help & Support</span>
-              <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition" />
+              <ChevronRight className="h-4 w-4 opacity-0 transition group-hover:opacity-100" />
             </button>
 
-            {/* Language Preference */}
             <div className="px-3 py-2">
-              <button className="w-full flex items-center gap-3 rounded-lg text-sm text-slate-900 hover:bg-gray-100 transition group">
-                <Globe className="w-4 h-4 text-[#8B0000] group-hover:scale-110 transition" />
+              <div className="flex items-center gap-3 rounded-xl px-0 py-2.5 text-sm text-white/85">
+                <Globe className="h-4 w-4 text-[#D4AF37] transition group-hover:scale-110" />
                 <span className="flex-1 text-left">Language</span>
                 <select
                   value={selectedLanguage}
                   onChange={(e) => setSelectedLanguage(e.target.value)}
-                  className="bg-transparent border border-gray-300 rounded px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+                  className="rounded-lg border border-white/10 bg-[#120d0e] px-2 py-1 text-xs text-white outline-none focus:ring-2 focus:ring-[#D4AF37]"
                 >
                   <option value="en">English</option>
                   <option value="fil">Filipino</option>
                 </select>
-              </button>
+              </div>
             </div>
           </div>
 
-          {/* Divider */}
-          <div className="h-px bg-gray-200" />
+          <div className="h-px bg-white/10" />
 
-          {/* Logout */}
-          <div className="py-2 px-1">
+          <div className="px-2 py-2">
             <button
               onClick={() => {
                 setIsOpen(false);
                 logout();
               }}
-              className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-semibold text-[#8B0000] hover:bg-red-50 transition group"
+              className="group flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-[#D4AF37] transition hover:bg-white/10"
             >
-              <LogOut className="w-4 h-4 group-hover:scale-110 transition" />
+              <LogOut className="h-4 w-4 transition group-hover:scale-110" />
               <span className="flex-1 text-left">Log Out</span>
+              <ChevronRight className="h-4 w-4 opacity-0 transition group-hover:opacity-100" />
             </button>
           </div>
-        </div>
+
+          <div className="border-t border-white/10 bg-white/5 px-3 py-2">
+            <p className="text-center text-xs text-white/45">UB Sining • Director Platform</p>
+          </div>
+        </div>,
+        document.body
       )}
     </div>
   );

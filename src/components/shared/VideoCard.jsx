@@ -1,11 +1,40 @@
 import { useState } from "react";
-import { Play, Info, Bookmark, X, Star, StarHalf, Film as FilmIcon, Camera } from "lucide-react";
+import {
+  Play,
+  Info,
+  Bookmark,
+  X,
+  Star,
+  StarHalf,
+  Plus,
+  ThumbsUp,
+  Volume2,
+} from "lucide-react";
 
 export default function VideoCard({ film }) {
   const [hover, setHover] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [saved, setSaved] = useState(false);
   const [userRating, setUserRating] = useState(0);
+
+  const openGallery = () => {
+    window.dispatchEvent(
+      new CustomEvent("ub-sining:navigate", {
+        detail: { tab: "gallery" },
+      })
+    );
+    setShowModal(false);
+  };
+
+  const addToMyList = () => {
+    window.dispatchEvent(
+      new CustomEvent("ub-sining:add-to-my-list", {
+        detail: { film },
+      })
+    );
+    setSaved(true);
+    setShowModal(false);
+  };
 
   const renderRatingStars = (rating) => {
     const fullStars = Math.floor(rating);
@@ -99,129 +128,172 @@ export default function VideoCard({ film }) {
       </div>
 
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/10 p-4 md:p-8">
-          <div className="relative w-full max-w-3xl overflow-hidden rounded-[32px] border border-gray-200 bg-white shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-md md:p-8">
+          <div className="relative w-full max-w-6xl overflow-hidden rounded-[30px] border border-[#D4AF37]/15 bg-[#171315] text-white shadow-[0_30px_120px_rgba(0,0,0,0.65)]">
             <button
               onClick={() => setShowModal(false)}
-              className="absolute right-4 top-4 rounded-full bg-white p-2 text-[#8B0000] shadow-sm transition hover:bg-gray-100"
+              className="absolute right-4 top-4 z-20 rounded-full bg-white/10 p-2 text-white transition hover:bg-white/20"
             >
-              <X className="w-5 h-5" />
+              <X className="h-5 w-5" />
             </button>
-            <div className="grid gap-6 lg:grid-cols-[1.3fr_0.9fr] p-6 md:p-8">
-              {/* Left column */}
-              <div className="space-y-4">
-                <div className="relative h-72 overflow-hidden rounded-3xl bg-slate-100">
-                  <video
-                    src={film.previewUrl}
-                    muted
-                    autoPlay
-                    loop
-                    playsInline
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent" />
-                </div>
-                <div className="space-y-2">
-                  <h2 className="text-2xl font-semibold text-slate-900">{film.title}</h2>
-                  <p className="text-sm text-slate-500">Directed by {film.creator}</p>
-                  <p className="text-sm text-slate-600">{film.description}</p>
-                  {/* ── Play button ── */}
-                  <button
-                    onClick={() => film.previewUrl && window.open(film.previewUrl, "_blank")}
-                    className="flex items-center gap-2 mt-2 px-5 py-2 bg-[#8B0000] text-white rounded-xl text-sm font-bold hover:bg-[#6b0000] transition shadow-md"
-                  >
-                    <Play className="w-4 h-4" fill="currentColor" /> Play Now
-                  </button>
-                </div>
-              </div>
 
-              {/* Right column */}
-              <div className="space-y-5 rounded-3xl bg-[#8B0000] p-6 text-white">
-                <div>
-                  <h3 className="text-xs uppercase tracking-[0.3em] font-bold text-[#FFD700] mb-3">Why Watch</h3>
-                  <p className="text-sm leading-relaxed text-white/90">
-                    Experience a cinematic preview with exclusive behind-the-scenes commentary, student production notes, and festival buzz.
-                  </p>
-                </div>
-                <div className="grid gap-3 sm:grid-cols-2">
-                  <div className="rounded-2xl bg-white/95 p-4 shadow-md hover:shadow-lg transition">
-                    <p className="text-xs uppercase tracking-[0.16em] text-[#8B0000] font-bold">Rating</p>
-                    <div className="mt-3 space-y-2">
-                      <span className="inline-flex rounded-full bg-[#8B0000] px-3 py-1 text-sm font-bold text-white">
-                        {film.rating.toFixed(1)}
+            <div className="grid lg:grid-cols-[1.4fr_0.9fr]">
+              <div className="relative min-h-[28rem] overflow-hidden bg-[#090707]">
+                <video
+                  src={film.previewUrl}
+                  muted
+                  autoPlay
+                  loop
+                  playsInline
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-black via-black/35 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-[#171315] to-transparent" />
+
+                <div className="relative z-10 flex h-full flex-col justify-end p-6 md:p-8 lg:p-10">
+                  <div className="max-w-2xl space-y-4">
+                    <div className="flex flex-wrap items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.3em] text-[#D4AF37]">
+                      <span className="rounded-full border border-[#D4AF37]/25 bg-[#D4AF37]/10 px-3 py-1 text-white/90">
+                        Preview
                       </span>
-                      <div className="flex items-center gap-1">
-                        {renderRatingStars(film.rating)}
-                      </div>
+                      <span>{film.category}</span>
+                      <span>{film.duration}</span>
                     </div>
-                  </div>
-                  <div className="rounded-2xl bg-white/95 p-4 shadow-md hover:shadow-lg transition">
-                    <p className="text-xs uppercase tracking-[0.16em] text-[#8B0000] font-bold">Category</p>
-                    <p className="mt-3 text-base font-bold text-[#8B0000]">{film.category}</p>
-                  </div>
-                </div>
-                <div className="space-y-3 rounded-2xl bg-white/10 border border-white/20 p-4">
-                  <div className="flex items-center gap-2">
-                    <FilmIcon className="h-5 w-5 text-[#FFD700]" />
-                    <p className="text-sm font-bold text-white uppercase tracking-widest">Behind the Scenes</p>
-                  </div>
-                  <div className="grid gap-2 sm:grid-cols-2">
-                    <div className="flex items-start gap-3 rounded-xl bg-white/95 p-3 shadow-sm hover:shadow-md transition">
-                      <Camera className="h-4 w-4 text-[#8B0000] mt-0.5 flex-shrink-0" />
-                      <div className="min-w-0">
-                        <p className="text-xs font-bold text-[#8B0000]">Production Stills</p>
-                        <p className="text-xs text-slate-600 mt-1">On-set imagery & design</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3 rounded-xl bg-white/95 p-3 shadow-sm hover:shadow-md transition">
-                      <Info className="h-4 w-4 text-[#8B0000] mt-0.5 flex-shrink-0" />
-                      <div className="min-w-0">
-                        <p className="text-xs font-bold text-[#8B0000]">Storyboards & Notes</p>
-                        <p className="text-xs text-slate-600 mt-1">Director cues & frames</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
 
-                {/* ── Your Rating (fixed) ── */}
-                <div className="rounded-2xl bg-white/95 p-4 shadow-md">
-                  <p className="text-xs uppercase tracking-[0.16em] text-[#8B0000] font-bold mb-3">Your Rating</p>
-                  <div className="flex items-center gap-1">
-                    {Array.from({ length: 5 }).map((_, index) => (
+                    <div>
+                      <h2 className="text-4xl font-extrabold tracking-tight text-white md:text-6xl">
+                        {film.title}
+                      </h2>
+                      <p className="mt-3 max-w-xl text-sm leading-6 text-white/80 md:text-base">
+                        Directed by {film.creator}. {film.description}
+                      </p>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-3">
                       <button
-                        key={index}
+                        onClick={() => film.previewUrl && window.open(film.previewUrl, "_blank")}
+                        className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-bold text-black transition hover:bg-white/90"
+                      >
+                        <Play className="h-4 w-4" fill="currentColor" />
+                        Play
+                      </button>
+                      <button
                         type="button"
-                        onClick={(event) => {
-                          event.stopPropagation();
-                          setUserRating(index + 1);
-                        }}
-                        className={`rounded-full p-1 transition ${
-                          userRating >= index + 1
-                            ? "text-[#D4AF37]"
-                            : "text-gray-400 hover:text-[#D4AF37]"
+                        onClick={addToMyList}
+                        className={`inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition ${
+                          saved
+                            ? "bg-[#D4AF37]/20 text-white"
+                            : "bg-white/10 text-white hover:bg-white/15"
                         }`}
                       >
-                        <Star
-                          className="h-5 w-5"
-                          fill={userRating >= index + 1 ? "currentColor" : "none"}
-                        />
+                        <Plus className="h-4 w-4" />
+                        {saved ? "In My List" : "My List"}
                       </button>
-                    ))}
+                        <button className="inline-flex items-center gap-2 rounded-full bg-white/10 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/15">
+                        <Info className="h-4 w-4" />
+                        More Info
+                      </button>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-4 text-sm text-white/75">
+                      <div className="flex items-center gap-2">
+                        {renderRatingStars(film.rating)}
+                        <span>{film.rating.toFixed(1)}</span>
+                      </div>
+                      <span>Student Film</span>
+                      <span>{film.views.toLocaleString()} views</span>
+                    </div>
                   </div>
-                  <p className="text-sm text-slate-500 mt-2">
-                    {userRating ? `${userRating} star${userRating === 1 ? "" : "s"}` : "Tap a star to rate"}
-                  </p>
                 </div>
 
-                <button
-                  onClick={() => {
-                    setSaved(true);
-                    setShowModal(false);
-                  }}
-                  className="w-full rounded-2xl bg-white text-[#8B0000] px-5 py-3 text-sm font-bold transition hover:bg-gray-50 shadow-md hover:shadow-lg"
-                >
-                  Add to Watchlist
+                <button className="absolute bottom-5 right-5 rounded-full bg-black/55 p-3 text-white/90 backdrop-blur transition hover:bg-black/80">
+                  <Volume2 className="h-4 w-4" />
                 </button>
+              </div>
+
+              <div className="border-t border-white/10 bg-[#211a1d] p-6 md:p-8 lg:border-l lg:border-t-0 lg:p-10">
+                <div className="space-y-6">
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.3em] text-[#D4AF37]">Why Watch</p>
+                    <p className="mt-3 text-sm leading-6 text-white/80">
+                      Experience a cinematic preview with exclusive behind-the-scenes commentary, student production notes, and festival buzz.
+                    </p>
+                  </div>
+
+                  <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                    <div className="rounded-2xl bg-white/5 p-4 ring-1 ring-white/10">
+                      <p className="text-xs uppercase tracking-[0.2em] text-white/45">Rating</p>
+                      <div className="mt-3 flex items-center gap-2">
+                        <span className="rounded-full bg-[#8B0000] px-3 py-1 text-sm font-bold text-white">
+                          {film.rating.toFixed(1)}
+                        </span>
+                        <div className="flex items-center gap-1">
+                          {renderRatingStars(film.rating)}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="rounded-2xl bg-white/5 p-4 ring-1 ring-white/10">
+                      <p className="text-xs uppercase tracking-[0.2em] text-white/45">Category</p>
+                      <p className="mt-3 text-lg font-semibold text-white">{film.category}</p>
+                    </div>
+                  </div>
+
+                  <div className="rounded-2xl bg-white/5 p-4 ring-1 ring-white/10">
+                    <p className="text-xs uppercase tracking-[0.2em] text-white/45">Your Rating</p>
+                    <div className="mt-3 flex items-center gap-1">
+                      {Array.from({ length: 5 }).map((_, index) => (
+                        <button
+                          key={index}
+                          type="button"
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            setUserRating(index + 1);
+                          }}
+                          className={`rounded-full p-1 transition ${
+                            userRating >= index + 1
+                              ? "text-[#D4AF37]"
+                              : "text-white/35 hover:text-[#D4AF37]"
+                          }`}
+                        >
+                          <Star
+                            className="h-5 w-5"
+                            fill={userRating >= index + 1 ? "currentColor" : "none"}
+                          />
+                        </button>
+                      ))}
+                    </div>
+                    <p className="mt-2 text-sm text-white/60">
+                      {userRating ? `${userRating} star${userRating === 1 ? "" : "s"}` : "Tap a star to rate"}
+                    </p>
+                  </div>
+
+                  <div className="rounded-2xl bg-white/5 p-4 ring-1 ring-white/10">
+                    <p className="text-xs uppercase tracking-[0.2em] text-white/45">Behind the Scenes</p>
+                    <div className="mt-4 space-y-3 text-sm text-white/75">
+                      <div className="flex items-center justify-between gap-3 border-b border-white/10 pb-3">
+                        <span>Production stills</span>
+                        <span className="text-white/45">On-set imagery</span>
+                      </div>
+                      <div className="flex items-center justify-between gap-3">
+                        <span>Storyboards & notes</span>
+                        <span className="text-white/45">Director cues</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={openGallery}
+                    className="w-full rounded-xl bg-[#D4AF37] px-5 py-3 text-sm font-bold text-black transition hover:bg-[#e2c15b]"
+                  >
+                    View in 3D Gallery
+                  </button>
+
+                  <div className="flex items-center gap-2 text-xs uppercase tracking-[0.22em] text-white/35">
+                    <ThumbsUp className="h-4 w-4" />
+                    Cinematic preview layout
+                  </div>
+                </div>
               </div>
             </div>
           </div>

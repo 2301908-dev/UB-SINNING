@@ -5,6 +5,7 @@ import SignInPage from "./pages/SignInPage";
 import AuthCallback from "./pages/AuthCallback";
 import AdminDashboard from "./pages/AdminDashboard";
 import StudentDashboard from "./pages/StudentDashboard";
+import StudentSettingsWorkspace from "./pages/StudentSettingsWorkspace";
 import FacultyDashboard from "./pages/FacultyDashboard";
 import NotFoundPage from "./pages/NotFoundPage";
 function AppContent() {
@@ -26,6 +27,15 @@ function AppContent() {
 
   // Route based on role
   if (user) {
+    if (role === "student" && window.location.pathname === "/student/settings-workspace") {
+      const params = new URLSearchParams(window.location.search);
+      return (
+        <StudentSettingsWorkspace
+          onBack={() => window.location.assign("/")}
+          initialTab={params.get("tab") || "profile"}
+        />
+      );
+    }
     if (role === "admin") return <AdminDashboard />;
     if (role === "faculty") return <FacultyDashboard />;
     return <StudentDashboard />;
