@@ -110,77 +110,27 @@ export default function AdminDashboard() {
         backgroundRepeat: "no-repeat",
       } : {}}
     >
-      {/* Sidebar */}
-      <aside className="relative bg-[#8B0000] p-4 rounded-r-lg flex flex-col justify-between w-52 shadow-xl z-20">
-        <div className="space-y-3">
-          <div className="overflow-hidden">
-            <UBLogo />
-          </div>
-          <nav className="space-y-1">
-            {sidebarItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => { setSection(item.id); setIsEditing(false); }}
-                className={`flex items-center gap-2 w-full p-2 rounded-lg transition justify-start ${section === item.id ? "bg-white text-[#8B0000]" : "text-[#E8EDF2] hover:bg-white/20"
-                  }`}
-              >
-                <item.icon className="w-4 h-4" />
-                <span className="font-medium text-sm">{item.label}</span>
-              </button>
-            ))}
-          </nav>
-        </div>
-      </aside>
+
 
       {/* Main Container */}
       <div className="flex-1 flex flex-col h-screen overflow-hidden">
 
         {/* Header */}
-        <header className={`h-16 flex items-center justify-between px-8 border-b backdrop-blur-md z-30 transition-colors duration-300 ${darkMode ? 'bg-[#1e1b29]/80 border-white/10' : 'bg-black/10 border-white/10'}`}>
+        <header className={`h-20 flex items-center justify-between px-8 border-b backdrop-blur-md z-30 transition-colors duration-300 ${darkMode ? 'bg-[#1e1b29]/80 border-white/10' : 'bg-black/10 border-white/10'}`}>
 
-          {/* Header Global Search Bar */}
-          <div className="relative w-62">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50" />
-            <input
-              type="text"
-              value={globalSearch}
-              onChange={(e) => setGlobalSearch(e.target.value)}
-              placeholder="Search anything..."
-              className="w-full rounded-xl bg-black/20 border border-white/10 pl-9 pr-4 py-2 text-sm text-white outline-none focus:ring-2 focus:ring-[#8B0000]/40 placeholder-white/50 transition-all"
-            />
+          {/* Brand */}
+          <div className="flex items-center gap-4">
+            <UBLogo size={80} titleClass={darkMode ? "text-white" : "text-gray-900"} subtitleClass={darkMode ? "text-gray-300" : "text-gray-600"} />
           </div>
 
           {/* Action Utilities & Dynamic Actions Panel */}
           <div className="flex items-center gap-4">
 
-            {/* Toggle Dark Mode Button */}
-            <button
-              onClick={() => setDarkMode(!darkMode)}
-              title={darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
-              className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium transition shadow-sm border ${darkMode
-                ? "bg-zinc-800 hover:bg-zinc-700 border-zinc-700 text-white"
-                : "bg-white hover:bg-zinc-50 border-zinc-200 text-zinc-700"
-                }`}
-            >
-              {darkMode ? (
-                <>
-                  <Sun className="w-4 h-4 text-amber-400" />
-                  <span>Light Mode</span>
-                </>
-              ) : (
-                <>
-                  <Moon className="w-4 h-4 text-zinc-600" />
-                  <span>Dark Mode</span>
-                </>
-              )}
-            </button>
-
-
             {/* Notification Trigger Wrapper */}
             <div className="relative" ref={notificationRef}>
               <button
                 onClick={() => setNotificationsOpen(!notificationsOpen)}
-                className="p-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 transition shadow-md text-white relative"
+                className="p-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 transition shadow-md text-white relative transition-all duration-300 ease-in-out hover:-translate-y-1.5 cursor-pointer"
               >
                 <Bell className="w-4 h-4" />
                 <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#8B0000] rounded-full ring-2 ring-white/20"></span>
@@ -215,7 +165,7 @@ export default function AdminDashboard() {
                     setProfileDropdownOpen(!profileDropdownOpen);
                     if (profileDropdownOpen) setLanguageMenuOpen(false);
                   }}
-                  className="flex items-center gap-2 p-1.5 px-3 rounded-full bg-[#8B0000] transition-all shadow-md group"
+                  className="flex items-center gap-2 p-1.5 px-3 rounded-full bg-[#8B0000] transition-all shadow-md group cursor-pointer hover:shadow-lg hover:-translate-y-0.5 border border-white/10 text-white"
                 >
                   <div className="relative">
                     <img
@@ -229,7 +179,7 @@ export default function AdminDashboard() {
                 </button>
 
                 {profileDropdownOpen && (
-                  <div className="absolute right-0 mt-3 w-56 rounded-xl bg-white text-[#080616] shadow-2xl ring-1 ring-black/5 overflow-visible animate-in zoom-in-95 duration-200">
+                  <div className="absolute right-0 mt-3 w-56 rounded-xl bg-white text-[#080616] shadow-2xl ring-1 ring-black/5 overflow-visible animate-in zoom-in-95 duration-200 cursor-pointer transition-all duration-300 ease-in-out hover:-translate-y-1.5">
                     <div className="px-4 py-4 border-b border-gray-100 bg-gray-50/50 rounded-t-xl">
                       <p className="text-sm font-bold text-[#8B0000]">{adminData.firstName} {adminData.lastName}</p>
                       <p className="text-xs text-gray-500 truncate">{adminData.email}</p>
@@ -282,6 +232,25 @@ export default function AdminDashboard() {
                         )}
                       </div>
 
+                      {/* Toggle Dark Mode Button */}
+                      <button
+                        onClick={() => setDarkMode(!darkMode)}
+                        className={`flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm transition ${darkMode ? 'hover:bg-white/[0.05] text-gray-300' : 'hover:bg-gray-100 text-gray-700'
+                          }`}
+                      >
+                        {darkMode ? (
+                          <>
+                            <Sun className="w-4 h-4 text-amber-400" />
+                            <span className="font-medium">Light Mode</span>
+                          </>
+                        ) : (
+                          <>
+                            <Moon className="w-4 h-4 text-zinc-500" />
+                            <span className="font-medium">Dark Mode</span>
+                          </>
+                        )}
+                      </button>
+
                       {/* Settings Option */}
                       <button
                         onClick={() => { setSection("settings"); setProfileDropdownOpen(false); setLanguageMenuOpen(false); }}
@@ -320,6 +289,48 @@ export default function AdminDashboard() {
 
             {/* DYNAMIC SECTION RENDERING */}
             <div className="animate-in fade-in duration-500">
+              {section !== "edit-profile" && (
+                <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <h1 className="text-3xl font-bold text-[#8B0000]">
+                    {section === "overview"
+                      ? "Dashboard Overview"
+                      : section === "content"
+                        ? "All Content"
+                        : section === "users"
+                          ? "User Management"
+                          : section === "settings"
+                            ? "Settings"
+                            : "Dashboard Overview"}
+                  </h1>
+
+                  <div className="flex flex-wrap items-center justify-end gap-2">
+                    {sidebarItems.map((item) => {
+                      const Icon = item.icon;
+                      const isActive = section === item.id;
+                      const buttonClasses = isActive
+                        ? "bg-[#8B0000] text-white shadow-sm border border-[#8B0000]"
+                        : darkMode
+                          ? "bg-white/10 text-[#E8EDF2] border border-white/10 hover:bg-white/20"
+                          : "bg-white/90 text-[#080616] border border-gray-300 shadow-sm hover:bg-white";
+
+                      return (
+                        <button
+                          key={item.id}
+                          onClick={() => {
+                            navigateTo(item.id);
+                            setIsEditing(false);
+                          }}
+                          className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition ${buttonClasses}`}
+                        >
+                          <Icon className="h-4 w-4" />
+                          <span>{item.label}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
               {section === "overview" && <AdminOverview darkMode={darkMode} />}
               {section === "content" && <AllContent darkMode={darkMode} />}
               {section === "users" && <UserManagement darkMode={darkMode} />}
@@ -579,7 +590,8 @@ export default function AdminDashboard() {
 
 function KPI({ title, value, change, iconSrc, darkMode }) {
   return (
-    <div className="bg-white/10 backdrop-blur-md p-6 rounded-xl space-y-3 border border-white/10 shadow-lg">
+    <div className="bg-white rounded-2xl p-6 border border-gray-100/50 
+                    shadow-sm hover:shadow-xl transition-all duration-300 ease-in-out hover:-translate-y-1.5 cursor-pointer">
 
       <div className="w-11 h-11 rounded-lg bg-[#8B0000]/10 backdrop-blur-sm flex items-center justify-center p-2.5 shadow-inner border border-white/20">
         <img
@@ -638,7 +650,6 @@ function AdminOverview({ darkMode }) {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold text-[#8B0000]">Dashboard Overview</h1>
 
       {/* KPI Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -678,7 +689,7 @@ function AdminOverview({ darkMode }) {
 
       {/* Dynamic Total Views Graph Section */}
       <div
-        className={`backdrop-blur-md p-6 rounded-xl shadow-lg border transition-colors ${darkMode
+        className={`backdrop-blur-md p-6 rounded-xl shadow-lg border transition-all duration-300 ease-in-out hover:-translate-y-1.5 cursor-pointer ${darkMode
           ? "bg-[#1e1b29]/90 border-white/10 text-white"
           : "bg-white/80 border-gray-200 text-[#080616]"
           }`}
@@ -718,9 +729,9 @@ function AdminOverview({ darkMode }) {
             ))}
           </div>
 
-          <div className={`h-64 flex-1 flex items-end gap-3 px-2 pt-4 border-b border-l ${darkMode ? "border-white/10" : "border-gray-200"}`}>
+          <div className={`h-64 flex-1 flex items-end gap-2 px-1 pt-4 border-b border-l ${darkMode ? "border-white/10" : "border-gray-200"}`}>
             {graphData[timeframe].map((data, index) => (
-              <div key={index} className="flex-1 flex flex-col items-center gap-2 h-full justify-end group">
+              <div key={index} className="w-35 flex flex-col items-center gap-1 h-full justify-end group min-w-0">
 
                 <span className={`text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity px-1.5 py-0.5 rounded shadow border pointer-events-none mb-1 ${darkMode
                   ? "bg-[#2b243d] text-white border-white/10"
@@ -756,7 +767,7 @@ function AllContent({ darkMode }) {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold text-[#8B0000] mb-6">All Content</h1>
+
 
       {/* Styled Search Input Area */}
       <div className="mb-8">
@@ -789,6 +800,7 @@ function AllContent({ darkMode }) {
                 className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                 alt={film.title}
               />
+
               {/* Subtle overlay accent on hover */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </div>
@@ -812,7 +824,7 @@ function AllContent({ darkMode }) {
                   }`}>
                   Media
                 </span>
-                <span className="text-xs font-semibold text-[#8B0000] opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all duration-300">
+                <span className="text-xs font-semibold text-[#8B0000] opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all duration-300 cursor-pointer hover:underline">
                   View Details
                 </span>
               </div>
@@ -840,6 +852,21 @@ function UserManagement({ darkMode }) {
   const [searchEmail, setSearchEmail] = useState("");
   const [confirmRequest, setConfirmRequest] = useState(null);
   const [screenNotice, setScreenNotice] = useState(null);
+  const [showAddUserForm, setShowAddUserForm] = useState(false);
+  const [newUserForm, setNewUserForm] = useState({
+    name: "",
+    email: "",
+    role: "Student",
+    created: new Date().toISOString().split("T")[0],
+  });
+
+  const getNextUserId = () => {
+    const numericIds = users
+      .map((user) => Number(user.id))
+      .filter((id) => Number.isInteger(id));
+
+    return numericIds.length > 0 ? Math.max(...numericIds) + 1 : 1;
+  };
 
   // Safely find the targeted user record data to render custom dynamic alerts
   const targetedUser = confirmRequest ? users.find((u) => u.id === confirmRequest.userId) : null;
@@ -854,9 +881,45 @@ function UserManagement({ darkMode }) {
     setConfirmRequest({ userId, action: "deactivate" });
   };
 
+  const handleReactivate = (userId) => {
+    setActionMenuOpenId(null);
+    setConfirmRequest({ userId, action: "reactivate" });
+  };
+
   const handleDelete = (userId) => {
     setActionMenuOpenId(null);
     setConfirmRequest({ userId, action: "delete" });
+  };
+
+  const handleAddUser = (e) => {
+    e.preventDefault();
+
+    const trimmedName = newUserForm.name.trim();
+    const trimmedEmail = newUserForm.email.trim().toLowerCase();
+
+    if (!trimmedName || !trimmedEmail) {
+      setScreenNotice({ type: "error", text: "Please provide both a name and email." });
+      return;
+    }
+
+    const newUser = {
+      id: getNextUserId(),
+      name: trimmedName,
+      email: trimmedEmail,
+      created: newUserForm.created || new Date().toISOString().split("T")[0],
+      role: newUserForm.role,
+      canEnter: true,
+    };
+
+    setUsers((prevUsers) => [newUser, ...prevUsers]);
+    setScreenNotice({ type: "success", text: `"${trimmedName}" has been added as a ${newUser.role}.` });
+    setNewUserForm({
+      name: "",
+      email: "",
+      role: "Student",
+      created: new Date().toISOString().split("T")[0],
+    });
+    setShowAddUserForm(true);
   };
 
   const handleConfirmAction = () => {
@@ -873,6 +936,13 @@ function UserManagement({ darkMode }) {
         )
       );
       setScreenNotice({ type: "success", text: `"${identifier}" has been deactivated.` });
+    } else if (action === "reactivate") {
+      setUsers((prevUsers) =>
+        prevUsers.map((u) =>
+          u.id === userId ? { ...u, canEnter: true } : u
+        )
+      );
+      setScreenNotice({ type: "success", text: `"${identifier}" has been reactivated.` });
     } else if (action === "delete") {
       setUsers((prevUsers) => prevUsers.filter((u) => u.id !== userId));
       setScreenNotice({ type: "success", text: `"${identifier}" has been deleted.` });
@@ -898,7 +968,7 @@ function UserManagement({ darkMode }) {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold text-[#8B0000] mb-4">User Management</h1>
+
       <div className="bg-white/80 backdrop-blur-md p-6 rounded-xl shadow-lg space-y-6 border border-gray-200">
         <div className="flex flex-col gap-4 md:gap-0 md:flex-row md:items-center md:justify-between">
           <div className="flex gap-2">
@@ -913,6 +983,7 @@ function UserManagement({ darkMode }) {
               </button>
             ))}
           </div>
+
           {/* Container for search input and the new Add User button */}
           <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto items-center">
             <div className="w-full md:w-50">
@@ -925,16 +996,70 @@ function UserManagement({ darkMode }) {
               />
             </div>
             <button
-              onClick={() => {
-                /* Add your custom logic here, e.g., open modal or navigate */
-                console.log("Add User clicked");
-              }}
+              onClick={() => setShowAddUserForm((prev) => !prev)}
               className="w-full sm:w-auto shrink-0 inline-flex items-center justify-center rounded-xl bg-[#8B0000] px-5 py-3 text-sm font-bold text-white hover:bg-[#8B0000]/80 transition shadow-sm"
             >
-              Add User
+              {showAddUserForm ? "Close Form" : "Add User"}
             </button>
           </div>
         </div>
+
+        {showAddUserForm && (
+          <form onSubmit={handleAddUser} className="rounded-2xl border border-gray-200 bg-gray-50 p-4 shadow-sm space-y-4">
+            <div className="grid gap-4 md:grid-cols-3">
+              <div>
+                <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-gray-600">Full Name</label>
+                <input
+                  type="text"
+                  value={newUserForm.name}
+                  onChange={(e) => setNewUserForm((prev) => ({ ...prev, name: e.target.value }))}
+                  placeholder="Enter full name"
+                  className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm text-[#080616] outline-none transition focus:ring-2 focus:ring-[#8B0000]/20"
+                  required
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-gray-600">UBmail</label>
+                <input
+                  type="email"
+                  value={newUserForm.email}
+                  onChange={(e) => setNewUserForm((prev) => ({ ...prev, email: e.target.value }))}
+                  placeholder="name@ub.edu.ph"
+                  className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm text-[#080616] outline-none transition focus:ring-2 focus:ring-[#8B0000]/20"
+                  required
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-gray-600">Role</label>
+                <select
+                  value={newUserForm.role}
+                  onChange={(e) => setNewUserForm((prev) => ({ ...prev, role: e.target.value }))}
+                  className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm text-[#080616] outline-none transition focus:ring-2 focus:ring-[#8B0000]/20"
+                >
+                  <option value="Student">Student</option>
+                  <option value="Professor">Professor</option>
+                </select>
+              </div>
+            </div>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div className="w-full sm:w-48">
+                <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-gray-600">Created</label>
+                <input
+                  type="date"
+                  value={newUserForm.created}
+                  onChange={(e) => setNewUserForm((prev) => ({ ...prev, created: e.target.value }))}
+                  className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm text-[#080616] outline-none transition focus:ring-2 focus:ring-[#8B0000]/20"
+                />
+              </div>
+              <button
+                type="submit"
+                className="inline-flex items-center justify-center rounded-xl bg-[#8B0000] px-5 py-3 text-sm font-bold text-white hover:bg-[#8B0000]/80 transition shadow-sm"
+              >
+                Save User
+              </button>
+            </div>
+          </form>
+        )}
         {confirmRequest && (
           <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-4 text-sm text-amber-900 shadow-sm animate-in fade-in duration-200">
             <div className="flex items-start gap-3">
@@ -943,12 +1068,20 @@ function UserManagement({ darkMode }) {
               </div>
               <div className="flex-1">
                 <p className="font-bold text-amber-950">
-                  {confirmRequest.action === 'delete' ? 'Confirm Deletion' : 'Confirm Deactivation'}
+                  {confirmRequest.action === 'delete'
+                    ? 'Confirm Deletion'
+                    : confirmRequest.action === 'reactivate'
+                      ? 'Confirm Reactivation'
+                      : 'Confirm Deactivation'}
                 </p>
                 <p className="mt-1 text-xs text-amber-800">
                   Are you sure you want to <span className="font-bold underline">{confirmRequest.action}</span> user{" "}
                   <span className="font-bold text-black bg-amber-200/60 px-1.5 py-0.5 rounded">{targetedUserName}</span>?{" "}
-                  {confirmRequest.action === 'delete' ? 'This action removes the account permanently.' : 'This blocks their dashboard access access.'}
+                  {confirmRequest.action === 'delete'
+                    ? 'This action removes the account permanently.'
+                    : confirmRequest.action === 'reactivate'
+                      ? 'This restores their dashboard access.'
+                      : 'This blocks their dashboard access access.'}
                 </p>
               </div>
             </div>
@@ -985,6 +1118,7 @@ function UserManagement({ darkMode }) {
                 <th className="px-4 py-3 font-semibold text-slate-700">Actions</th>
               </tr>
             </thead>
+
             <tbody className="divide-y divide-gray-200 bg-white">
               {filteredUsers.map((user) => (
                 <tr key={user.id} className="group">
@@ -1008,18 +1142,27 @@ function UserManagement({ darkMode }) {
                   <td className="px-4 py-4 text-right relative">
                     <button
                       onClick={() => handleToggleMenu(user.id)}
-                      className="inline-flex items-center justify-center p-2 rounded-full text-gray-500 hover:bg-gray-100 hover:text-[#8B0000] transition"
+                      className="inline-flex items-center justify-center p-2 rounded-full text-gray-500 hover:bg-gray-100 hover:text-[#8B0000] transition cursor-pointer"
                     >
                       <MoreVertical className="w-5 h-5" />
                     </button>
                     {actionMenuOpenId === user.id && (
-                      <div className="absolute right-4 top-10 z-20 w-36 rounded-xl border border-gray-200 bg-white text-sm text-[#080616] shadow-xl">
-                        <button
-                          onClick={() => handleDeactivate(user.id)}
-                          className="w-full px-4 py-3 text-left hover:bg-gray-100 transition"
-                        >
-                          Deactivate
-                        </button>
+                      <div className="absolute right-4 top-10 z-20 w-40 rounded-xl border border-gray-200 bg-white text-sm text-[#080616] shadow-xl">
+                        {user.canEnter ? (
+                          <button
+                            onClick={() => handleDeactivate(user.id)}
+                            className="w-full px-4 py-3 text-left hover:bg-gray-100 transition"
+                          >
+                            Deactivate
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => handleReactivate(user.id)}
+                            className="w-full px-4 py-3 text-left hover:bg-gray-100 transition"
+                          >
+                            Reactivate
+                          </button>
+                        )}
                         <button
                           onClick={() => handleDelete(user.id)}
                           className="w-full px-4 py-3 text-left text-red-600 hover:bg-gray-100 transition"
@@ -1057,7 +1200,6 @@ function SettingsPage({ setSection }) {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold text-[#8B0000] mb-4">Settings</h1>
       <div className="flex flex-col md:flex-row gap-8 bg-white rounded-xl shadow-xl border border-gray-100 min-h-[500px] overflow-hidden">
 
         {/* SIDEBAR NAVIGATION */}
