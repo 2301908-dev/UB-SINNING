@@ -275,8 +275,8 @@ export default function AdminDashboard() {
                       {/* Help Center Option */}
                       <button
                         className={`flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm transition ${darkMode
-                            ? 'text-white/80 hover:bg-white/5 hover:text-white'
-                            : 'text-gray-700 hover:bg-gray-100 hover:text-[#8B0000]'
+                          ? 'text-white/80 hover:bg-white/5 hover:text-white'
+                          : 'text-gray-700 hover:bg-gray-100 hover:text-[#8B0000]'
                           }`}
                       >
                         <HelpCircle className={`w-4 h-4 transition-colors ${darkMode ? 'text-white/50' : 'text-gray-500'}`} />
@@ -691,7 +691,7 @@ function AdminOverview({ darkMode }) {
 
         <KPI
           title="Total Views"
-          value="22"
+          value="332"
           change="+8"
           iconSrc={ActiveUsersIcon}
           darkMode={darkMode}
@@ -1057,6 +1057,7 @@ function UserManagement({ darkMode }) {
                   required
                 />
               </div>
+
               <div>
                 <label className={`mb-1 block text-xs font-semibold uppercase tracking-wide ${darkMode ? 'text-white/60' : 'text-gray-600'}`}>Role</label>
                 <select
@@ -1317,7 +1318,9 @@ function SettingsPage({ darkMode, setSection }) {
           {activeTab === 'general' && (
             <div>
               <h2 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-800'}`}>General Settings</h2>
-              <p className={`text-sm ${darkMode ? 'text-white/70' : 'text-gray-600'}`}>Manage your overall preferences here.</p>
+              <p className={`text-sm mb-6 ${darkMode ? 'text-white/70' : 'text-gray-600'}`}>Manage your overall preferences here.</p>
+
+              <hr className={`my-6 ${darkMode ? 'border-gray-700' : 'border-gray-200'}`} />
             </div>
           )}
 
@@ -1325,15 +1328,243 @@ function SettingsPage({ darkMode, setSection }) {
           {activeTab === 'account' && (
             <div>
               <h2 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-800'}`}>Account Settings</h2>
-              <p className={`text-sm ${darkMode ? 'text-white/70' : 'text-gray-600'}`}>Manage your profile, email, and security details.</p>
+              <p className={`text-sm mb-6 ${darkMode ? 'text-white/70' : 'text-gray-600'}`}>Manage your profile, email, and security details.</p>
+
+              <hr className={`my-6 ${darkMode ? 'border-gray-700' : 'border-gray-200'}`} />
+
+              {/* Security Access Section is now nested inside the 'account' block */}
+              <div>
+                <h3 className={`text-lg font-semibold mb-4 ${darkMode ? 'text-white' : 'text-gray-800'}`}>Security Access</h3>
+
+                <div className="space-y-4 max-w-md">
+                  <div>
+                    <label className={`block text-sm font-medium mb-1 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                      Current Password
+                    </label>
+                    <input
+                      type="password"
+                      className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-gray-700 ${darkMode ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-300 text-gray-950'}`}
+                      placeholder="Enter current password"
+                    />
+                  </div>
+
+                  <div>
+                    <label className={`block text-sm font-medium mb-1 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                      New Password
+                    </label>
+                    <input
+                      type="password"
+                      className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500 ${darkMode ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-300 text-gray-950'}`}
+                      placeholder="Enter new password"
+                    />
+                  </div>
+
+                  <div>
+                    <label className={`block text-sm font-medium mb-1 ${darkMode ? 'text-gray-300' : 'text-gray-500'}`}>
+                      Confirm New Password
+                    </label>
+                    <input
+                      type="password"
+                      className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500 ${darkMode ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-300 text-gray-950'}`}
+                      placeholder="Confirm new password"
+                    />
+                  </div>
+
+                  <button className="mt-2 px-4 py-2 bg-[#8B0000] hover:bg-[#8B0000]/90 text-white font-medium rounded-md transition-colors text-sm">
+                    Update Password
+                  </button>
+                </div>
+              </div>
             </div>
           )}
 
           {/* Placeholder for Notification Tab Content */}
+
           {activeTab === 'notification' && (
             <div>
-              <h2 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-800'}`}>Notification Settings</h2>
-              <p className={`text-sm ${darkMode ? 'text-white/70' : 'text-gray-600'}`}>Manage your notification preferences here.</p>
+              {/* Header */}
+              <div className="mb-6">
+                <h2 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-800'}`}>
+                  Notification Settings
+                </h2>
+                <p className={`text-sm ${darkMode ? 'text-white/70' : 'text-gray-600'}`}>
+                  Manage your notification preferences and monitor recent account activity here.
+                </p>
+              </div>
+
+              <hr className={`my-6 ${darkMode ? 'border-white/10' : 'border-gray-200'}`} />
+
+              {/* Notification Preferences Section */}
+              <div className="max-w-3xl mb-8">
+                <h3 className={`text-lg font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-800'}`}>
+                  Notification Preferences
+                </h3>
+
+                <div className="space-y-4">
+                  {/* Preference 1 */}
+                  <label className={`flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition-all ${darkMode
+                    ? 'bg-white/5 border-white/5 hover:bg-white/10'
+                    : 'bg-slate-50 border-gray-200 hover:bg-slate-100/70'
+                    }`}>
+                    <input
+                      type="checkbox"
+                      defaultChecked
+                      className="w-4 h-4 mt-1 rounded text-[#8B0000] focus:ring-[#8B0000] border-gray-300"
+                    />
+                    <div>
+                      <span className={`block text-sm font-semibold ${darkMode ? 'text-white' : 'text-slate-900'}`}>
+                        Email Alerts
+                      </span>
+                      <span className={`text-xs ${darkMode ? 'text-white/60' : 'text-slate-500'}`}>
+                        Receive an email summary of major account modifications and general system updates.
+                      </span>
+                    </div>
+                  </label>
+
+                  {/* Preference 2 */}
+                  <label className={`flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition-all ${darkMode
+                    ? 'bg-white/5 border-white/5 hover:bg-white/10'
+                    : 'bg-slate-50 border-gray-200 hover:bg-slate-100/70'
+                    }`}>
+                    <input
+                      type="checkbox"
+                      defaultChecked
+                      className="w-4 h-4 mt-1 rounded text-[#8B0000] focus:ring-[#8B0000] border-gray-300"
+                    />
+                    <div>
+                      <span className={`block text-sm font-semibold ${darkMode ? 'text-white' : 'text-slate-900'}`}>
+                        Push Notifications
+                      </span>
+                      <span className={`text-xs ${darkMode ? 'text-white/60' : 'text-slate-500'}`}>
+                        Get instant, real-time desktop notifications about user logs and system changes.
+                      </span>
+                    </div>
+                  </label>
+
+                  {/* Preference 3 */}
+                  <label className={`flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition-all ${darkMode
+                    ? 'bg-[#8B0000]/5 border-[#8B0000]/20 hover:bg-[#8B0000]/10'
+                    : 'bg-red-50/50 border-red-100 hover:bg-red-50'
+                    }`}>
+                    <input
+                      type="checkbox"
+                      defaultChecked
+                      disabled
+                      className="w-4 h-4 mt-1 rounded text-[#8B0000] focus:ring-[#8B0000] border-gray-300 cursor-not-allowed"
+                    />
+                    <div>
+                      <span className={`block text-sm font-semibold ${darkMode ? 'text-white' : 'text-slate-900'}`}>
+                        Critical Security Alerts (Always Enabled)
+                      </span>
+                      <span className={`text-xs ${darkMode ? 'text-white/60' : 'text-slate-500'}`}>
+                        Get immediate security warnings regarding suspicious activities or failed authentication attempts.
+                      </span>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <hr className={`my-6 ${darkMode ? 'border-white/10' : 'border-gray-200'}`} />
+
+              {/* Security & Activity Feed */}
+              <div className="max-w-3xl">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-800'}`}>
+                    Recent Activity & Security Alerts
+                  </h3>
+                  <button className={`text-xs font-semibold hover:underline ${darkMode ? 'text-[#8B0000]/90 hover:text-[#a00000]' : 'text-[#8B0000]'}`}>
+                    Mark all as read
+                  </button>
+                </div>
+
+                {/* Activity List Container */}
+                <div className="space-y-3">
+
+                  {/* Item 1: Suspicious Activity (Critical Alert) */}
+                  <div className={`flex items-start gap-4 p-4 rounded-xl border transition-all ${darkMode
+                    ? 'bg-[#8B0000]/10 border-[#8B0000]/30 hover:bg-[#8B0000]/20'
+                    : 'bg-red-50 border-red-100 hover:bg-red-100/70'
+                    }`}>
+                    <div className="p-2 rounded-lg bg-red-500/20 text-red-600 dark:text-red-400 mt-0.5">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m0-10.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.249-8.25-3.286zm0 13.036h.008v.008H12v-.008z" />
+                      </svg>
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className={`text-xs font-bold uppercase tracking-wider ${darkMode ? 'text-red-400' : 'text-red-700'}`}>
+                          Suspicious Activity Detected
+                        </span>
+                        <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${darkMode ? 'bg-red-900/40 text-red-200' : 'bg-red-200 text-red-800'}`}>
+                          Critical
+                        </span>
+                      </div>
+                      <p className={`text-sm mt-1 ${darkMode ? 'text-white/80' : 'text-slate-800'}`}>
+                        An unauthorized API request attempted to access administrator configuration values from an unrecognized IP address.
+                      </p>
+                      <span className={`block text-[11px] mt-2 ${darkMode ? 'text-white/40' : 'text-slate-500'}`}>
+                        Today at 11:24 AM
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Item 2: Login Attempt */}
+                  <div className={`flex items-start gap-4 p-4 rounded-xl border transition-all ${darkMode
+                    ? 'bg-white/5 border-white/5 hover:bg-white/10'
+                    : 'bg-slate-50 border-gray-200 hover:bg-slate-100/70'
+                    }`}>
+                    <div className={`p-2 rounded-lg mt-0.5 ${darkMode ? 'bg-white/10 text-white' : 'bg-slate-200 text-slate-800'}`}>
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" />
+                      </svg>
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className={`text-xs font-bold uppercase tracking-wider ${darkMode ? 'text-white/60' : 'text-slate-500'}`}>
+                          Successful Login
+                        </span>
+                        <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${darkMode ? 'bg-white/10 text-white/80' : 'bg-slate-200 text-slate-700'}`}>
+                          Info
+                        </span>
+                      </div>
+                      <p className={`text-sm mt-1 ${darkMode ? 'text-white/80' : 'text-slate-800'}`}>
+                        Account login verified on Google Chrome (Windows 10).
+                      </p>
+                      <span className={`block text-[11px] mt-2 ${darkMode ? 'text-white/40' : 'text-slate-500'}`}>
+                        Yesterday at 9:15 PM
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Item 3: Recent Activity */}
+                  <div className={`flex items-start gap-4 p-4 rounded-xl border transition-all ${darkMode
+                    ? 'bg-white/5 border-white/5 hover:bg-white/10'
+                    : 'bg-slate-50 border-gray-200 hover:bg-slate-100/70'
+                    }`}>
+                    <div className={`p-2 rounded-lg mt-0.5 ${darkMode ? 'bg-white/10 text-white' : 'bg-slate-200 text-slate-800'}`}>
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                      </svg>
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className={`text-xs font-bold uppercase tracking-wider ${darkMode ? 'text-white/60' : 'text-slate-500'}`}>
+                          Profile Updated
+                        </span>
+                        <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${darkMode ? 'bg-white/10 text-white/80' : 'bg-slate-200 text-slate-700'}`}>
+                          Activity
+                        </span>
+                      </div>
+                      <p className={`text-sm mt-1 ${darkMode ? 'text-white/80' : 'text-slate-800'}`}>
+                        You successfully modified your profile details and updated your avatar image.
+                      </p>
+                      <span className={`block text-[11px] mt-2 ${darkMode ? 'text-white/40' : 'text-slate-500'}`}>
+                        July 15, 2026 at 2:30 PM
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
 
