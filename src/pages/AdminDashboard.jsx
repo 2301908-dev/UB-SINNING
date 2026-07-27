@@ -55,7 +55,7 @@ export default function AdminDashboard() {
   });
 
   const [editForm, setEditForm] = useState({ ...adminData });
-  // Sync edit form if adminData is updated elsewhere
+
   useEffect(() => {
     setEditForm({ ...adminData });
   }, [adminData]);
@@ -96,7 +96,7 @@ export default function AdminDashboard() {
     { id: "users", label: "Users", icon: Users },
   ];
   const navigateTo = (newSection) => {
-    setPrevSection(section); // Save where you are right now before moving
+    setPrevSection(section);
     setSection(newSection);
   };
 
@@ -118,12 +118,12 @@ export default function AdminDashboard() {
         {/* Header */}
         <header className={`h-20 flex items-center justify-between px-8 border-b backdrop-blur-md z-30 transition-colors duration-300 ${darkMode ? 'bg-[#1e1b29]/80 border-white/10' : 'bg-white/70 border-gray-200'}`}>
 
-          {/* Brand */}
+          {/* Logo */}
           <div className="flex items-center gap-4">
-            <UBLogo size={80} titleClass={darkMode ? "text-white" : "text-gray-900"} subtitleClass={darkMode ? "text-gray-300" : "text-gray-600"} />
+            <UBLogo size={90} titleClass={darkMode ? "text-white" : "text-gray-900"} subtitleClass={darkMode ? "text-gray-300" : "text-gray-600"} />
           </div>
 
-          {/* Action Utilities & Dynamic Actions Panel */}
+
           <div className="flex items-center gap-4">
 
             {/* Notification Trigger Wrapper */}
@@ -168,6 +168,9 @@ export default function AdminDashboard() {
                       <p className={`text-[12px] mt-0.5 ${darkMode ? 'text-white/80' : 'text-gray-600'}`}>
                         John Doe created a Student account.
                       </p>
+                      <span className={`block text-[11px] mt-2 ${darkMode ? 'text-white/40' : 'text-slate-500'}`}>
+                        Today at 11:49 AM
+                      </span>
                     </div>
 
                     {/* Item 2 */}
@@ -218,9 +221,10 @@ export default function AdminDashboard() {
                         Today at 11:24 AM
                       </span>
                     </div>
-
                   </div>
+
                 </div>
+
               )}
             </div>
 
@@ -232,21 +236,20 @@ export default function AdminDashboard() {
                     setProfileDropdownOpen(!profileDropdownOpen);
                     if (profileDropdownOpen) setLanguageMenuOpen(false);
                   }}
-                  className="flex items-center gap-2 p-1.5 px-3 rounded-full bg-[#8B0000] transition-all shadow-md group cursor-pointer hover:shadow-lg hover:-translate-y-0.5 border border-white/10 text-white"
+                  className="flex items-center gap-2 p-1.5 rounded-full transition-colors duration-200 group cursor-pointer hover:bg-white/10"
                 >
                   <div className="relative">
                     <img
                       src={adminData.avatar}
                       alt="Profile"
-                      className="w-8 h-8 rounded-full object-cover border border-white/20 group-hover:border-white/60 transition-all"
+                      className="w-10 h-10 rounded-full object-cover border border-white/20 group-hover:border-white/60 transition-all"
                     />
-                    <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border border-white rounded-full"></span>
                   </div>
-                  <ChevronDown className={`w-4 h-4 text-white/70 transition-transform duration-300 ${profileDropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
 
+                {/* Admin Profile Dropdown */}  
                 {profileDropdownOpen && (
-                  <div className={`absolute right-0 mt-3 w-56 rounded-xl overflow-visible animate-in zoom-in-95 duration-200 cursor-pointer transition-all duration-300 ease-in-out hover:-translate-y-1.5 shadow-2xl ${darkMode ? 'bg-[#17141f] text-[#E8EDF2] ring-1 ring-white/10' : 'bg-white text-[#080616] ring-1 ring-black/5'}`}>
+                  <div className={`absolute right-0 mt-3 w-56 rounded-xl overflow-visible cursor-pointer transition-all shadow-2xl ${darkMode ? 'bg-[#17141f] text-[#E8EDF2] ring-1 ring-white/10' : 'bg-white text-[#080616] ring-1 ring-black/5'}`}>
 
                     <div className={`px-4 py-4 rounded-t-xl ${darkMode ? 'border-b border-white/10 bg-[#1d1a2b]' : 'border-b border-gray-100 bg-gray-50/50'}`}>
                       <p className={`text-sm font-bold ${darkMode ? 'text-white' : 'text-[#8B0000]'}`}>{adminData.firstName} {adminData.lastName}</p>
@@ -656,17 +659,6 @@ export default function AdminDashboard() {
                 </div>
               </div>
             )}
-
-            {/* Fallback View */}
-            {section !== "overview" && section !== "edit-profile" && (
-              <div className={`${darkMode ? 'text-white/60' : 'text-slate-600'} text-sm`}>
-                The section view for{" "}
-                <span className={`font-semibold capitalize ${darkMode ? 'text-white' : 'text-slate-900'}`}>
-                  "{section}"
-                </span>{" "}
-                is coming soon...
-              </div>
-            )}
           </div>
         </main>
       </div>
@@ -675,8 +667,7 @@ export default function AdminDashboard() {
 }
 
 /* ------------ SUB-PAGES (INTEGRATED) ------------------ */
-
-function KPI({ title, value, change, iconSrc, darkMode }) {
+function KPI({ title, value, change, iconSrc, darkMode, titleClassName = "" }) {
   return (
     <div className={`rounded-2xl p-6 border transition-all duration-300 ease-in-out hover:-translate-y-1.5 cursor-pointer ${darkMode ? 'bg-[#1a1728] border-white/10 shadow-xl shadow-black/20' : 'bg-white rounded-2xl border border-gray-100/50 shadow-sm hover:shadow-xl'}`}>
 
@@ -684,12 +675,13 @@ function KPI({ title, value, change, iconSrc, darkMode }) {
         <img
           src={iconSrc}
           alt={`${title} icon`}
-          className={`w-full h-full object-contain transition duration-300 ${darkMode ? "invert brightness-200" : ""
-            }`}
+          className={`w-full h-full object-contain transition duration-300 ${darkMode ? "invert brightness-200" : ""}`}
         />
       </div>
 
-      <p className="text-gray-400 text-sm">{title}</p>
+      <p className={`text-sm ${titleClassName || (darkMode ? "text-gray-300" : "text-gray-700")}`}>
+        {title}
+      </p>
 
       <p className={`text-3xl font-bold ${darkMode ? "text-white" : "text-[#080616]"}`}>
         {value}
@@ -739,12 +731,13 @@ function AdminOverview({ darkMode }) {
     <div className="space-y-6">
 
       {/* KPI Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 font-sans">
+        
 
         <KPI
           title="Total Uploads"
           value="38"
-          change="+12%"
+          change="+12"
           iconSrc={TotalUploadsIcon}
           darkMode={darkMode}
         />
@@ -768,7 +761,7 @@ function AdminOverview({ darkMode }) {
         <KPI
           title="Total Users"
           value="4.7k"
-          change="+0.2"
+          change="+4"
           iconSrc={AvgRatingIcon}
           darkMode={darkMode}
         />
@@ -784,7 +777,7 @@ function AdminOverview({ darkMode }) {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
           <div>
             <h2 className="text-xl font-bold text-[#8B0000]">Total Views Analytics</h2>
-            <p className={`${darkMode ? "text-white/60" : "text-gray-500"} text-xs`}>
+            <p className={`font-sans${darkMode ? "text-white/60" : "text-gray-500"} text-xs`}>
               Track presentation audience engagement cycles
             </p>
           </div>
@@ -846,6 +839,7 @@ function AdminOverview({ darkMode }) {
 
 function AllContent({ darkMode }) {
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedFilm, setSelectedFilm] = useState(null);
 
   const filteredFilms = mockFilms.filter((film) =>
     film.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -853,9 +847,7 @@ function AllContent({ darkMode }) {
   );
 
   return (
-    <div>
-
-
+    <div className="space-y-6">
       {/* Styled Search Input Area */}
       <div className="mb-8">
         <input
@@ -866,21 +858,23 @@ function AllContent({ darkMode }) {
           className={`w-full max-w-md rounded-xl px-4 py-3.5 outline-none shadow-sm focus:ring-2 focus:ring-[#8B0000]/30 transition-all ${darkMode
             ? "bg-[#1e1b29] border border-white/10 text-white placeholder-white/40 focus:border-[#8B0000]"
             : "bg-white border border-gray-200 text-[#080616] placeholder-gray-400 focus:border-[#8B0000]"
-            }`}
+          }`}
         />
       </div>
 
-      {/* Upgraded Modern Content Grid */}
+      {/* Modern Content Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredFilms.map((film) => (
           <div
             key={film.id}
-            className={`group flex flex-col backdrop-blur-md rounded-2xl shadow-sm hover:shadow-xl border overflow-hidden transition-all duration-300 hover:-translate-y-1 ${darkMode
-              ? "bg-[#1e1b29]/90 border-white/10 text-white hover:border-white/20"
-              : "bg-white/90 border-gray-100 text-[#080616] hover:border-gray-200"
-              }`}
+            onClick={() => setSelectedFilm(film)}
+            className={`group flex flex-col backdrop-blur-md rounded-2xl shadow-sm hover:shadow-xl border overflow-hidden transition-all duration-300 hover:-translate-y-1 cursor-pointer ${
+              darkMode
+                ? "bg-[#1e1b29]/90 border-white/10 text-white hover:border-white/20"
+                : "bg-white/90 border-gray-100 text-[#080616] hover:border-gray-200"
+            }`}
           >
-            {/* Aspect Video Image Container with Hover Scale */}
+            {/* Aspect Video Image Container */}
             <div className="relative aspect-video w-full overflow-hidden bg-gray-900/10">
               <img
                 src={film.thumbnail}
@@ -895,23 +889,33 @@ function AllContent({ darkMode }) {
             {/* Content Details Layout */}
             <div className="p-5 flex flex-col flex-1 justify-between gap-3">
               <div className="space-y-1">
-                <h3 className={`font-bold text-base leading-snug line-clamp-2 group-hover:text-[#8B0000] transition-colors duration-200 ${darkMode ? "text-white" : "text-[#080616]"
-                  }`}>
+                <h3
+                  className={`font-bold text-base leading-snug line-clamp-2 group-hover:text-[#8B0000] transition-colors duration-200 ${
+                    darkMode ? "text-white" : "text-[#080616]"
+                  }`}
+                >
                   {film.title}
                 </h3>
-                <p className={`text-sm font-medium ${darkMode ? "text-white/60" : "text-gray-500"
-                  }`}>
+                <p
+                  className={`text-sm font-medium ${
+                    darkMode ? "text-white/60" : "text-gray-500"
+                  }`}
+                >
                   by {film.creator}
                 </p>
               </div>
 
-              {/* Decorative dynamic badge just to clean up footer space */}
+              {/* Decorative dynamic badge & action trigger */}
               <div className="pt-2 border-t border-dashed border-gray-500/10 flex items-center justify-between">
-                <span className={`text-[11px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-md ${darkMode ? "bg-white/5 text-white/70" : "bg-gray-100 text-gray-600"
-                  }`}>
+                <span
+                  className={`text-[11px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-md ${
+                    darkMode ? "bg-white/5 text-white/70" : "bg-gray-100 text-gray-600"
+                  }`}
+                >
                   Media
                 </span>
-                <span className="text-xs font-semibold text-[#8B0000] opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all duration-300 cursor-pointer hover:underline">
+
+                <span className="text-xs font-semibold text-[#8B0000] opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all duration-300 hover:underline">
                   View Details
                 </span>
               </div>
@@ -920,10 +924,91 @@ function AllContent({ darkMode }) {
         ))}
       </div>
 
-      {/* Fallback empty state layout */}
+      {/* FILM DETAIL MODAL */}
+      {selectedFilm && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm transition-opacity duration-300"
+          onClick={() => setSelectedFilm(null)}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className={`relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl p-6 shadow-2xl transition-all ${
+              darkMode ? "bg-[#1a1728] text-white border border-white/10" : "bg-white text-gray-900"
+            }`}
+          >
+            <button
+              onClick={() => setSelectedFilm(null)}
+              className="absolute top-4 right-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/20 text-white transition hover:bg-black/40"
+            >
+              ✕
+            </button>
+
+            <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-black">
+              <img
+                src={selectedFilm.thumbnail}
+                alt={selectedFilm.title}
+                className="h-full w-full object-cover opacity-80"
+              />
+              <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                <button className="flex items-center gap-2 rounded-full bg-[#8B0000] px-6 py-3 font-semibold text-white shadow-lg transition duration-300 hover:bg-red-800 hover:scale-105">
+                  Watch Showcase Film
+                </button>
+              </div>
+            </div>
+
+            <div className="mt-6 flex flex-wrap items-start justify-between gap-2 border-b border-gray-500/10 pb-4">
+              <div>
+                <h2 className="text-2xl font-bold">{selectedFilm.title}</h2>
+                <p className={`text-sm ${darkMode ? "text-white/60" : "text-gray-500"}`}>
+                  Created by <span className="font-semibold text-[#8B0000]">{selectedFilm.creator}</span>
+                </p>
+              </div>
+
+              <span className="rounded-full bg-[#8B0000]/10 px-3 py-1 text-xs font-semibold text-[#8B0000]">
+                {selectedFilm.genre || "Student Short Film"}
+              </span>
+            </div>
+
+            <div className="mt-4 space-y-2">
+              <h4 className="text-sm font-semibold uppercase tracking-wider text-[#8B0000]">
+                Synopsis
+              </h4>
+
+              <p className={`text-sm leading-relaxed ${darkMode ? "text-white/80" : "text-gray-600"}`}>
+                {selectedFilm.synopsis ||
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."}
+              </p>
+            </div>
+
+            <div className={`mt-6 grid grid-cols-2 gap-3 rounded-2xl p-4 text-xs font-medium ${
+              darkMode ? "bg-white/5" : "bg-gray-50"
+            }`}>
+              <div>
+                <span className="block text-gray-400">Duration</span>
+                <span>{selectedFilm.duration || "15 mins"}</span>
+              </div>
+
+              <div>
+                <span className="block text-gray-400">Academic Year</span>
+                <span>{selectedFilm.year || "2026"}</span>
+              </div>
+
+              <div>
+                <span className="block text-gray-400">Course / Section</span>
+                <span>{selectedFilm.course || "Film Production II"}</span>
+              </div>
+
+              <div>
+                <span className="block text-gray-400">Rating</span>
+                <span>{selectedFilm.rating || "4.9"} / 5.0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {filteredFilms.length === 0 && (
-        <div className={`text-center py-12 rounded-xl border border-dashed ${darkMode ? "border-white/10 text-white/40" : "border-gray-200 text-gray-400"
-          }`}>
+        <div className={`text-center py-12 rounded-xl border border-dashed ${darkMode ? "border-white/10 text-white/40" : "border-gray-200 text-gray-400"}`}>
           No content matches your search.
         </div>
       )}
@@ -955,7 +1040,7 @@ function UserManagement({ darkMode }) {
     return numericIds.length > 0 ? Math.max(...numericIds) + 1 : 1;
   };
 
-  // Safely find the targeted user record data to render custom dynamic alerts
+
   const targetedUser = confirmRequest ? users.find((u) => u.id === confirmRequest.userId) : null;
   const targetedUserName = targetedUser ? (targetedUser.name || targetedUser.email) : "";
 
@@ -1085,6 +1170,7 @@ function UserManagement({ darkMode }) {
                 className={`w-full rounded-xl px-4 py-3 text-sm outline-none transition focus:ring-2 focus:ring-[#8B0000]/20 ${darkMode ? 'border border-white/10 bg-[#1b1728] text-white placeholder-white/40' : 'border border-gray-300 bg-white text-[#080616] placeholder-gray-400'}`}
               />
             </div>
+
             <button
               onClick={() => setShowAddUserForm((prev) => !prev)}
               className="w-full sm:w-auto shrink-0 inline-flex items-center justify-center rounded-xl bg-[#8B0000] px-5 py-3 text-sm font-bold text-white hover:bg-[#8B0000]/80 transition shadow-sm"
@@ -1111,6 +1197,7 @@ function UserManagement({ darkMode }) {
                   required
                 />
               </div>
+
               <div>
                 <label className={`mb-1 block text-xs font-semibold uppercase tracking-wide ${darkMode ? 'text-white/60' : 'text-gray-600'}`}>UBmail</label>
                 <input
@@ -1141,6 +1228,7 @@ function UserManagement({ darkMode }) {
                 </select>
               </div>
             </div>
+
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div className="w-full sm:w-48">
                 <label className={`mb-1 block text-xs font-semibold uppercase tracking-wide ${darkMode ? 'text-white/60' : 'text-gray-600'}`}>Created</label>
@@ -1154,6 +1242,7 @@ function UserManagement({ darkMode }) {
                     }`}
                 />
               </div>
+
               <button
                 type="submit"
                 className="inline-flex items-center justify-center rounded-xl bg-[#8B0000] px-5 py-3 text-sm font-bold text-white hover:bg-[#8B0000]/80 transition shadow-sm"
@@ -1163,6 +1252,7 @@ function UserManagement({ darkMode }) {
             </div>
           </form>
         )}
+
         {confirmRequest && (
           <div className={`rounded-2xl border px-4 py-4 text-sm shadow-sm animate-in fade-in duration-200 ${darkMode
             ? 'border-amber-500/30 bg-amber-950/20 text-amber-200'
@@ -1173,6 +1263,7 @@ function UserManagement({ darkMode }) {
                 }`}>
                 <span>!</span>
               </div>
+
               <div className="flex-1">
                 <p className={`font-bold ${darkMode ? 'text-amber-100' : 'text-amber-950'}`}>
                   {confirmRequest.action === 'delete'
@@ -1181,6 +1272,7 @@ function UserManagement({ darkMode }) {
                       ? 'Confirm Reactivation'
                       : 'Confirm Deactivation'}
                 </p>
+
                 <p className={`mt-1 text-xs ${darkMode ? 'text-amber-300/80' : 'text-amber-800'}`}>
                   Are you sure you want to <span className="font-bold underline">{confirmRequest.action}</span> user{" "}
                   <span className={`font-bold px-1.5 py-0.5 rounded ${darkMode ? 'text-white bg-amber-500/20' : 'text-black bg-amber-200/60'
@@ -1193,6 +1285,7 @@ function UserManagement({ darkMode }) {
                 </p>
               </div>
             </div>
+
             <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:justify-start">
               <button
                 onClick={handleConfirmAction}
@@ -1200,6 +1293,7 @@ function UserManagement({ darkMode }) {
               >
                 Confirm Action
               </button>
+
               <button
                 onClick={() => setConfirmRequest(null)}
                 className={`inline-flex items-center justify-center rounded-xl border px-4 py-2 text-xs font-bold transition shadow-sm ${darkMode
@@ -1212,6 +1306,7 @@ function UserManagement({ darkMode }) {
             </div>
           </div>
         )}
+
         {screenNotice && (
           <div className={`rounded-2xl border px-4 py-3 text-sm font-medium shadow-sm animate-in fade-in duration-200 ${darkMode
             ? 'border-emerald-500/20 bg-emerald-950/20 text-emerald-400'
@@ -1220,6 +1315,7 @@ function UserManagement({ darkMode }) {
             {screenNotice.text}
           </div>
         )}
+
         <div className={`overflow-x-auto rounded-xl border ${darkMode ? 'border-white/10' : 'border-gray-200'}`}>
           <table className={`min-w-full text-left text-sm transition-colors duration-300 ${darkMode ? 'divide-y divide-white/10' : 'divide-y divide-gray-200'}`}>
             <thead className={`${darkMode ? 'bg-[#1d1a2b]' : 'bg-gray-100'}`}>
@@ -1244,6 +1340,7 @@ function UserManagement({ darkMode }) {
                       <span className={`text-[10px] uppercase font-bold ${darkMode ? 'text-white/50' : 'text-gray-400'}`}>ID: {user.id}</span>
                     </div>
                   </td>
+
                   <td className={`px-4 py-4 text-sm ${darkMode ? 'text-white/80' : 'text-gray-600'}`}>{user.role}</td>
                   <td className={`px-4 py-4 text-sm ${darkMode ? 'text-white/80' : 'text-gray-600'}`}>{user.email}</td>
                   <td className={`px-4 py-4 text-sm ${darkMode ? 'text-white/80' : 'text-gray-600'}`}>{user.created}</td>
@@ -1318,7 +1415,7 @@ function SettingsPage({ darkMode, setSection }) {
       <span className="font-medium">{label}</span>
     </button>
   );
-
+  
   return (
     <div>
       <div className={`flex flex-col md:flex-row gap-8 min-h-[500px] overflow-hidden rounded-xl transition-colors duration-300 ${darkMode ? 'bg-[#17141f] border border-white/10 shadow-xl shadow-black/20' : 'bg-white rounded-xl shadow-xl border border-gray-100'}`}>
@@ -1455,6 +1552,7 @@ function SettingsPage({ darkMode, setSection }) {
                 <h2 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-800'}`}>
                   Notification Settings
                 </h2>
+                
                 <p className={`text-sm ${darkMode ? 'text-white/70' : 'text-gray-600'}`}>
                   Manage your notification preferences and monitor recent account activity here.
                 </p>
@@ -1524,6 +1622,7 @@ function SettingsPage({ darkMode, setSection }) {
                       <span className={`block text-sm font-semibold ${darkMode ? 'text-white' : 'text-slate-900'}`}>
                         Critical Security Alerts (Always Enabled)
                       </span>
+
                       <span className={`text-xs ${darkMode ? 'text-white/60' : 'text-slate-500'}`}>
                         Get immediate security warnings regarding suspicious activities or failed authentication attempts.
                       </span>
