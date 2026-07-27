@@ -679,7 +679,7 @@ function KPI({ title, value, change, iconSrc, darkMode, titleClassName = "" }) {
         />
       </div>
 
-      <p className={`text-sm ${titleClassName || (darkMode ? "text-gray-300" : "text-gray-700")}`}>
+      <p className={`text-sm ${titleClassName || (darkMode ? "text-gray-300" : "text-gray-600")}`}>
         {title}
       </p>
 
@@ -940,7 +940,7 @@ function AllContent({ darkMode }) {
               onClick={() => setSelectedFilm(null)}
               className="absolute top-4 right-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/20 text-white transition hover:bg-black/40"
             >
-              ✕
+              X
             </button>
 
             <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-black">
