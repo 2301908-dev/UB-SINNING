@@ -48,6 +48,7 @@ export default function AdminDashboard() {
   const [isEditing, setIsEditing] = useState(false);
   const [adminData, setAdminData] = useState({
     firstName: "Brent Joseph",
+    MiddleName: "M.",
     lastName: "Pagcaliwagan",
     email: "admin@ub.edu.ph",
     address: "M.H. Del Pilar St.",
@@ -873,12 +874,12 @@ function AdminOverview({ darkMode }) {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
           <div>
             <h2 className="text-xl font-bold text-[#8B0000]">Total Views Analytics</h2>
-            <p className={`font-sans${darkMode ? "text-white/30" : "text-gray-500"} text-xs`}>
+            <p className={`font-sans ${darkMode ? "text-white/80" : "text-gray-500"} text-xs mt-1.5`}>
               Track presentation audience engagement cycles
             </p>
           </div>
 
-          <div className="flex bg-gray-100 p-1 rounded-xl border border-gray-200 self-start sm:self-auto">
+          <div className={`flex p-1 rounded-xl border self-start sm:self-auto ${darkMode ? "bg-white/10 border-white/10" : "bg-gray-100 border-gray-200"}`}>
             {[
               { id: "days", label: "Days" },
               { id: "week", label: "Weeks" },
@@ -889,7 +890,9 @@ function AdminOverview({ darkMode }) {
                 onClick={() => setTimeframe(tab.id)}
                 className={`px-4 py-1.5 rounded-lg text-xs font-semibold transition ${timeframe === tab.id
                   ? "bg-[#8B0000] text-white shadow-sm"
-                  : "text-gray-600 hover:text-[#8B0000]"
+                  : darkMode
+                    ? "text-white/70 hover:text-white"
+                    : "text-gray-600 hover:text-[#8B0000]"
                   }`}
               >
                 {tab.label}
