@@ -1,9 +1,11 @@
+
 import { useState, useEffect, useRef } from "react";
 import { useAuth } from "../context/AuthContext";
 import UBLogo from "../components/UBLogo";
 import { mockFilms } from "../data/mockFilms";
 import backgroundImage from "../assets/white_bg.jpg";
 import { ArrowLeft } from 'lucide-react';
+import TotalUploads from "./TotalUploads";
 import TotalUploadsIcon from "../assets/icons/camera.png";
 import PendingReviewsIcon from "../assets/icons/review.png";
 import ActiveUsersIcon from "../assets/icons/users.png";
@@ -389,7 +391,9 @@ export default function AdminDashboard() {
                           ? "User Management"
                           : section === "settings"
                             ? "Settings"
-                            : "Dashboard Overview"}
+                            : section === "uploads"
+                              ? "Total Uploads"
+                              : "Dashboard Overview"}
                   </h1>
 
                   <div className="flex flex-wrap items-center justify-end gap-2">
@@ -420,9 +424,10 @@ export default function AdminDashboard() {
                 </div>
               )}
 
-              {section === "overview" && <AdminOverview darkMode={darkMode} />}
+              {section === "overview" && <AdminOverview darkMode={darkMode} navigateTo={navigateTo} />}
               {section === "content" && <AllContent darkMode={darkMode} />}
               {section === "users" && <UserManagement darkMode={darkMode} />}
+              {section === "uploads" && <TotalUploads onBack={() => navigateTo("overview")} />}
               {section === "settings" && (
                 <SettingsPage darkMode={darkMode} setSection={setSection} />
               )}
@@ -789,7 +794,7 @@ function KPI({ title, value, change, iconSrc, darkMode, titleClassName = "" }) {
   );
 }
 
-function AdminOverview({ darkMode }) {
+function AdminOverview({ darkMode, navigateTo }) {
   const [timeframe, setTimeframe] = useState("days");
 
   const yAxisTicks = {
@@ -831,13 +836,19 @@ function AdminOverview({ darkMode }) {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 font-sans">
 
 
-        <KPI
-          title="Total Uploads"
-          value="38"
-          change="+12"
-          iconSrc={TotalUploadsIcon}
-          darkMode={darkMode}
-        />
+        <button
+          type="button"
+          onClick={() => navigateTo("uploads")}
+          className="text-left"
+        >
+          <KPI
+            title="Total Uploads"
+            value="38"
+            change="+12"
+            iconSrc={TotalUploadsIcon}
+            darkMode={darkMode}
+          />
+        </button>
 
         <KPI
           title="Pending Review"
