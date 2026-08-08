@@ -57,7 +57,7 @@ const INITIAL_FILMS = [
     creator: "Ana Garcia",
     studentId: "UB-20-0298",
     genre: "Documentary",
-    date: "Jan, 2026",
+    date: "Jan 20, 2026",
     views: 45,
     status: "Draft",
     description:
@@ -89,14 +89,7 @@ function StatusBadge({ status }) {
     Archived: "bg-stone-100 text-stone-500 border-stone-200",
   };
   return (
-    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${styles[status]}`}>
-      <span
-        className="w-1.5 h-1.5 rounded-full"
-        style={{
-          backgroundColor:
-            status === "Published" ? "#15803D" : status === "Draft" ? "#B45309" : "#78716C",
-        }}
-      />
+    <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${styles[status]}`}>
       {status}
     </span>
   );
@@ -190,13 +183,6 @@ export default function TotalUploads({ onBack }) {
               <span className="text-lg font-normal text-stone-400">({films.length})</span>
             </h1>
           </div>
-          <button
-            className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-white text-sm font-medium shadow-sm hover:opacity-90 transition"
-            style={{ backgroundColor: MAROON }}
-          >
-            <Upload className="w-4 h-4" />
-            Upload New Film
-          </button>
         </div>
 
         {/* Film strip divider */}
@@ -208,7 +194,7 @@ export default function TotalUploads({ onBack }) {
           }}
         />
 
-        {/* Search + Filters */}
+        {/* Search bar and Filters */}
         <div className="flex flex-wrap items-center gap-3 mb-6">
           <div className="relative flex-1 min-w-[240px]">
             <Search className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2" />
@@ -239,13 +225,13 @@ export default function TotalUploads({ onBack }) {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="bg-stone-50 text-stone-500 text-xs uppercase tracking-wide">
-                    <th className="text-left font-medium px-5 py-3">Thumbnail &amp; Title</th>
-                    <th className="text-left font-medium px-5 py-3">Creator / Student</th>
-                    <th className="text-left font-medium px-5 py-3">Genre</th>
-                    <th className="text-left font-medium px-5 py-3">Release Date</th>
-                    <th className="text-left font-medium px-5 py-3">Views</th>
-                    <th className="text-left font-medium px-5 py-3">Status</th>
-                    <th className="text-right font-medium px-5 py-3">Actions</th>
+                    <th className="text-left font-medium px-5 py-3 text-[#8B0000]">Thumbnail &amp; Title</th>
+                    <th className="text-left font-medium px-5 py-3 text-[#8B0000]">Creator / Student</th>
+                    <th className="text-left font-medium px-5 py-3 text-[#8B0000]">Genre</th>
+                    <th className="text-left font-medium px-5 py-3 text-[#8B0000]">Release Date</th>
+                    <th className="text-center font-medium px-5 py-3 text-[#8B0000]">Views</th>
+                    <th className="text-center font-medium px-5 py-3 text-[#8B0000]">Status</th>
+                    <th className="text-center font-medium px-5 py-3 text-[#8B0000]">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-stone-100">
@@ -267,16 +253,15 @@ export default function TotalUploads({ onBack }) {
                       </td>
                       <td className="px-5 py-3 text-stone-600">{f.genre}</td>
                       <td className="px-5 py-3 text-stone-600">{f.date}</td>
-                      <td className="px-5 py-3 text-stone-600">
-                        <span className="inline-flex items-center gap-1">
-                          <Eye className="w-3.5 h-3.5 text-stone-400" />
+                      <td className="px-5 py-3 text-stone-600 text-center">
+                        <span className="inline-flex items-center justify-center gap-1">
                           {f.views}
                         </span>
                       </td>
-                      <td className="px-5 py-3">
+                      <td className="px-5 py-3 text-center">
                         <StatusBadge status={f.status} />
                       </td>
-                      <td className="px-5 py-3" onClick={(e) => e.stopPropagation()}>
+                      <td className="px-5 py-3 text-right" onClick={(e) => e.stopPropagation()}>
                         {confirmDeleteId === f.id ? (
                           <div className="flex items-center justify-end gap-2 text-xs">
                             <span className="text-stone-500">Delete?</span>

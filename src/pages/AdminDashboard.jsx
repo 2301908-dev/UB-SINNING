@@ -6,6 +6,7 @@ import { mockFilms } from "../data/mockFilms";
 import backgroundImage from "../assets/white_bg.jpg";
 import { ArrowLeft } from 'lucide-react';
 import TotalUploads from "./TotalUploads";
+import PendingReview from "./PendingReview";
 import TotalUploadsIcon from "../assets/icons/camera.png";
 import PendingReviewsIcon from "../assets/icons/review.png";
 import ActiveUsersIcon from "../assets/icons/users.png";
@@ -393,7 +394,9 @@ export default function AdminDashboard() {
                             ? "Settings"
                             : section === "uploads"
                               ? "Total Uploads"
-                              : "Dashboard Overview"}
+                              : section === "pending-review"
+                                ? "Pending Review"
+                                : "Dashboard Overview"}
                   </h1>
 
                   <div className="flex flex-wrap items-center justify-end gap-2">
@@ -428,6 +431,7 @@ export default function AdminDashboard() {
               {section === "content" && <AllContent darkMode={darkMode} />}
               {section === "users" && <UserManagement darkMode={darkMode} />}
               {section === "uploads" && <TotalUploads onBack={() => navigateTo("overview")} />}
+              {section === "pending-review" && <PendingReview />}
               {section === "settings" && (
                 <SettingsPage darkMode={darkMode} setSection={setSection} />
               )}
@@ -528,10 +532,7 @@ export default function AdminDashboard() {
                     {/* User Identity Details */}
                     <div className="text-center sm:text-left space-y-1">
                       <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
-                        <h3 className="text-lg sm:text-xl font-extrabold tracking-tight">
-                          {`${adminData.firstName || ""} ${adminData.middleName ? adminData.middleName + " " : ""
-                            }${adminData.lastName || ""}`}
-                        </h3>
+
                         <span className="px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider rounded-full bg-[#8B0000]/10 text-[#8B0000] border border-[#8B0000]/20 dark:bg-[#8B0000]/20 dark:text-rose-300">
                           Admin
                         </span>
@@ -586,41 +587,6 @@ export default function AdminDashboard() {
                             }`}
                         >
                           {adminData.firstName || "—"}
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Middle Name */}
-                    <div className="space-y-2">
-                      <label
-                        htmlFor="middleName"
-                        className={`text-xs font-bold uppercase tracking-wider block ${darkMode ? "text-white/70" : "text-slate-600"
-                          }`}
-                      >
-                        Middle Initial
-                      </label>
-                      {isEditing ? (
-                        <input
-                          id="middleName"
-                          type="text"
-                          placeholder="Enter middle name"
-                          value={editForm.middleName || ""}
-                          onChange={(e) =>
-                            setEditForm((prev) => ({ ...prev, middleName: e.target.value }))
-                          }
-                          className={`w-full rounded-2xl px-4 py-3 text-sm font-medium outline-none transition-all duration-200 focus:ring-2 focus:ring-[#8B0000]/50 ${darkMode
-                            ? "bg-black/30 border border-white/10 text-white placeholder:text-white/30 focus:border-[#8B0000]"
-                            : "bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-[#8B0000]"
-                            }`}
-                        />
-                      ) : (
-                        <div
-                          className={`text-sm rounded-2xl px-4 py-3 font-semibold transition-all ${darkMode
-                            ? "bg-white/[0.03] border border-white/5 text-white/90"
-                            : "bg-slate-50/80 border border-slate-200/70 text-slate-800"
-                            }`}
-                        >
-                          {adminData.middleName || "—"}
                         </div>
                       )}
                     </div>
@@ -850,13 +816,19 @@ function AdminOverview({ darkMode, navigateTo }) {
           />
         </button>
 
-        <KPI
-          title="Pending Review"
-          value="12"
-          change="+3"
-          iconSrc={PendingReviewsIcon}
-          darkMode={darkMode}
-        />
+        <button
+          type="button"
+          onClick={() => navigateTo("pending-review")}
+          className="text-left"
+        >
+          <KPI
+            title="Pending Review"
+            value="12"
+            change="+3"
+            iconSrc={PendingReviewsIcon}
+            darkMode={darkMode}
+          />
+        </button>
 
         <KPI
           title="Total Views"
