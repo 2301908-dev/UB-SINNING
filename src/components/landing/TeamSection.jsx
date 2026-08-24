@@ -48,20 +48,20 @@ const TEAM = [
     name: "Bryan James N. Villalon",
     role: "Backend Developer",
     img: "src/assets/teampics/bryan.png",
-    gradient: "from-[#8B0000] to-[#D4AF37]",
+    gradient: "from-[#D4AF37] to-[#D4AF37]",
   },
   {
     name: "Kenn Philip Nathaniel B. Silang",
     role: "Frontend Developer" ,
     img: "src/assets/teampics/kenn.png",
-    gradient: "from-[#D4AF37] to-[#8B0000]",
+    gradient: "from-[#D4AF37] to-[#D4AF37]",
     featured: true,
   },
   {
     name: "Brent Joseph M. Pagcaliwagan",
     role: "UI/UX Designer",
     img: "src/assets/teampics/brent.png",
-    gradient: "from-[#8B0000] to-[#D4AF37]",
+    gradient: "from-[#D4AF37] to-[#D4AF37]",
   },
 ];
 
@@ -76,12 +76,12 @@ function TeamCard({ member, delay }) {
           background: "rgba(255,255,255,0.80)",
           backdropFilter: "blur(14px)",
           WebkitBackdropFilter: "blur(14px)",
-          border: "1px solid rgba(139,0,0,0.09)",
+          border: "1px solid rgba(212,175,55,0.18)",
           boxShadow: "0 6px 28px rgba(0,0,0,0.08)",
           transition: "box-shadow 0.35s ease, transform 0.35s ease",
         }}
         onMouseEnter={(e) => {
-          e.currentTarget.style.boxShadow = "0 20px 50px rgba(139,0,0,0.18)";
+          e.currentTarget.style.boxShadow = "0 20px 50px rgba(212,175,55,0.2)";
           e.currentTarget.style.transform = "translateY(-8px)";
         }}
         onMouseLeave={(e) => {
@@ -106,7 +106,7 @@ function TeamCard({ member, delay }) {
           <div
             className="absolute inset-0 flex items-end p-5 opacity-0 group-hover:opacity-100"
             style={{
-              background: "linear-gradient(0deg, rgba(139,0,0,0.82) 0%, rgba(139,0,0,0.3) 60%, transparent 100%)",
+              background: "linear-gradient(0deg, rgba(212,175,55,0.82) 0%, rgba(212,175,55,0.3) 60%, transparent 100%)",
               transition: "opacity 0.35s ease",
             }}
           >
@@ -122,7 +122,7 @@ function TeamCard({ member, delay }) {
           <div
             className="absolute top-4 right-4 px-3 py-1 rounded-full text-[10px] font-semibold text-white uppercase tracking-widest opacity-0 group-hover:opacity-100"
             style={{
-              background: "rgba(139,0,0,0.85)",
+              background: "rgba(255,215,0,0.9)",
               backdropFilter: "blur(6px)",
               fontFamily: "'Poppins', sans-serif",
               transition: "opacity 0.3s ease 0.05s",
@@ -153,7 +153,7 @@ function TeamCard({ member, delay }) {
           </h4>
           <p
             className="text-[12px] uppercase tracking-widest"
-            style={{ color: "#8B0000", fontFamily: "'Poppins', sans-serif", fontWeight: 500 }}
+            style={{ color: "#D4AF37", fontFamily: "'Poppins', sans-serif", fontWeight: 500 }}
           >
             {member.role}
           </p>
@@ -171,7 +171,7 @@ export default function TeamSection() {
       {/* Top divider */}
       <div
         className="relative z-10 w-full max-w-5xl h-px mx-auto"
-        style={{ background: "linear-gradient(90deg,transparent,rgba(139,0,0,0.15),transparent)" }}
+        style={{ background: "linear-gradient(90deg,transparent,rgba(212,175,55,0.2),transparent)" }}
       />
 
       <div className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-10 pt-24 pb-36">
@@ -182,10 +182,10 @@ export default function TeamSection() {
             <div
               className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase"
               style={{
-                background: "rgba(139,0,0,0.08)",
-                color: "#8B0000",
+                background: "rgba(212,175,55,0.12)",
+                color: "#D4AF37",
                 fontFamily: "'Poppins', sans-serif",
-                border: "1px solid rgba(139,0,0,0.15)",
+                border: "1px solid rgba(212,175,55,0.25)",
               }}
             >
               Meet The Team
@@ -201,7 +201,7 @@ export default function TeamSection() {
             Team{" "}
             <span
               style={{
-                backgroundImage: "linear-gradient(90deg, #8B0000 0%, #D4AF37 100%)",
+                backgroundImage: "linear-gradient(90deg, #D4AF37 0%, #D4AF37 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
               }}

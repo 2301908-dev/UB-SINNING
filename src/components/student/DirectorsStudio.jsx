@@ -68,7 +68,7 @@ export default function DirectorsStudio() {
             Curate your festival-ready work, manage version history, and keep your student films protected in the UB Director’s Studio.
           </p>
         </div>
-        <button className="inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/25 bg-[#8B0000] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#a00000] shadow-md shadow-black/20">
+        <button className="inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/25 bg-[#D4AF37] px-5 py-3 text-sm font-semibold text-black transition hover:bg-[#D4AF37] shadow-md shadow-black/20">
           <Download className="h-4 w-4" /> Download Digital Portfolio
         </button>
       </div>
@@ -84,7 +84,7 @@ export default function DirectorsStudio() {
                 onClick={() => setActiveGenre(genre)}
                 className={`whitespace-nowrap rounded-full px-5 py-3 text-sm font-semibold transition ${
                   active
-                    ? "border border-[#D4AF37]/20 bg-[#8B0000] text-white shadow-md shadow-black/20"
+                    ? "border border-[#D4AF37]/20 bg-[#D4AF37] text-black shadow-md shadow-black/20"
                     : "border border-white/10 bg-white/5 text-white/70 hover:bg-white/10"
                 }`}
               >
@@ -170,7 +170,7 @@ export default function DirectorsStudio() {
         <aside className="space-y-6 rounded-[28px] border border-white/10 bg-[#241d1f] p-6 shadow-sm">
           <div className="space-y-4 rounded-[24px] border border-[#D4AF37]/15 bg-white/5 p-5 shadow-sm">
             <div className="flex items-center gap-3">
-              <div className="flex h-14 w-14 items-center justify-center rounded-3xl bg-[#8B0000] text-white shadow-md shadow-black/20">
+              <div className="flex h-14 w-14 items-center justify-center rounded-3xl bg-[#D4AF37] text-black shadow-md shadow-black/20">
                 <Film className="h-6 w-6" />
               </div>
               <div>
@@ -203,7 +203,7 @@ export default function DirectorsStudio() {
                   <div className="flex items-center justify-between gap-3 text-sm font-semibold text-[#D4AF37]">
                     <span>Festival Mode</span>
                     <label htmlFor="festivalMode" className="inline-flex cursor-pointer items-center gap-3 rounded-full bg-white/5 px-3 py-2">
-                      <span className={`h-5 w-10 rounded-full transition ${festivalMode ? "bg-[#8B0000]" : "bg-white/20"}`}>
+                      <span className={`h-5 w-10 rounded-full transition ${festivalMode ? "bg-[#D4AF37]" : "bg-white/20"}`}>
                         <span className={`block h-4 w-4 rounded-full bg-white transition ${festivalMode ? "translate-x-5" : "translate-x-0"}`} />
                       </span>
                       <span className="text-xs font-semibold text-white/70">{festivalMode ? "Private" : "Public"}</span>

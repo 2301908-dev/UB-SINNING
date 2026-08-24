@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useAuth } from "../context/AuthContext";
 import UBLogo from "../components/shared/UBLogo";
 import { mockFilms } from "../data/mockFilms";
-import backgroundImage from "../assets/white_bg.jpg";
+import backgroundImage from "../assets/DarkBg.jpg";
 import { ArrowLeft } from 'lucide-react';
 import TotalUploadsIcon from "../assets/icons/camera.png";
 import PendingReviewsIcon from "../assets/icons/review.png";
@@ -106,7 +106,7 @@ export default function AdminDashboard() {
       className={`flex min-h-screen transition-colors duration-300 ${darkMode ? 'bg-[#0f0e17] text-[#E8EDF2]' : 'bg-slate-50 text-slate-800'}`}
     >
       {/* Sidebar */}
-      <aside className="relative bg-[#8B0000] p-4 rounded-r-lg flex flex-col justify-between w-52 shadow-xl z-20">
+      <aside className="relative bg-[#D4AF37] p-4 rounded-r-lg flex flex-col justify-between w-52 shadow-xl z-20">
         <div className="space-y-3">
           <div className="-ml-2">
             <UBLogo hideSubtitle titleClass="text-white" size={64} />
@@ -116,7 +116,7 @@ export default function AdminDashboard() {
               <button
                 key={item.id}
                 onClick={() => { setSection(item.id); setIsEditing(false); }}
-                className={`flex items-center gap-2 w-full p-2 rounded-lg transition justify-start ${section === item.id ? "bg-white text-[#8B0000]" : "text-[#E8EDF2] hover:bg-white/20"
+                className={`flex items-center gap-2 w-full p-2 rounded-lg transition justify-start ${section === item.id ? "bg-white text-[#D4AF37]" : "text-[#1a1a1a] hover:bg-black/10"
                   }`}
               >
                 <item.icon className="w-5 h-5" />
@@ -141,7 +141,7 @@ export default function AdminDashboard() {
               value={globalSearch}
               onChange={(e) => setGlobalSearch(e.target.value)}
               placeholder="Search anything..."
-              className={`w-full rounded-xl pl-9 pr-4 py-2 text-sm outline-none focus:ring-2 focus:ring-[#8B0000]/40 transition-all ${darkMode ? 'bg-black/20 border border-white/10 text-white placeholder-white/50' : 'bg-slate-50 border border-slate-200 text-slate-700 placeholder-slate-400'}`}
+              className={`w-full rounded-xl pl-9 pr-4 py-2 text-sm outline-none focus:ring-2 focus:ring-[#D4AF37]/40 transition-all ${darkMode ? 'bg-black/20 border border-white/10 text-white placeholder-white/50' : 'bg-slate-50 border border-slate-200 text-slate-700 placeholder-slate-400'}`}
             />
           </div>
 
@@ -178,15 +178,15 @@ export default function AdminDashboard() {
                 className={`p-2 rounded-xl border transition shadow-md relative ${darkMode ? 'bg-white/10 hover:bg-white/20 border-white/10 text-white' : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-700'}`}
               >
                 <Bell className="w-4 h-4" />
-                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#8B0000] rounded-full ring-2 ring-white/20"></span>
+                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#D4AF37] rounded-full ring-2 ring-white/20"></span>
               </button>
 
               {/* Notification Dropdown */}
               {notificationsOpen && (
                 <div className="absolute right-0 mt-3 w-80 rounded-xl bg-white text-[#080616] shadow-2xl ring-1 ring-black/5 overflow-hidden animate-in zoom-in-95 duration-200">
                   <div className="px-4 py-3 border-b border-gray-100 bg-gray-50/50 flex justify-between items-center">
-                    <p className="text-xs font-bold text-[#8B0000] uppercase tracking-wider">Notifications</p>
-                    <span className="text-[10px] bg-red-100 text-[#8B0000] font-bold px-2 py-0.5 rounded-full">2 New</span>
+                    <p className="text-xs font-bold text-[#D4AF37] uppercase tracking-wider">Notifications</p>
+                    <span className="text-[10px] bg-[#D4AF37]/20 text-[#D4AF37] font-bold px-2 py-0.5 rounded-full">2 New</span>
                   </div>
                   <div className="divide-y divide-gray-100 max-h-64 overflow-y-auto">
                     <div className="p-4 hover:bg-gray-50 transition cursor-pointer">
@@ -210,7 +210,7 @@ export default function AdminDashboard() {
                     setProfileDropdownOpen(!profileDropdownOpen);
                     if (profileDropdownOpen) setLanguageMenuOpen(false);
                   }}
-                  className="flex items-center gap-2 p-1.5 px-3 rounded-full bg-[#8B0000] transition-all shadow-md group"
+                  className="flex items-center gap-2 p-1.5 px-3 rounded-full bg-[#D4AF37] text-black transition-all shadow-md group"
                 >
                   <div className="relative">
                     <img
@@ -374,7 +374,7 @@ export default function AdminDashboard() {
                       <img
                         src={isEditing ? editForm.avatar : adminData.avatar}
                         alt="Uploader Profile Display"
-                        className="w-24 h-24 rounded-full object-cover border-2 border-[#8B0000] shadow-md"
+                        className="w-24 h-24 rounded-full object-cover border-2 border-[#D4AF37] shadow-md"
                       />
 
                       {isEditing && (
@@ -431,7 +431,7 @@ export default function AdminDashboard() {
                           type="text"
                           value={editForm.firstName}
                           onChange={(e) => setEditForm({ ...editForm, firstName: e.target.value })}
-                          className={`w-full rounded-xl border p-2.5 text-sm outline-none focus:ring-2 focus:ring-[#8B0000]/40 transition ${darkMode ? "bg-black/20 border-white/10 text-white" : "bg-white border-slate-200 text-slate-800"}`}
+                          className={`w-full rounded-xl border p-2.5 text-sm outline-none focus:ring-2 focus:ring-[#D4AF37]/40 transition ${darkMode ? "bg-black/20 border-white/10 text-white" : "bg-white border-slate-200 text-slate-800"}`}
                         />
                       ) : (
                         <p className={`text-sm border rounded-xl p-2.5 font-medium ${darkMode ? "bg-black/10 border-white/5 text-white/90" : "bg-slate-50 border-slate-100 text-slate-700"}`}>
@@ -451,7 +451,7 @@ export default function AdminDashboard() {
                           type="text"
                           value={editForm.lastName}
                           onChange={(e) => setEditForm({ ...editForm, lastName: e.target.value })}
-                          className={`w-full rounded-xl border p-2.5 text-sm outline-none focus:ring-2 focus:ring-[#8B0000]/40 transition ${darkMode ? "bg-black/20 border-white/10 text-white" : "bg-white border-slate-200 text-slate-800"}`}
+                          className={`w-full rounded-xl border p-2.5 text-sm outline-none focus:ring-2 focus:ring-[#D4AF37]/40 transition ${darkMode ? "bg-black/20 border-white/10 text-white" : "bg-white border-slate-200 text-slate-800"}`}
                         />
                       ) : (
                         <p className={`text-sm border rounded-xl p-2.5 font-medium ${darkMode ? "bg-black/10 border-white/5 text-white/90" : "bg-slate-50 border-slate-100 text-slate-700"}`}>
@@ -470,7 +470,7 @@ export default function AdminDashboard() {
                           type="email"
                           value={editForm.email}
                           onChange={(e) => setEditForm({ ...editForm, email: e.target.value })}
-                          className={`w-full rounded-xl border p-2.5 text-sm outline-none focus:ring-2 focus:ring-[#8B0000]/40 transition ${darkMode ? "bg-black/20 border-white/10 text-white" : "bg-white border-slate-200 text-slate-800"}`}
+                          className={`w-full rounded-xl border p-2.5 text-sm outline-none focus:ring-2 focus:ring-[#D4AF37]/40 transition ${darkMode ? "bg-black/20 border-white/10 text-white" : "bg-white border-slate-200 text-slate-800"}`}
                         />
                       ) : (
                         <p className={`text-sm border rounded-xl p-2.5 font-medium ${darkMode ? "bg-black/10 border-white/5 text-white/90" : "bg-slate-50 border-slate-100 text-slate-700"}`}>
@@ -489,7 +489,7 @@ export default function AdminDashboard() {
                           type="text"
                           value={editForm.address}
                           onChange={(e) => setEditForm({ ...editForm, address: e.target.value })}
-                          className={`w-full rounded-xl border p-2.5 text-sm outline-none focus:ring-2 focus:ring-[#8B0000]/40 transition ${darkMode ? "bg-black/20 border-white/10 text-white" : "bg-white border-slate-200 text-slate-800"}`}
+                          className={`w-full rounded-xl border p-2.5 text-sm outline-none focus:ring-2 focus:ring-[#D4AF37]/40 transition ${darkMode ? "bg-black/20 border-white/10 text-white" : "bg-white border-slate-200 text-slate-800"}`}
                         />
                       ) : (
                         <p className={`text-sm border rounded-xl p-2.5 font-medium ${darkMode ? "bg-black/10 border-white/5 text-white/90" : "bg-slate-50 border-slate-100 text-slate-700"}`}>
@@ -512,7 +512,7 @@ export default function AdminDashboard() {
 
                       <button
                         onClick={handleSave}
-                        className="px-4 py-2 text-xs font-semibold rounded-xl bg-[#8B0000] hover:bg-[#a00000] text-white transition shadow-md"
+                        className="px-4 py-2 text-xs font-semibold rounded-xl bg-[#D4AF37] hover:bg-[#D4AF37]/80 text-black transition shadow-md"
                       >
                         Save Changes
                       </button>
@@ -546,7 +546,7 @@ function KPI({ title, value, change, iconSrc, darkMode }) {
   return (
     <div className={`p-6 rounded-xl space-y-3 border shadow-lg backdrop-blur-md ${darkMode ? "bg-white/10 border-white/10" : "bg-white/80 border-gray-200"}`}>
 
-      <div className="w-11 h-11 rounded-lg bg-[#8B0000]/10 backdrop-blur-sm flex items-center justify-center p-2.5 shadow-inner border border-white/20">
+      <div className="w-11 h-11 rounded-lg bg-[#D4AF37]/10 backdrop-blur-sm flex items-center justify-center p-2.5 shadow-inner border border-white/20">
         <img
           src={iconSrc}
           alt={`${title} icon`}
@@ -603,7 +603,7 @@ function AdminOverview({ darkMode }) {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold text-[#8B0000]">Dashboard Overview</h1>
+      <h1 className="text-3xl font-bold text-[#D4AF37]">Dashboard Overview</h1>
 
       {/* KPI Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -650,7 +650,7 @@ function AdminOverview({ darkMode }) {
       >
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
           <div>
-            <h2 className="text-xl font-bold text-[#8B0000]">Total Views Analytics</h2>
+            <h2 className="text-xl font-bold text-[#D4AF37]">Total Views Analytics</h2>
             <p className={`${darkMode ? "text-white/60" : "text-gray-500"} text-xs`}>
               Track presentation audience engagement cycles
             </p>
@@ -666,8 +666,8 @@ function AdminOverview({ darkMode }) {
                 key={tab.id}
                 onClick={() => setTimeframe(tab.id)}
                 className={`px-4 py-1.5 rounded-lg text-xs font-semibold transition ${timeframe === tab.id
-                  ? "bg-[#8B0000] text-white shadow-sm"
-                  : "text-gray-600 hover:text-[#8B0000]"
+                  ? "bg-[#D4AF37] text-black shadow-sm"
+                  : "text-gray-600 hover:text-[#D4AF37]"
                   }`}
               >
                 {tab.label}
@@ -695,7 +695,7 @@ function AdminOverview({ darkMode }) {
                 </span>
 
                 <div
-                  className={`w-full max-w-[40px] rounded-t-md bg-gradient-to-t from-[#8B0000] to-[#b30000] transition-all duration-500 ease-out group-hover:brightness-110 shadow-md ${data.height}`}
+                  className={`w-full max-w-[40px] rounded-t-md bg-gradient-to-t from-[#D4AF37] to-[#D4AF37] transition-all duration-500 ease-out group-hover:brightness-110 shadow-md ${data.height}`}
                 ></div>
 
                 <span className={`text-xs font-semibold mt-1 pb-2 block text-center truncate w-full ${darkMode ? "text-white/70" : "text-gray-600"
@@ -721,7 +721,7 @@ function AllContent({ darkMode }) {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold text-[#8B0000] mb-6">All Content</h1>
+      <h1 className="text-3xl font-bold text-[#D4AF37] mb-6">All Content</h1>
 
       {/* Styled Search Input Area */}
       <div className="mb-8">
@@ -730,9 +730,9 @@ function AllContent({ darkMode }) {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Search by title or creator..."
-          className={`w-full max-w-md rounded-xl px-4 py-3.5 outline-none shadow-sm focus:ring-2 focus:ring-[#8B0000]/30 transition-all ${darkMode
-            ? "bg-[#1e1b29] border border-white/10 text-white placeholder-white/40 focus:border-[#8B0000]"
-            : "bg-white border border-gray-200 text-[#080616] placeholder-gray-400 focus:border-[#8B0000]"
+          className={`w-full max-w-md rounded-xl px-4 py-3.5 outline-none shadow-sm focus:ring-2 focus:ring-[#D4AF37]/30 transition-all ${darkMode
+            ? "bg-[#1e1b29] border border-white/10 text-white placeholder-white/40 focus:border-[#D4AF37]"
+            : "bg-white border border-gray-200 text-[#080616] placeholder-gray-400 focus:border-[#D4AF37]"
             }`}
         />
       </div>
@@ -761,7 +761,7 @@ function AllContent({ darkMode }) {
             {/* Content Details Layout */}
             <div className="p-5 flex flex-col flex-1 justify-between gap-3">
               <div className="space-y-1">
-                <h3 className={`font-bold text-base leading-snug line-clamp-2 group-hover:text-[#8B0000] transition-colors duration-200 ${darkMode ? "text-white" : "text-[#080616]"
+                <h3 className={`font-bold text-base leading-snug line-clamp-2 group-hover:text-[#D4AF37] transition-colors duration-200 ${darkMode ? "text-white" : "text-[#080616]"
                   }`}>
                   {film.title}
                 </h3>
@@ -777,7 +777,7 @@ function AllContent({ darkMode }) {
                   }`}>
                   Media
                 </span>
-                <span className="text-xs font-semibold text-[#8B0000] opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all duration-300">
+                <span className="text-xs font-semibold text-[#D4AF37] opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all duration-300">
                   View Details
                 </span>
               </div>
@@ -863,7 +863,7 @@ function UserManagement({ darkMode }) {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold text-[#8B0000] mb-4">User Management</h1>
+      <h1 className="text-3xl font-bold text-[#D4AF37] mb-4">User Management</h1>
       <div className="bg-white/80 backdrop-blur-md p-6 rounded-xl shadow-lg space-y-6 border border-gray-200">
         <div className="flex flex-col gap-4 md:gap-0 md:flex-row md:items-center md:justify-between">
           <div className="flex gap-2">
@@ -871,7 +871,7 @@ function UserManagement({ darkMode }) {
               <button
                 key={t}
                 onClick={() => setActiveTab(t)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition ${activeTab === t ? "bg-[#8B0000] text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                className={`px-4 py-2 rounded-full text-sm font-medium transition ${activeTab === t ? "bg-[#D4AF37] text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                   }`}
               >
                 {t.charAt(0).toUpperCase() + t.slice(1)}
@@ -886,7 +886,7 @@ function UserManagement({ darkMode }) {
                 value={searchEmail}
                 onChange={(e) => setSearchEmail(e.target.value)}
                 placeholder="Search by ubmail..."
-                className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm text-[#080616] outline-none transition focus:ring-2 focus:ring-[#8B0000]/20"
+                className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm text-[#080616] outline-none transition focus:ring-2 focus:ring-[#D4AF37]/20"
               />
             </div>
             <button
@@ -894,7 +894,7 @@ function UserManagement({ darkMode }) {
                 /* Add your custom logic here, e.g., open modal or navigate */
                 console.log("Add User clicked");
               }}
-              className="w-full sm:w-auto shrink-0 inline-flex items-center justify-center rounded-xl bg-[#8B0000] px-5 py-3 text-sm font-bold text-white hover:bg-[#8B0000]/80 transition shadow-sm"
+              className="w-full sm:w-auto shrink-0 inline-flex items-center justify-center rounded-xl bg-[#D4AF37] px-5 py-3 text-sm font-bold text-white hover:bg-[#D4AF37]/80 transition shadow-sm"
             >
               Add User
             </button>
@@ -920,7 +920,7 @@ function UserManagement({ darkMode }) {
             <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:justify-start">
               <button
                 onClick={handleConfirmAction}
-                className="inline-flex items-center justify-center rounded-xl bg-[#8B0000] px-4 py-2 text-xs font-bold text-white hover:bg-[#8B0000]/80 transition shadow-sm"
+                className="inline-flex items-center justify-center rounded-xl bg-[#D4AF37] px-4 py-2 text-xs font-bold text-white hover:bg-[#D4AF37]/80 transition shadow-sm"
               >
                 Confirm Action
               </button>
@@ -973,7 +973,7 @@ function UserManagement({ darkMode }) {
                   <td className="px-4 py-4 text-right relative">
                     <button
                       onClick={() => handleToggleMenu(user.id)}
-                      className="inline-flex items-center justify-center p-2 rounded-full text-gray-500 hover:bg-gray-100 hover:text-[#8B0000] transition"
+                      className="inline-flex items-center justify-center p-2 rounded-full text-gray-500 hover:bg-gray-100 hover:text-[#D4AF37] transition"
                     >
                       <MoreVertical className="w-5 h-5" />
                     </button>
@@ -1014,7 +1014,7 @@ function UserManagement({ darkMode }) {
 function SettingsPage({ setSection }) {
   const [activeTab, setActiveTab] = useState('general');
   const TabButton = ({ id, icon: Icon, label }) => (
-    <button onClick={() => setActiveTab(id)} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition ${activeTab === id ? 'bg-[#8B0000] text-white shadow-md' : 'text-gray-600 hover:bg-gray-100'}`}>
+    <button onClick={() => setActiveTab(id)} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition ${activeTab === id ? 'bg-[#D4AF37] text-white shadow-md' : 'text-gray-600 hover:bg-gray-100'}`}>
       <Icon size={20} />
       <span className="font-medium">{label}</span>
     </button>
@@ -1022,7 +1022,7 @@ function SettingsPage({ setSection }) {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold text-[#8B0000] mb-4">Settings</h1>
+      <h1 className="text-3xl font-bold text-[#D4AF37] mb-4">Settings</h1>
       <div className="flex flex-col md:flex-row gap-8 bg-white rounded-xl shadow-xl border border-gray-100 min-h-[500px] overflow-hidden">
 
         {/* SIDEBAR NAVIGATION */}

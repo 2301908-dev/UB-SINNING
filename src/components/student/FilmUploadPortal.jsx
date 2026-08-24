@@ -93,6 +93,28 @@ export default function FilmUploadPortal() {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (isFormComplete) {
+      window.dispatchEvent(
+        new CustomEvent("ub-sining:film-submitted", {
+          detail: {
+            film: {
+              id: `uploaded-${Date.now()}`,
+              title: formData.title.trim(),
+              creator: "You",
+              category: formData.category,
+              tags: ["Pending Approval"],
+              thumbnail: posterPreview,
+              previewUrl: URL.createObjectURL(selectedFile),
+              duration: "Processing",
+              views: 0,
+              rating: 0,
+              status: "pending",
+              isAwaitingApproval: true,
+              aiScreening: "processing",
+              description: formData.synopsis.trim(),
+            },
+          },
+        })
+      );
       setIsSubmitted(true);
     }
   };
@@ -116,7 +138,7 @@ export default function FilmUploadPortal() {
             Upload your project safely and submit it for faculty review with AI screening and status tracking.
           </p>
         </div>
-        <div className="rounded-full border border-[#D4AF37]/20 bg-[#8B0000] px-4 py-3 text-sm font-semibold text-white shadow-sm shadow-black/20">
+        <div className="rounded-full border border-[#D4AF37]/20 bg-[#D4AF37] px-4 py-3 text-sm font-semibold text-black shadow-sm shadow-black/20">
           Required poster before upload
         </div>
       </div>
@@ -283,14 +305,14 @@ export default function FilmUploadPortal() {
                 </div>
                 <div className="h-3 overflow-hidden rounded-full bg-white/10">
                   <div
-                    className="h-full rounded-full bg-[#8B0000] transition-all duration-300"
+                    className="h-full rounded-full bg-[#D4AF37] transition-all duration-300"
                     style={{ width: `${uploadProgress}%` }}
                   />
                 </div>
               </div>
 
               <div className="flex items-center gap-2 rounded-3xl border border-[#D4AF37]/15 bg-white/5 px-4 py-3 text-sm text-white/70 shadow-sm">
-                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#8B0000] text-white shadow-sm shadow-black/20">
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#D4AF37] text-black shadow-sm shadow-black/20">
                   •
                 </span>
                 <div>

@@ -1,5 +1,5 @@
 import UBLogo from "../components/shared/UBLogo";
-import backgroundImage from "../assets/white_bg.jpg";
+import backgroundImage from "../assets/DarkBg.jpg";
 
 export default function NotFoundPage() {
   return (
@@ -15,7 +15,7 @@ export default function NotFoundPage() {
         <UBLogo size={72} titleSizeClass="text-3xl" />
       </div>
 
-      <h1 className="text-8xl font-bold text-[#8B0000] leading-none">404</h1>
+      <h1 className="text-8xl font-bold text-[#D4AF37] leading-none">404</h1>
       <p className="mt-4 text-2xl font-semibold text-gray-800">Page Not Found</p>
       <p className="mt-2 text-gray-500 max-w-sm">
         The page you're looking for doesn't exist or has been moved.
@@ -23,7 +23,7 @@ export default function NotFoundPage() {
 
       <button
         onClick={() => (window.location.href = "/")}
-        className="mt-8 px-6 py-3 bg-[#8B0000] text-white rounded-xl font-medium hover:bg-[#6b0000] transition cursor-pointer"
+        className="mt-8 px-6 py-3 bg-[#D4AF37] text-black rounded-xl font-medium hover:bg-[#D4AF37] transition cursor-pointer"
       >
         Go Back Home
       </button>

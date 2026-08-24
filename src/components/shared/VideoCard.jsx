@@ -80,6 +80,17 @@ export default function VideoCard({ film }) {
             />
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent"></div>
+          {film.isAwaitingApproval && (
+            <div className="absolute inset-x-3 top-3 rounded-2xl border border-[#D4AF37]/25 bg-black/70 px-3 py-2 backdrop-blur-sm">
+              <div className="flex items-center justify-between gap-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#D4AF37]">
+                <span>Awaiting approval</span>
+                <span className="animate-pulse">Loading</span>
+              </div>
+              <div className="mt-2 h-1 overflow-hidden rounded-full bg-white/15">
+                <div className="h-full w-2/5 animate-pulse rounded-full bg-[#D4AF37]" />
+              </div>
+            </div>
+          )}
           <div className="absolute bottom-3 left-3 right-3 flex flex-col gap-2">
             <div className="flex flex-wrap gap-2">
               {film.tags?.map((tag) => (
@@ -224,7 +235,7 @@ export default function VideoCard({ film }) {
                     <div className="rounded-2xl bg-white/5 p-4 ring-1 ring-white/10">
                       <p className="text-xs uppercase tracking-[0.2em] text-white/45">Rating</p>
                       <div className="mt-3 flex items-center gap-2">
-                        <span className="rounded-full bg-[#8B0000] px-3 py-1 text-sm font-bold text-white">
+                        <span className="rounded-full bg-[#D4AF37] px-3 py-1 text-sm font-bold text-black">
                           {film.rating.toFixed(1)}
                         </span>
                         <div className="flex items-center gap-1">

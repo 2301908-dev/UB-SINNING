@@ -3,7 +3,7 @@ import SettingsControlPanel from "../components/student/SettingsControlPanel";
 
 export default function StudentSettingsWorkspace({ onBack, initialTab = "profile" }) {
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(139,0,0,0.35),transparent_32%),linear-gradient(180deg,#120808_0%,#1a0d0d_46%,#0c0b0b_100%)] px-4 py-6 text-white sm:px-6 lg:px-10">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(255,215,0,0.22),transparent_32%),linear-gradient(180deg,#120808_0%,#1a0d0d_46%,#0c0b0b_100%)] px-4 py-6 text-white sm:px-6 lg:px-10">
       <div className="mx-auto max-w-6xl space-y-6">
         <button
           type="button"

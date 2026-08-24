@@ -1,8 +1,8 @@
-import logoSrc from "../../assets/ublogo.png";
+import logoSrc from "../../assets/SanctuaryLogo.png";
 
 export default function UBLogo({
   size = 48,
-  titleClass = "text-[#8B0000]",
+  titleClass = "text-[#D4AF37]",
   subtitleClass = "text-gray-400",
   hideSubtitle = false,
   titleSizeClass = "text-xl",

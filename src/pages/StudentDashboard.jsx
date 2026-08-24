@@ -7,8 +7,8 @@ import CategoryRow from "../components/student/CategoryRow";
 import DirectorsStudio from "../components/student/DirectorsStudio";
 import FilmUploadPortal from "../components/student/FilmUploadPortal";
 import ProfileMenuHub from "../components/student/ProfileMenuHub";
-import GenreFilter from "../components/student/GenreFilter";
 import SettingsControlPanel from "../components/student/SettingsControlPanel";
+import backgroundImage from "../assets/DarkBg.jpg";
 import {
   Bell,
   Search,
@@ -56,7 +56,6 @@ export default function StudentDashboard() {
   const [activeTab, setActiveTab] = useState("home");
   const [showSettings, setShowSettings] = useState(false);
   const [settingsTab, setSettingsTab] = useState("profile");
-  const [selectedGenre, setSelectedGenre] = useState(null);
   const [previewFilm, setPreviewFilm] = useState(null);
   const [myListFilms, setMyListFilms] = useState(() => {
     if (typeof window === "undefined") {
@@ -157,8 +156,8 @@ export default function StudentDashboard() {
   return (
     <>
       <div
-        className="relative min-h-screen overflow-x-hidden bg-[radial-gradient(circle_at_top,rgba(139,0,0,0.35),transparent_32%),linear-gradient(180deg,#120808_0%,#1a0d0d_46%,#0c0b0b_100%)] text-white bg-cover bg-center"
-        style={{ backgroundImage: "url('/studentbackround.png')" }}
+        className="relative min-h-screen overflow-x-hidden bg-[radial-gradient(circle_at_top,rgba(255,215,0,0.22),transparent_32%),linear-gradient(180deg,#120808_0%,#1a0d0d_46%,#0c0b0b_100%)] text-white bg-cover bg-center"
+        style={{ backgroundImage: `url(${backgroundImage})` }}
       >
         <div className="pointer-events-none absolute inset-0 bg-[#090707]/72" />
         <div className="relative z-10">
@@ -166,10 +165,11 @@ export default function StudentDashboard() {
           <nav className="flex flex-col gap-6 border-b border-white/10 bg-[#171315]/88 px-4 py-6 text-white backdrop-blur-xl lg:flex-row lg:items-center lg:justify-between lg:px-10">
           <div className="flex items-center justify-between gap-6">
             <button
-              onClick={() => setActiveTab("home")}
+              onClick={() => window.location.assign("/student")}
+              aria-label="Go to student dashboard"
               className="cursor-pointer hover:scale-[1.01] transition-transform duration-200"
             >
-              <UBLogo titleClass="text-[#D4AF37]" subtitleClass="text-white/55" />
+              <UBLogo size={64} titleClass="text-[#D4AF37]" subtitleClass="text-white/55" />
             </button>
             <div className="flex gap-4 lg:hidden">
               <button className="rounded-full bg-[#D4AF37] p-3 text-[#120808] hover:bg-[#e2c15b]">
@@ -258,13 +258,6 @@ export default function StudentDashboard() {
             </div>
           </div>
         </nav>
-
-        {/* ================= GENRE FILTER BAR ================= */}
-        {activeTab === "home" && (
-          <div className="border-b border-white/10 bg-[#171315]/90 backdrop-blur-xl">
-            <GenreFilter selectedGenre={selectedGenre} onGenreChange={setSelectedGenre} />
-          </div>
-        )}
 
         {/* ================= PAGE CONTENT ================= */}
         <main className="px-4 py-10 sm:px-6 lg:px-10">
@@ -356,7 +349,7 @@ function HomeTab({ featured }) {
               <button className="min-w-[150px] rounded-full border border-white/10 bg-white px-6 py-3 font-medium text-black shadow-sm hover:shadow-md">
                 Play Now
               </button>
-              <button className="min-w-[150px] rounded-full border border-[#D4AF37]/20 bg-[#8B0000] px-6 py-3 text-white shadow-sm hover:bg-[#a00000]">
+              <button className="min-w-[150px] rounded-full border border-[#D4AF37]/20 bg-[#D4AF37] px-6 py-3 text-black shadow-sm hover:bg-[#D4AF37]">
                 More Info
               </button>
               <button className="min-w-[150px] rounded-full bg-[#D4AF37] px-6 py-3 text-[#120808] shadow-sm hover:bg-[#e2c15b]">
@@ -432,7 +425,7 @@ function MyListTab({ films, setFilms }) {
               <div className="relative aspect-[16/9] overflow-hidden">
                 <img src={film.thumbnail} alt={film.title} className="h-full w-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
-                <div className="absolute bottom-3 left-3 rounded-full bg-[#8B0000]/90 px-3 py-1 text-[11px] font-semibold text-white">
+                <div className="absolute bottom-3 left-3 rounded-full bg-[#D4AF37]/90 px-3 py-1 text-[11px] font-semibold text-black">
                   In My List
                 </div>
               </div>
@@ -626,7 +619,7 @@ function GalleryTab() {
                 <div className="absolute inset-x-0 top-8 mx-auto h-[15rem] w-[88%] rounded-[28px] border border-[#D4AF37]/20 bg-gradient-to-b from-white/10 to-white/5 shadow-[0_0_0_1px_rgba(255,255,255,0.03)]" />
                 <div className="absolute inset-x-0 top-10 mx-auto h-[14rem] w-[80%] rounded-[24px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02))]" />
                 <div className="absolute inset-x-0 top-16 mx-auto h-[12rem] w-[68%] rounded-[20px] border border-[#D4AF37]/25 bg-gradient-to-b from-[#251313] to-[#0f0f13]" />
-                <div className="absolute inset-x-0 top-20 mx-auto h-[10rem] w-[54%] rounded-[18px] border border-white/10 bg-[radial-gradient(circle_at_top,rgba(212,175,55,0.16),transparent_55%),linear-gradient(180deg,rgba(139,0,0,0.45),rgba(0,0,0,0.75))]" />
+                <div className="absolute inset-x-0 top-20 mx-auto h-[10rem] w-[54%] rounded-[18px] border border-white/10 bg-[radial-gradient(circle_at_top,rgba(212,175,55,0.16),transparent_55%),linear-gradient(180deg,rgba(212,175,55,0.45),rgba(0,0,0,0.75))]" />
 
                 <div className="absolute left-4 top-24 h-24 w-12 rounded-2xl border border-white/10 bg-white/10 shadow-lg" />
                 <div className="absolute right-4 top-24 h-24 w-12 rounded-2xl border border-white/10 bg-white/10 shadow-lg" />
@@ -665,7 +658,23 @@ function GalleryTab() {
 
 function PortfolioTab() {
   const [activePortfolioTab, setActivePortfolioTab] = useState("projects");
-  const userFilms = mockFilms.slice(0, 2); // Example mock user uploads
+  const [uploadedFilms, setUploadedFilms] = useState([]);
+  const userFilms = [...mockFilms.slice(0, 2), ...uploadedFilms];
+
+  useEffect(() => {
+    const handleFilmSubmitted = (event) => {
+      const film = event.detail?.film;
+      if (!film) {
+        return;
+      }
+
+      setUploadedFilms((current) => [...current, film]);
+      setActivePortfolioTab("projects");
+    };
+
+    window.addEventListener("ub-sining:film-submitted", handleFilmSubmitted);
+    return () => window.removeEventListener("ub-sining:film-submitted", handleFilmSubmitted);
+  }, []);
 
   return (
     <div>
@@ -683,7 +692,7 @@ function PortfolioTab() {
             onClick={() => setActivePortfolioTab("projects")}
             className={`px-5 py-2 text-sm font-semibold transition ${
               activePortfolioTab === "projects"
-                ? "bg-[#8B0000] text-white shadow-sm"
+                ? "bg-[#D4AF37] text-black shadow-sm"
                 : "bg-transparent text-white/70 hover:bg-white/10"
             }`}
           >
@@ -705,7 +714,7 @@ function PortfolioTab() {
             onClick={() => setActivePortfolioTab("studio")}
             className={`px-5 py-2 text-sm font-semibold transition ${
               activePortfolioTab === "studio"
-                ? "bg-[#8B0000] text-white shadow-sm"
+                ? "bg-[#D4AF37] text-black shadow-sm"
                 : "bg-transparent text-white/70 hover:bg-white/10"
             }`}
           >

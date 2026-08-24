@@ -52,7 +52,7 @@ export default function UserProfileDropdown({ onOpenSettings }) {
       {/* Avatar Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-[#8B0000] hover:border-opacity-70 transition-all hover:shadow-md focus:outline-none"
+        className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-[#D4AF37] hover:border-opacity-70 transition-all hover:shadow-md focus:outline-none"
         aria-label="Open user profile menu"
         aria-expanded={isOpen}
       >
@@ -67,19 +67,19 @@ export default function UserProfileDropdown({ onOpenSettings }) {
       {isOpen && (
         <div className="absolute top-full right-0 mt-3 w-72 rounded-2xl bg-white/80 backdrop-blur-xl border border-white/20 shadow-2xl animate-fade-in-up z-50 overflow-hidden">
           {/* Header - User Identity */}
-          <div className="px-5 py-4 border-b border-white/20 bg-gradient-to-r from-[#8B0000]/5 to-transparent">
+          <div className="px-5 py-4 border-b border-white/20 bg-gradient-to-r from-[#D4AF37]/10 to-transparent">
             <div className="flex items-center gap-3">
               <img
                 src={user.avatar}
                 alt={user.name}
-                className="w-12 h-12 rounded-full border-2 border-[#8B0000]"
+                className="w-12 h-12 rounded-full border-2 border-[#D4AF37]"
               />
               <div className="flex-1">
                 <h3 className="text-sm font-bold text-slate-900">
                   {user.name}
                 </h3>
                 <p className="text-xs text-gray-600">{user.studentId}</p>
-                <span className="inline-block mt-1 px-2 py-0.5 bg-[#8B0000] text-white text-xs font-semibold rounded">
+                <span className="inline-block mt-1 px-2 py-0.5 bg-[#D4AF37] text-black text-xs font-semibold rounded">
                   {user.directorLevel}
                 </span>
               </div>
@@ -92,8 +92,8 @@ export default function UserProfileDropdown({ onOpenSettings }) {
               Tools
             </p>
 
-            <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-slate-900 hover:bg-[#8B0000]/10 transition group">
-              <Settings className="w-4 h-4 text-[#8B0000] group-hover:scale-110 transition" />
+            <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-slate-900 hover:bg-[#D4AF37]/10 transition group">
+              <Settings className="w-4 h-4 text-[#D4AF37] group-hover:scale-110 transition" />
               <span className="flex-1 text-left">Edit Profile</span>
               <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition" />
             </button>
@@ -103,14 +103,14 @@ export default function UserProfileDropdown({ onOpenSettings }) {
                 setIsOpen(false);
                 onOpenSettings?.();
               }}
-              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-slate-900 hover:bg-[#8B0000]/10 transition group">
-              <Settings className="w-4 h-4 text-[#8B0000] group-hover:scale-110 transition" />
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-slate-900 hover:bg-[#D4AF37]/10 transition group">
+              <Settings className="w-4 h-4 text-[#D4AF37] group-hover:scale-110 transition" />
               <span className="flex-1 text-left">Account Settings</span>
               <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition" />
             </button>
 
-            <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-slate-900 hover:bg-[#8B0000]/10 transition group">
-              <Image className="w-4 h-4 text-[#8B0000] group-hover:scale-110 transition" />
+            <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-slate-900 hover:bg-[#D4AF37]/10 transition group">
+              <Image className="w-4 h-4 text-[#D4AF37] group-hover:scale-110 transition" />
               <span className="flex-1 text-left">My Portfolio</span>
               <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition" />
             </button>
@@ -122,20 +122,20 @@ export default function UserProfileDropdown({ onOpenSettings }) {
               Utilities
             </p>
 
-            <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-slate-900 hover:bg-[#8B0000]/10 transition group">
-              <Clock className="w-4 h-4 text-[#8B0000] group-hover:scale-110 transition" />
+            <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-slate-900 hover:bg-[#D4AF37]/10 transition group">
+              <Clock className="w-4 h-4 text-[#D4AF37] group-hover:scale-110 transition" />
               <span className="flex-1 text-left">Upload History</span>
               <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition" />
             </button>
 
             <button
               onClick={toggleTheme}
-              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-slate-900 hover:bg-[#8B0000]/10 transition group"
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-slate-900 hover:bg-[#D4AF37]/10 transition group"
             >
               {isDarkMode ? (
-                <Sun className="w-4 h-4 text-[#8B0000] group-hover:scale-110 transition" />
+                <Sun className="w-4 h-4 text-[#D4AF37] group-hover:scale-110 transition" />
               ) : (
-                <Moon className="w-4 h-4 text-[#8B0000] group-hover:scale-110 transition" />
+                <Moon className="w-4 h-4 text-[#D4AF37] group-hover:scale-110 transition" />
               )}
               <span className="flex-1 text-left">
                 {isDarkMode ? "Official Light" : "Cinematic Dark"}
@@ -150,7 +150,7 @@ export default function UserProfileDropdown({ onOpenSettings }) {
           <div className="px-3 py-3">
             <button
               onClick={handleLogout}
-              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-[#8B0000] hover:bg-[#8B0000]/10 transition group"
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-[#D4AF37] hover:bg-[#D4AF37]/10 transition group"
             >
               <LogOut className="w-4 h-4 group-hover:scale-110 transition" />
               <span className="flex-1 text-left">Logout</span>

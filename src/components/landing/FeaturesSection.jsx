@@ -62,10 +62,10 @@ function FeatureCard({ feature, index }) {
         background: "#ffffff",
         backdropFilter: "blur(12px)",
         WebkitBackdropFilter: "blur(12px)",
-        border: "1px solid rgba(139,0,0,0.18)",
+        border: "1px solid rgba(255,215,0,0.22)",
         boxShadow: hovered
-          ? "0 20px 48px rgba(139,0,0,0.14), 0 6px 20px rgba(139,0,0,0.08)"
-          : "0 4px 16px rgba(139,0,0,0.07)",
+          ? "0 20px 48px rgba(212,175,55,0.18), 0 6px 20px rgba(212,175,55,0.1)"
+          : "0 4px 16px rgba(212,175,55,0.08)",
         transform: hovered ? "translateY(-8px)" : "translateY(0)",
         transition: "transform 0.3s ease, box-shadow 0.3s ease",
         cursor: "pointer",
@@ -78,8 +78,8 @@ function FeatureCard({ feature, index }) {
           width: 52, height: 52,
           borderRadius: 14,
           background: hovered
-            ? "linear-gradient(135deg, #8B0000, #c0392b)"
-            : "rgba(139,0,0,0.10)",
+            ? "linear-gradient(135deg, #D4AF37, #D4AF37)"
+            : "rgba(255,215,0,0.12)",
           display: "flex", alignItems: "center", justifyContent: "center",
           transition: "background 0.3s ease",
         }}>
@@ -97,7 +97,7 @@ function FeatureCard({ feature, index }) {
           fontFamily: "'Poppins', sans-serif",
           fontWeight: 700,
           fontSize: 13,
-          color: hovered ? "#8B0000" : "rgba(139,0,0,0.35)",
+          color: hovered ? "#D4AF37" : "rgba(212,175,55,0.5)",
           letterSpacing: "0.08em",
           transition: "color 0.3s ease",
         }}>
@@ -150,10 +150,10 @@ export default function FeaturesSection({ onSignInClick }) {
         <div
           className="mb-5 inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase"
           style={{
-            background: "rgba(139,0,0,0.08)",
-            color: "#8B0000",
+            background: "rgba(255,215,0,0.12)",
+            color: "#D4AF37",
             fontFamily: "'Poppins', sans-serif",
-            border: "1px solid rgba(139,0,0,0.15)",
+            border: "1px solid rgba(255,215,0,0.25)",
           }}
         >
           Platform Features
@@ -165,7 +165,7 @@ export default function FeaturesSection({ onSignInClick }) {
           style={{ fontFamily: "'Montserrat', sans-serif", color: "#111827" }}
         >
           Everything a{" "}
-          <span style={{ backgroundImage: "linear-gradient(90deg,#8B0000 30%,#D4AF37 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+          <span style={{ backgroundImage: "linear-gradient(90deg,#D4AF37 30%,#D4AF37 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
             student filmmaker
           </span>{" "}
           needs.
@@ -186,20 +186,20 @@ From showcasing student films to archiving projects and connecting audiences, UB
             onClick={(e) => { e.preventDefault(); onSignInClick?.(); }}
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold text-white"
             style={{
-              background: "#8B0000",
+              background: "#D4AF37",
               fontFamily: "'Poppins', sans-serif",
-              boxShadow: "0 4px 18px rgba(139,0,0,0.32)",
+              boxShadow: "0 4px 18px rgba(212,175,55,0.32)",
               transition: "background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = "#6b0000";
+              e.currentTarget.style.background = "#D4AF37";
               e.currentTarget.style.transform = "translateY(-2px)";
-              e.currentTarget.style.boxShadow = "0 8px 28px rgba(139,0,0,0.42)";
+              e.currentTarget.style.boxShadow = "0 8px 28px rgba(212,175,55,0.42)";
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = "#8B0000";
+              e.currentTarget.style.background = "#D4AF37";
               e.currentTarget.style.transform = "translateY(0)";
-              e.currentTarget.style.boxShadow = "0 4px 18px rgba(139,0,0,0.32)";
+              e.currentTarget.style.boxShadow = "0 4px 18px rgba(212,175,55,0.32)";
             }}
           >
             Get Started

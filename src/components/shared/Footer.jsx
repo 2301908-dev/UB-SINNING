@@ -1,69 +1,29 @@
-import logoSrc from "../../assets/ublogo.png";
+import facebookIcon from "../../assets/icons/Facebook.png";
+import xIcon from "../../assets/icons/x_logo_PNG3.png";
+import youtubeIcon from "../../assets/icons/Youtube.png";
+import instagramIcon from "../../assets/icons/instagram.webp";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#600000] border-t border-[#D4AF37]/30 text-white">
-      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-10">
-        <div className="grid gap-6 lg:grid-cols-4">
-          <div className="space-y-3">
-            <div className="flex items-center gap-3">
-              <img src={logoSrc} alt="UB Sining Logo" className="h-10 w-10 rounded-lg object-cover" />
-              <span className="text-xl font-semibold text-[#D4AF37]">UB Sining</span>
-            </div>
-            <p className="max-w-sm text-sm leading-6 text-white/90">
-              The official cinematic hub of the University of Batangas – curating student films, immersive VR experiences, and AI-assisted screenings that nurture the next generation of Filipino storytellers.
-            </p>
-          </div>
-
-          <div className="space-y-4">
-            <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-[#D4AF37]">The Cinema</h3>
-            <ul className="space-y-3 text-sm text-white/90">
-              <li><a href="#" className="transition-colors duration-200 hover:text-[#D4AF37]">Student Gallery</a></li>
-              <li><a href="#" className="transition-colors duration-200 hover:text-[#D4AF37]">VR Hallway</a></li>
-              <li><a href="#" className="transition-colors duration-200 hover:text-[#D4AF37]">Film Festivals</a></li>
-              <li><a href="#" className="transition-colors duration-200 hover:text-[#D4AF37]">Director Spotlight</a></li>
-            </ul>
-          </div>
-
-          <div className="space-y-4">
-            <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-[#D4AF37]">The Studio</h3>
-            <ul className="space-y-3 text-sm text-white/90">
-              <li><a href="#" className="transition-colors duration-200 hover:text-[#D4AF37]">Upload Portal</a></li>
-              <li><a href="#" className="transition-colors duration-200 hover:text-[#D4AF37]">IP Guidelines</a></li>
-              <li><a href="#" className="transition-colors duration-200 hover:text-[#D4AF37]">Metadata Standards</a></li>
-              <li><a href="#" className="transition-colors duration-200 hover:text-[#D4AF37]">Version Control Help</a></li>
-            </ul>
-          </div>
-
-          <div className="space-y-4">
-            <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-[#D4AF37]">Institutional</h3>
-            <ul className="space-y-3 text-sm text-white/90">
-              <li><a href="#" className="transition-colors duration-200 hover:text-[#D4AF37]">University Home</a></li>
-              <li><a href="#" className="transition-colors duration-200 hover:text-[#D4AF37]">Office of Student Affairs</a></li>
-              <li><a href="#" className="transition-colors duration-200 hover:text-[#D4AF37]">Faculty Admin</a></li>
-              <li><a href="#" className="transition-colors duration-200 hover:text-[#D4AF37]">Technical Support</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div className="border-t border-white/10 bg-[#600000]">
-        <div className="mx-auto flex flex-col gap-2 px-4 py-3 text-xs text-white sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-10">
-          <p className="leading-5">
-            © 2026 University of Batangas. All Rights Reserved. | UB Sining · Office of Student Affairs · College of Information and Communications Technology.
-          </p>
-          <div className="flex items-center gap-3">
-            <a href="#" className="transition duration-200 hover:text-[#D4AF37]" aria-label="Facebook">
-              <img src="/facebook.png" alt="Facebook" className="h-5 w-5 object-contain" />
+    <footer className="border-t border-[#374151] bg-black py-6 text-white">
+      <div className="flex justify-center">
+        <div className="flex items-center justify-center gap-3">
+            <a href="https://www.facebook.com/ubatangas/" target="_blank" rel="noreferrer" aria-label="Facebook" className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-200 transition hover:bg-[#D4AF37]">
+              <img src={facebookIcon} alt="" className="h-5 w-5 object-contain" />
             </a>
-            <a href="#" className="transition duration-200 hover:text-[#D4AF37]" aria-label="YouTube">
-              <img src="/youtube.png" alt="YouTube" className="h-5 w-5 object-contain" />
+            <a href="https://x.com/ubatangas" target="_blank" rel="noreferrer" aria-label="X" className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-200 transition hover:bg-[#D4AF37]">
+              <img src={xIcon} alt="" className="h-5 w-5 object-contain" />
             </a>
-            <a href="#" className="transition duration-200 hover:text-[#D4AF37]" aria-label="Instagram">
-              <img src="/instagram.png" alt="Instagram" className="h-5 w-5 object-contain" />
+            <a href="https://www.linkedin.com/school/ubatangas/posts/?feedView=all" target="_blank" rel="noreferrer" aria-label="LinkedIn" className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-200 transition hover:bg-[#D4AF37]">
+              <span className="text-xl font-bold leading-none text-[#172554]" aria-hidden="true">in</span>
+            </a>
+            <a href="https://www.youtube.com/@universityofbatangas1946" target="_blank" rel="noreferrer" aria-label="YouTube" className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-200 transition hover:bg-[#D4AF37]">
+              <img src={youtubeIcon} alt="" className="h-5 w-5 object-contain" />
+            </a>
+            <a href="https://www.instagram.com/ubatangas" target="_blank" rel="noreferrer" aria-label="Instagram" className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-200 transition hover:bg-[#D4AF37]">
+              <img src={instagramIcon} alt="" className="h-5 w-5 object-contain" />
             </a>
           </div>
-        </div>
       </div>
     </footer>
   );

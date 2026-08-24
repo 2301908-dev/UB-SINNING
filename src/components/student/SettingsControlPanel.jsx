@@ -90,7 +90,7 @@ export default function SettingsControlPanel({ onClose, initialTab = "profile", 
                     onClick={() => setActiveTab(item.id)}
                     className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                       activeTab === item.id
-                        ? "bg-[#8B0000] text-white shadow-sm shadow-black/20"
+                        ? "bg-[#D4AF37] text-black shadow-sm shadow-black/20"
                         : "text-white/70 hover:bg-white/10"
                     }`}
                   >
@@ -315,7 +315,7 @@ export default function SettingsControlPanel({ onClose, initialTab = "profile", 
                       Remote Session Management
                     </label>
                     <button
-                      className="w-full rounded-lg border border-[#8B0000] px-4 py-2 text-sm font-medium text-white transition hover:bg-[#8B0000]/20"
+                      className="w-full rounded-lg border border-[#D4AF37] px-4 py-2 text-sm font-medium text-white transition hover:bg-[#D4AF37]/20"
                     >
                       Terminate All Remote Sessions
                     </button>
@@ -345,7 +345,7 @@ export default function SettingsControlPanel({ onClose, initialTab = "profile", 
             disabled={!hasChanges || isSaving}
             className={`px-6 py-2 rounded-lg text-sm font-medium text-white flex items-center gap-2 transition ${
               hasChanges && !isSaving
-                ? "bg-[#8B0000] hover:bg-[#6B0000] cursor-pointer"
+                ? "bg-[#D4AF37] hover:bg-[#D4AF37] cursor-pointer text-black"
                 : "cursor-not-allowed bg-white/10 text-white/30"
             }`}
           >
@@ -378,7 +378,7 @@ function ToggleOption({ enabled, onChange, title, description }) {
       <button
         onClick={() => onChange(!enabled)}
         className={`flex-shrink-0 relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-          enabled ? "bg-[#8B0000]" : "bg-white/20"
+          enabled ? "bg-[#D4AF37]" : "bg-white/20"
         }`}
       >
         <span
@@ -399,7 +399,7 @@ function CheckboxOption({ checked, onChange, title, description }) {
         type="checkbox"
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}
-        className="mt-0.5 h-5 w-5 flex-shrink-0 cursor-pointer rounded border-white/20 text-[#8B0000] focus:ring-2 focus:ring-[#D4AF37]"
+        className="mt-0.5 h-5 w-5 flex-shrink-0 cursor-pointer rounded border-white/20 text-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]"
       />
       <div className="flex-1">
         <h3 className="text-sm font-medium text-white">{title}</h3>

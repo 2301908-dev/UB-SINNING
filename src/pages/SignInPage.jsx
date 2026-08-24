@@ -2,8 +2,8 @@ import { useState } from "react";
 import { supabase } from "../lib/supabaseClient";
 import { useAuth } from "../context/AuthContext";
 
-const ACCENT       = "#8B0000";
-const ACCENT_LIGHT = "rgba(139,0,0,0.10)";
+const ACCENT       = "#D4AF37";
+const ACCENT_LIGHT = "rgba(255,215,0,0.10)";
 
 export default function SignInPage({ onBack }) {
   const [loading, setLoading] = useState(false);
@@ -96,7 +96,7 @@ export default function SignInPage({ onBack }) {
         {/* Logo */}
         <div style={{ display: "flex", justifyContent: "center", marginTop: "-48px", marginBottom: "24px" }}>
           <img
-            src="/src/assets/ublogo.png"
+            src="/src/assets/SanctuaryLogo.png"
             alt="UB Sining"
             style={{ width: "96px", height: "96px", borderRadius: "50%", objectFit: "cover" }}
           />
@@ -216,7 +216,7 @@ export default function SignInPage({ onBack }) {
             fontWeight: 600,
             color: "#ffffff", 
             border: "none",
-            background: loading ? "#6b0000" : "#8B0000",
+            background: loading ? "#D4AF37" : "#D4AF37",
             cursor: loading ? "not-allowed" : "pointer",
             display: "flex", 
             justifyContent: "center", 
@@ -229,14 +229,14 @@ export default function SignInPage({ onBack }) {
           }}
           onMouseEnter={(e) => {
             if (!loading) {
-              e.currentTarget.style.background = "#6b0000";
+              e.currentTarget.style.background = "#D4AF37";
               e.currentTarget.style.transform = "translateY(-2px)";
-              e.currentTarget.style.boxShadow = "0 8px 24px rgba(139,0,0,0.35)";
+              e.currentTarget.style.boxShadow = "0 8px 24px rgba(255,215,0,0.35)";
             }
           }}
           onMouseLeave={(e) => {
             if (!loading) {
-              e.currentTarget.style.background = "#8B0000";
+              e.currentTarget.style.background = "#D4AF37";
               e.currentTarget.style.transform = "translateY(0)";
               e.currentTarget.style.boxShadow = "0 4px 12px rgba(139, 0, 0, 0.15)";
             }

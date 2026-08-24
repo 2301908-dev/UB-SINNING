@@ -81,7 +81,7 @@ const glassCard = {
   background: "rgba(255,255,255,0.78)",
   backdropFilter: "blur(14px)",
   WebkitBackdropFilter: "blur(14px)",
-  border: "1px solid rgba(139,0,0,0.09)",
+  border: "1px solid rgba(255,215,0,0.18)",
   boxShadow: "0 6px 32px rgba(0,0,0,0.08)",
 };
 
@@ -96,10 +96,10 @@ function AboutIntro() {
             <div
               className="mb-5 inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase"
               style={{
-                background: "rgba(139,0,0,0.08)",
-                color: "#8B0000",
+                background: "rgba(255,215,0,0.12)",
+                color: "#D4AF37",
                 fontFamily: "'Poppins', sans-serif",
-                border: "1px solid rgba(139,0,0,0.15)",
+                border: "1px solid rgba(255,215,0,0.25)",
               }}
             >
               About UB-SINING
@@ -112,7 +112,7 @@ function AboutIntro() {
               style={{ fontFamily: "'Montserrat', sans-serif", color: "#111827", letterSpacing: "-1px" }}
             >
               A cinematic stage for{" "}
-              <span style={{ backgroundImage: "linear-gradient(90deg,#8B0000 30%,#D4AF37 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+              <span style={{ backgroundImage: "linear-gradient(90deg,#D4AF37 30%,#D4AF37 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
                 student stories
               </span>
               <span style={{ color: "#D4AF37" }}>.</span>
@@ -149,7 +149,7 @@ export default function AboutSection() {
       {/* Top divider */}
       <div
         className="relative z-10 w-full max-w-5xl h-px mx-auto"
-        style={{ background: "linear-gradient(90deg,transparent,rgba(139,0,0,0.15),transparent)" }}
+        style={{ background: "linear-gradient(90deg,transparent,rgba(255,215,0,0.2),transparent)" }}
       />
 
       <div className="relative z-10 w-full">

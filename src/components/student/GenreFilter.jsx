@@ -14,7 +14,7 @@ export default function GenreFilter({ selectedGenre, onGenreChange, isSelect = f
     return (
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
-          Film Genre <span className="text-[#8B0000]">*</span>
+          Film Genre <span className="text-[#D4AF37]">*</span>
         </label>
         <p className="text-xs text-gray-500 mb-3">
           Required for system database indexing and archival catalog classification.
@@ -44,7 +44,7 @@ export default function GenreFilter({ selectedGenre, onGenreChange, isSelect = f
           onClick={() => onGenreChange(genre.id)}
           className={`px-4 py-2 rounded-full whitespace-nowrap transition-all flex-shrink-0 ${
             selectedGenre === genre.id
-              ? "bg-[#8B0000] text-white shadow-md"
+              ? "bg-[#D4AF37] text-black shadow-md"
               : "border border-gray-200 bg-white text-gray-600 hover:bg-gray-50"
           }`}
         >

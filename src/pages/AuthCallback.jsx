@@ -32,7 +32,7 @@ export default function AuthCallback() {
           height: "48px",
           borderRadius: "50%",
           border: "3px solid #E5E7EB",
-          borderTopColor: "#8B0000",
+          borderTopColor: "#D4AF37",
           animation: "spin 1s linear infinite",
           margin: "0 auto 24px",
         }} />

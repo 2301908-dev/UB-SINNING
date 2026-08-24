@@ -50,6 +50,15 @@ function cleanAuthCallbackUrl() {
   }
 }
 
+function getSessionWithTimeout(timeoutMs = 2500) {
+  return Promise.race([
+    supabase.auth.getSession(),
+    new Promise((resolve) => {
+      setTimeout(() => resolve({ timeout: true }), timeoutMs);
+    }),
+  ]);
+}
+
 async function applySession(session, { setUser, setRole, setError }) {
   if (!session?.user) {
     setUser(null);
@@ -97,7 +106,20 @@ export function AuthProvider({ children }) {
 
     const init = async () => {
       try {
-        const { data: { session } } = await supabase.auth.getSession();
+        const sessionResult = await getSessionWithTimeout();
+
+        if (sessionResult?.timeout) {
+          console.warn("Auth session lookup timed out; rendering the app without waiting further.");
+          if (!cancelled) {
+            setUser(null);
+            setRole(null);
+            setError(null);
+            setLoading(false);
+          }
+          return;
+        }
+
+        const { data: { session } } = sessionResult;
         if (cancelled) return;
 
         if (!session?.user) {
@@ -185,14 +207,17 @@ export function AuthProvider({ children }) {
     setError(null);
     cleanAuthCallbackUrl();
 
-    if (typeof window !== "undefined") {
-      window.location.replace("/");
-    }
-
     try {
-      await supabase.auth.signOut();
+      await Promise.race([
+        supabase.auth.signOut({ scope: "local" }),
+        new Promise((resolve) => setTimeout(resolve, 2500)),
+      ]);
     } catch (err) {
       console.error("Logout error:", err);
+    } finally {
+      if (typeof window !== "undefined") {
+        window.location.replace("/");
+      }
     }
   };
 

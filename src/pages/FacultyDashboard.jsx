@@ -44,11 +44,11 @@ const mockNotifications = [
   { id: 5, text: "Carlos Mendoza Requested a Film Approval", time: "2d ago" },
 ];
 
-const THUMBNAIL_COLORS = ["#5C1A1A", "#1A3A5C", "#1A5C2E", "#4A1A5C", "#5C4A1A", "#1A5C5C", "#5C3A1A"];
+const THUMBNAIL_COLORS = ["#D4AF37", "#1A3A5C", "#1A5C2E", "#4A1A5C", "#5C4A1A", "#1A5C5C", "#5C3A1A"];
 
 function StatusBadge({ status }) {
   const styles = {
-    "Pending": "bg-yellow-100 text-yellow-800",
+    "Pending": "bg-[#D4AF37]/20 text-[#D4AF37]",
     "Under Review": "bg-blue-100 text-blue-800",
     "Approved": "bg-green-100 text-green-800",
     "Rejected": "bg-red-100 text-red-800",
@@ -65,7 +65,7 @@ function Toggle({ checked, onChange }) {
     <button
       type="button"
       onClick={() => onChange(!checked)}
-      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors cursor-pointer ${checked ? "bg-[#8B0000]" : "bg-gray-300"}`}
+      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors cursor-pointer ${checked ? "bg-[#D4AF37]" : "bg-gray-300"}`}
     >
       <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${checked ? "translate-x-6" : "translate-x-1"}`} />
     </button>
@@ -76,12 +76,12 @@ function ConfirmModal({ title, message, confirmLabel, confirmClass, onConfirm, o
   return (
     <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
       <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-sm space-y-5 text-center">
-        <h2 className="text-xl font-bold text-[#8B0000]">{title}</h2>
+        <h2 className="text-xl font-bold text-[#D4AF37]">{title}</h2>
         <p className="text-sm text-gray-600">{message}</p>
         <div className="flex gap-3 pt-2">
           <button
             onClick={onCancel}
-            className="flex-1 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-600 hover:border-[#8B0000] transition cursor-pointer"
+            className="flex-1 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-600 hover:border-[#D4AF37] transition cursor-pointer"
           >
             Cancel
           </button>
@@ -140,12 +140,12 @@ export default function FacultyDashboard() {
       }}
     >
       {/* Sidebar (fixed width, no animation) */}
-      <aside className="w-56 bg-[#8B0000] p-4 rounded-r-lg flex flex-col gap-6 z-20">
+      <aside className="w-56 bg-[#D4AF37] p-4 rounded-r-lg flex flex-col gap-6 z-20">
         <button
           onClick={() => setSection("overview")}
           className="px-1 py-2 cursor-pointer hover:opacity-80 transition"
         >
-          <UBLogo size={64} hideSubtitle titleSizeClass="text-2xl" />
+          <UBLogo size={64} hideSubtitle titleClass="text-black" titleSizeClass="text-2xl" />
         </button>
 
         <nav className="space-y-1 flex-1">
@@ -153,7 +153,7 @@ export default function FacultyDashboard() {
             <button
               key={item.id}
               onClick={() => setSection(item.id)}
-              className={`flex items-center gap-2.5 w-full px-3 py-2 rounded-lg ${section === item.id ? "bg-white text-[#8B0000]" : "text-[#E8EDF2] hover:bg-white/20"}`}
+              className={`flex items-center gap-2.5 w-full px-3 py-2 rounded-lg ${section === item.id ? "bg-white text-[#D4AF37]" : "text-black hover:bg-black/10"}`}
             >
               <img src={item.icon} alt="" className="w-4 h-4 shrink-0 object-contain" />
               <span className="whitespace-nowrap text-xs font-medium">{item.label}</span>
@@ -172,12 +172,12 @@ export default function FacultyDashboard() {
               type="search"
               aria-label="Search films and students"
               placeholder="Search films, students..."
-              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-200 text-sm bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#8B0000]/20 focus:border-[#8B0000]"
+              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-200 text-sm bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/20 focus:border-[#D4AF37]"
             />
             <button
               type="button"
               aria-label="Submit search"
-              className="absolute right-1 top-1/2 -translate-y-1/2 inline-flex h-8 w-8 items-center justify-center text-[#8B0000] transition hover:text-[#6e0000]"
+              className="absolute right-1 top-1/2 -translate-y-1/2 inline-flex h-8 w-8 items-center justify-center text-[#D4AF37] transition hover:text-[#D4AF37]"
             >
               <ArrowRight className="w-4 h-4" />
             </button>
@@ -191,17 +191,17 @@ export default function FacultyDashboard() {
               >
                 <img src={ICON_NOTIFICATION} alt="Notifications" className="w-4 h-4 object-contain" />
                 {mockNotifications.length > 0 && (
-                  <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#8B0000] text-white text-[9px] flex items-center justify-center font-semibold">
+                  <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#D4AF37] text-black text-[9px] flex items-center justify-center font-semibold">
                     {mockNotifications.length}
                   </span>
                 )}
               </button>
               {showNotifications && (
                 <div className="absolute right-0 mt-3 w-80 rounded-xl shadow-lg border border-slate-200 bg-white p-3 z-50">
-                  <h3 className="text-sm font-semibold mb-2 text-[#8B0000]">Notifications</h3>
+                  <h3 className="text-sm font-semibold mb-2 text-[#D4AF37]">Notifications</h3>
                   <div className="space-y-2 max-h-72 overflow-y-auto">
                     {mockNotifications.map((n) => (
-                      <div key={n.id} className="p-3 rounded-lg border border-slate-100 hover:border-[#8B0000]/30 transition">
+                      <div key={n.id} className="p-3 rounded-lg border border-slate-100 hover:border-[#D4AF37]/30 transition">
                         <p className="text-sm text-slate-700">{n.text}</p>
                         <p className="text-xs text-slate-400 mt-0.5">{n.time}</p>
                       </div>
@@ -215,7 +215,7 @@ export default function FacultyDashboard() {
               <button
                 type="button"
                 onClick={() => setShowProfile((v) => !v)}
-                className="w-9 h-9 rounded-full overflow-hidden border-2 border-[#8B0000] cursor-pointer"
+                className="w-9 h-9 rounded-full overflow-hidden border-2 border-[#D4AF37] cursor-pointer"
               >
                 <img src={bryanPhoto} alt="Profile" className="w-full h-full object-cover" />
               </button>
@@ -233,7 +233,7 @@ export default function FacultyDashboard() {
                   </button>
                   <button
                     onClick={logout}
-                    className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-[#8B0000] hover:bg-red-50 cursor-pointer"
+                    className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-[#D4AF37] hover:bg-red-50 cursor-pointer"
                   >
                     <LogOut className="w-4 h-4" /> Logout
                   </button>
@@ -266,13 +266,13 @@ function OverviewSection({ profName }) {
 
   return (
     <div className="space-y-8">
-      <h1 className="text-3xl font-bold text-[#8B0000]">Welcome, {profName}</h1>
+      <h1 className="text-3xl font-bold text-[#D4AF37]">Welcome, {profName}</h1>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((s) => (
           <div key={s.label} className="bg-white border border-slate-200 rounded-xl p-5 space-y-2 shadow-sm">
             <p className="text-sm text-slate-500 font-medium">{s.label}</p>
-            <p className="text-2xl font-bold text-[#8B0000]">{s.value}</p>
+            <p className="text-2xl font-bold text-[#D4AF37]">{s.value}</p>
           </div>
         ))}
       </div>
@@ -280,7 +280,7 @@ function OverviewSection({ profName }) {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex items-start gap-4">
           <div className="p-3 bg-red-50 rounded-lg">
-            <Eye className="w-6 h-6 text-[#8B0000]" />
+            <Eye className="w-6 h-6 text-[#D4AF37]" />
           </div>
           <div>
             <p className="text-sm text-slate-500">Most Viewed Film</p>
@@ -291,7 +291,7 @@ function OverviewSection({ profName }) {
 
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex items-start gap-4">
           <div className="p-3 bg-red-50 rounded-lg">
-            <Star className="w-6 h-6 text-[#8B0000]" />
+            <Star className="w-6 h-6 text-[#D4AF37]" />
           </div>
           <div>
             <p className="text-sm text-slate-500">Best Genre</p>
@@ -343,14 +343,14 @@ function FilmReviewSection() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold text-[#8B0000]">Film Review</h1>
+      <h1 className="text-3xl font-bold text-[#D4AF37]">Film Review</h1>
 
       <div className="flex gap-2">
         {filters.map((f) => (
           <button
             key={f}
             onClick={() => setActiveFilter(f)}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition cursor-pointer ${activeFilter === f ? "bg-[#8B0000] text-white" : "bg-white border border-slate-200 text-slate-600 hover:border-[#8B0000]"}`}
+            className={`px-4 py-2 rounded-full text-sm font-medium transition cursor-pointer ${activeFilter === f ? "bg-[#D4AF37] text-black" : "bg-white border border-slate-200 text-slate-600 hover:border-[#D4AF37]"}`}
           >
             {f}
           </button>
@@ -450,7 +450,7 @@ function StudentsSection() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold text-[#8B0000]">Student Management</h1>
+      <h1 className="text-3xl font-bold text-[#D4AF37]">Student Management</h1>
 
       <div className="flex gap-2">
         <input
@@ -459,11 +459,11 @@ function StudentsSection() {
           onChange={(e) => setSearchInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && setSearchQuery(searchInput)}
           placeholder="Search by name, student number, course, or section..."
-          className="flex-1 border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#8B0000]/20 focus:border-[#8B0000]"
+          className="flex-1 border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/20 focus:border-[#D4AF37]"
         />
         <button
           onClick={() => setShowModal(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-[#8B0000] text-white rounded-lg text-sm font-medium hover:bg-[#6b0000] transition cursor-pointer"
+          className="flex items-center gap-2 px-4 py-2 bg-[#D4AF37] text-black rounded-lg text-sm font-medium hover:bg-[#D4AF37]/80 transition cursor-pointer"
         >
           <UserPlus className="w-4 h-4" /> Add Student
         </button>
@@ -540,7 +540,7 @@ function StudentsSection() {
       {showModal && (
         <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
           <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md space-y-5">
-            <h2 className="text-xl font-bold text-[#8B0000]">Add New Student</h2>
+            <h2 className="text-xl font-bold text-[#D4AF37]">Add New Student</h2>
             {[
               { key: "name", label: "Full Name" },
               { key: "studentNo", label: "Student Number" },
@@ -553,7 +553,7 @@ function StudentsSection() {
                   type="text"
                   value={newStudent[field.key]}
                   onChange={(e) => setNewStudent({ ...newStudent, [field.key]: e.target.value })}
-                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B0000]/20 focus:border-[#8B0000]"
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/20 focus:border-[#D4AF37]"
                   placeholder={`Enter ${field.label.toLowerCase()}`}
                 />
               </div>
@@ -561,13 +561,13 @@ function StudentsSection() {
             <div className="flex gap-3 pt-2">
               <button
                 onClick={() => setShowModal(false)}
-                className="flex-1 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-600 hover:border-[#8B0000] transition cursor-pointer"
+                className="flex-1 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-600 hover:border-[#D4AF37] transition cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 onClick={() => setShowModal(false)}
-                className="flex-1 py-2 bg-[#8B0000] text-white rounded-lg text-sm font-medium hover:bg-[#6b0000] transition cursor-pointer"
+                className="flex-1 py-2 bg-[#D4AF37] text-black rounded-lg text-sm font-medium hover:bg-[#D4AF37]/80 transition cursor-pointer"
               >
                 Add Student
               </button>
@@ -582,7 +582,7 @@ function StudentsSection() {
 /* ── Workspace ── */
 function WorkspaceSection() {
   const featuredFilms = [
-    { title: "Liwanag sa Dilim", genre: "Drama", rating: 4.8, color: "#5C1A1A" },
+    { title: "Liwanag sa Dilim", genre: "Drama", rating: 4.8, color: "#D4AF37" },
     { title: "Bagong Umaga", genre: "Documentary", rating: 4.6, color: "#1A3A5C" },
     { title: "Sa Aming Lahi", genre: "Short Film", rating: 4.9, color: "#1A5C2E" },
     { title: "Habang Buhay", genre: "Romance", rating: 4.5, color: "#4A1A5C" },
@@ -590,7 +590,7 @@ function WorkspaceSection() {
 
   const topRated = [
     { title: "Sa Aming Lahi", student: "Class 3A Ensemble", genre: "Short Film", rating: 4.9, color: "#1A5C2E" },
-    { title: "Liwanag sa Dilim", student: "Maria Santos", genre: "Drama", rating: 4.8, color: "#5C1A1A" },
+    { title: "Liwanag sa Dilim", student: "Maria Santos", genre: "Drama", rating: 4.8, color: "#D4AF37" },
     { title: "Bagong Umaga", student: "Lea Fernandez", genre: "Documentary", rating: 4.6, color: "#1A3A5C" },
     { title: "Pagbabalik", student: "Carlos Mendoza", genre: "Short Film", rating: 4.4, color: "#4A1A5C" },
   ];
@@ -604,14 +604,14 @@ function WorkspaceSection() {
 
   return (
     <div className="space-y-10">
-      <div className="relative rounded-2xl overflow-hidden h-72 bg-gradient-to-br from-[#5C1A1A] to-[#8B0000]">
+      <div className="relative rounded-2xl overflow-hidden h-72 bg-gradient-to-br from-[#D4AF37] to-[#D4AF37]">
         <div className="absolute inset-0 flex flex-col justify-end p-8 bg-gradient-to-t from-black/70 to-transparent">
-          <span className="inline-flex w-fit px-3 py-1 bg-[#8B0000] text-xs text-white rounded-lg">
+          <span className="inline-flex w-fit px-3 py-1 bg-[#D4AF37] text-black text-xs rounded-lg">
             Top 10 – Highlight Film
           </span>
           <h1 className="text-4xl font-bold text-white mt-3">Liwanag sa Dilim</h1>
           <p className="text-gray-200 text-sm mt-1">Maria Santos · 2026 · Student Film</p>
-          <div className="flex items-center gap-2 mt-2 text-yellow-300 text-sm">
+          <div className="flex items-center gap-2 mt-2 text-[#D4AF37] text-sm">
             <Star className="w-4 h-4" fill="currentColor" />
             <span>4.8 / 5</span>
           </div>
@@ -619,7 +619,7 @@ function WorkspaceSection() {
             <button className="flex items-center gap-2 bg-white text-black px-5 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 cursor-pointer">
               <Play className="w-4 h-4" /> Play Now
             </button>
-            <button className="bg-[#8B0000] text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-[#6b0000] cursor-pointer">
+            <button className="bg-[#D4AF37] text-black px-5 py-2 rounded-lg text-sm font-medium hover:bg-[#D4AF37]/80 cursor-pointer">
               More Info
             </button>
           </div>
@@ -636,7 +636,7 @@ function WorkspaceSection() {
 function FilmRow({ title, films }) {
   return (
     <div>
-      <h2 className="text-xl font-semibold text-[#8B0000] mb-4">{title}</h2>
+      <h2 className="text-xl font-semibold text-[#D4AF37] mb-4">{title}</h2>
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {films.map((film) => (
           <div
@@ -649,8 +649,8 @@ function FilmRow({ title, films }) {
               <p className="text-white font-bold text-sm">{film.title}</p>
               {film.student && <p className="text-white/70 text-xs mt-0.5">{film.student}</p>}
               <div className="flex items-center gap-1 mt-1">
-                <TrendingUp className="w-3 h-3 text-yellow-400" />
-                <span className="text-xs text-yellow-300">{film.rating}</span>
+                <TrendingUp className="w-3 h-3 text-[#D4AF37]" />
+                <span className="text-xs text-[#D4AF37]">{film.rating}</span>
               </div>
             </div>
             <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition bg-black/30">
@@ -667,7 +667,7 @@ function FilmRow({ title, films }) {
 function SettingsSection({ logout }) {
   const [activeTab, setActiveTab] = useState('general');
   const TabButton = ({ id, icon: Icon, label }) => (
-    <button onClick={() => setActiveTab(id)} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition ${activeTab === id ? 'bg-[#8B0000] text-white shadow-md' : 'text-gray-600 hover:bg-gray-100'}`}>
+    <button onClick={() => setActiveTab(id)} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition ${activeTab === id ? 'bg-[#D4AF37] text-white shadow-md' : 'text-gray-600 hover:bg-gray-100'}`}>
       <Icon size={20} />
       <span className="font-medium">{label}</span>
     </button>
@@ -675,7 +675,7 @@ function SettingsSection({ logout }) {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold text-[#8B0000] mb-4">Settings</h1>
+      <h1 className="text-3xl font-bold text-[#D4AF37] mb-4">Settings</h1>
       <div className="flex flex-col md:flex-row gap-8 bg-white rounded-xl shadow-xl border border-gray-100 min-h-[500px] overflow-hidden">
 
         {/* SIDEBAR NAVIGATION */}
@@ -717,7 +717,7 @@ function SettingsSection({ logout }) {
       <div className="pt-6 pb-4">
         <button
           onClick={logout}
-          className="flex items-center gap-2 px-6 py-3 bg-[#8B0000] text-white rounded-xl font-medium hover:bg-[#6b0000] transition cursor-pointer"
+          className="flex items-center gap-2 px-6 py-3 bg-[#D4AF37] text-white rounded-xl font-medium hover:bg-[#D4AF37] transition cursor-pointer"
         >
           <LogOut className="w-4 h-4" /> Logout
         </button>

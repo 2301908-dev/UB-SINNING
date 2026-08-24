@@ -20,7 +20,7 @@ function WaveBackground() {
 function LogoIcon() {
   return (
     <img
-      src="/src/assets/ublogo.png"
+      src="/src/assets/SanctuaryLogo.png"
       alt="UB Sining Logo"
       className="w-10 h-10 rounded-full object-cover scale-[1.7]"
     />
@@ -215,7 +215,7 @@ function Navbar({ onSignInClick }) {
       <div className="flex items-center gap-3 flex-1 ml-3 cursor-pointer" onClick={() => { setActiveLink("Home"); const el = document.getElementById("home"); if (el) el.scrollIntoView({ behavior: "smooth" }); }}>
         <LogoIcon />
         <span
-          className="text-[#8B0000] text-[26px] tracking-wide"
+          className="text-[#D4AF37] text-[26px] tracking-wide"
           style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700 }}
         >
           UB-SINING
@@ -232,8 +232,8 @@ function Navbar({ onSignInClick }) {
               className={`
                 inline-block text-[16px] no-underline
                 transition-colors duration-200
-                hover:text-[#8B0000]
-                ${activeLink === link ? "text-[#8B0000] border-[#8B0000]" : "text-[#1a1a1a] border-transparent"}
+                hover:text-[#D4AF37]
+                ${activeLink === link ? "text-[#D4AF37] border-[#D4AF37]" : "text-[#1a1a1a] border-transparent"}
               `}
               style={{
                 fontFamily: "'Poppins', sans-serif",
@@ -258,16 +258,16 @@ function Navbar({ onSignInClick }) {
           text-white text-[16px] rounded-full px-7 py-3
           transition-all duration-200
           hover:scale-[1.03] active:scale-95
-          shadow-[0_3px_12px_rgba(139,0,0,0.28)]
-          hover:shadow-[0_5px_18px_rgba(139,0,0,0.38)]
+          shadow-[0_3px_12px_rgba(255,215,0,0.28)]
+          hover:shadow-[0_5px_18px_rgba(255,215,0,0.38)]
         "
         style={{
           fontFamily: "'Poppins', sans-serif",
           fontWeight: 500,
-          background: "#8B0000",
+          background: "#D4AF37",
         }}
-        onMouseEnter={(e) => (e.currentTarget.style.background = "#6b0000")}
-        onMouseLeave={(e) => (e.currentTarget.style.background = "#8B0000")}
+        onMouseEnter={(e) => (e.currentTarget.style.background = "#D4AF37")}
+        onMouseLeave={(e) => (e.currentTarget.style.background = "#D4AF37")}
       >
         Sign In
       </button>
@@ -357,7 +357,7 @@ function HeroSection({ onSignInClick }) {
                   />
                   <defs>
                     <linearGradient id="heroGrad" x1="0" x2="1">
-                      <stop offset="0" stopColor="#8B0000" />
+                      <stop offset="0" stopColor="#D4AF37" />
                       <stop offset="1" stopColor="#ffc553" />
                     </linearGradient>
                   </defs>
@@ -394,7 +394,7 @@ function HeroSection({ onSignInClick }) {
                   display: "inline-flex",
                   alignItems: "center",
                   gap: 8,
-                  background: "#8B0000",
+                  background: "#D4AF37",
                   color: "#fff",
                   fontFamily: "'Poppins', sans-serif",
                   fontWeight: 600,
@@ -403,20 +403,20 @@ function HeroSection({ onSignInClick }) {
                   borderRadius: 100,
                   padding: "13px 28px",
                   cursor: "pointer",
-                  boxShadow: "0 4px 18px rgba(139,0,0,0.32)",
+                  boxShadow: "0 4px 18px rgba(255,215,0,0.32)",
                   backdropFilter: "blur(12px)",
                   WebkitBackdropFilter: "blur(12px)",
                   transition: "all 0.2s",
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "#6b0000";
+                  e.currentTarget.style.background = "#D4AF37";
                   e.currentTarget.style.transform = "translateY(-2px)";
-                  e.currentTarget.style.boxShadow = "0 8px 28px rgba(139,0,0,0.42)";
+                  e.currentTarget.style.boxShadow = "0 8px 28px rgba(255,215,0,0.42)";
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "#8B0000";
+                  e.currentTarget.style.background = "#D4AF37";
                   e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow = "0 4px 18px rgba(139,0,0,0.32)";
+                  e.currentTarget.style.boxShadow = "0 4px 18px rgba(255,215,0,0.32)";
                 }}
               >
                 Learn More
@@ -430,11 +430,11 @@ function HeroSection({ onSignInClick }) {
                   alignItems: "center",
                   gap: 8,
                   background: "rgba(255,255,255,0.82)",
-                  color: "#8B0000",
+                  color: "#D4AF37",
                   fontFamily: "'Poppins', sans-serif",
                   fontWeight: 600,
                   fontSize: 15,
-                  border: "1.5px solid rgba(139,0,0,0.22)",
+                  border: "1.5px solid rgba(255,215,0,0.3)",
                   borderRadius: 100,
                   padding: "13px 24px",
                   cursor: "pointer",
@@ -525,7 +525,7 @@ export default function LandingPage({ onNavigateSignIn }) {
         <div style={{
           position: "absolute", top: "5%", left: "-5%",
           width: 500, height: 500, borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(139,0,0,0.30) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(255,215,0,0.22) 0%, transparent 70%)",
           animation: "floatSlow 8s ease-in-out infinite",
         }} />
         <div style={{
@@ -538,7 +538,7 @@ export default function LandingPage({ onNavigateSignIn }) {
         <div style={{
           position: "absolute", top: "35%", left: "15%",
           width: 350, height: 350, borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(139,0,0,0.22) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(255,215,0,0.18) 0%, transparent 70%)",
           animation: "floatSlow 10s ease-in-out infinite",
           animationDelay: "1.5s",
         }} />
@@ -552,7 +552,7 @@ export default function LandingPage({ onNavigateSignIn }) {
         <div style={{
           position: "absolute", top: "70%", left: "-8%",
           width: 400, height: 400, borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(139,0,0,0.25) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(255,215,0,0.2) 0%, transparent 70%)",
           animation: "floatSlow 9s ease-in-out infinite",
           animationDelay: "3s",
         }} />

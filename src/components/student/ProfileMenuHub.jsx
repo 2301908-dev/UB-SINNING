@@ -43,13 +43,6 @@ export default function ProfileMenuHub({ onOpenSettings, onOpenHelp }) {
     window.location.assign(`/student/settings-workspace?tab=${tab}`);
   };
 
-  const settingsPages = [
-    { id: "profile", label: "Director Profile" },
-    { id: "privacy", label: "Privacy & IP" },
-    { id: "notifications", label: "Notifications" },
-    { id: "verification", label: "Account Security" },
-  ];
-
   useEffect(() => {
     if (!isOpen || !buttonRef.current) {
       return;
@@ -67,7 +60,7 @@ export default function ProfileMenuHub({ onOpenSettings, onOpenHelp }) {
       <button
         ref={buttonRef}
         onClick={() => setIsOpen((current) => !current)}
-        className="relative h-10 w-10 overflow-hidden rounded-full border-2 border-[#8B0000] transition-colors hover:border-[#D4AF37] hover:shadow-md focus:outline-none"
+        className="relative h-10 w-10 overflow-hidden rounded-full border-2 border-[#D4AF37] transition-colors hover:border-[#D4AF37] hover:shadow-md focus:outline-none"
         aria-label="Open profile menu"
         aria-expanded={isOpen}
       >
@@ -108,19 +101,6 @@ export default function ProfileMenuHub({ onOpenSettings, onOpenHelp }) {
               <span className="flex-1 text-left">Settings Workspace</span>
               <ChevronRight className="h-4 w-4 opacity-0 transition group-hover:opacity-100" />
             </button>
-
-            <div className="mt-2 space-y-1 rounded-2xl border border-white/10 bg-white/5 p-2">
-              {settingsPages.map((page) => (
-                <button
-                  key={page.id}
-                  onClick={() => handleMenuClick(() => openSettingsWorkspace(page.id))}
-                  className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-xs text-white/70 transition hover:bg-white/10 hover:text-white"
-                >
-                  <span>{page.label}</span>
-                  <ChevronRight className="h-3.5 w-3.5 text-[#D4AF37]" />
-                </button>
-              ))}
-            </div>
 
             <button
               onClick={() => handleMenuClick(onOpenHelp)}

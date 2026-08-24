@@ -11,13 +11,16 @@ import NotFoundPage from "./pages/NotFoundPage";
 function AppContent() {
   const { user, role, loading, error } = useAuth();
   const [view, setView] = useState("landing"); // "landing" | "signin"
+  const pathname = window.location.pathname;
+  const effectiveRole = role ?? "student";
 
-  // Wait for both session AND role before routing to a dashboard —
-  // otherwise the StudentDashboard flashes for users whose role is still resolving.
-  if (loading || (user && role === null)) {
-    if (window.location.pathname === "/auth/callback") {
-      return <AuthCallback />;
-    }
+  // Only block the shell while the session itself is loading.
+  // The profile role can resolve after the dashboard is already visible.
+  if (pathname === "/auth/callback" && loading) {
+    return <AuthCallback />;
+  }
+
+  if (loading) {
     return (
       <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'Poppins', sans-serif" }}>
         <p style={{ color: "#4B5563", fontSize: "16px" }}>Loading your dashboard…</p>
@@ -27,7 +30,7 @@ function AppContent() {
 
   // Route based on role
   if (user) {
-    if (role === "student" && window.location.pathname === "/student/settings-workspace") {
+    if (effectiveRole === "student" && pathname === "/student/settings-workspace") {
       const params = new URLSearchParams(window.location.search);
       return (
         <StudentSettingsWorkspace
@@ -36,8 +39,8 @@ function AppContent() {
         />
       );
     }
-    if (role === "admin") return <AdminDashboard />;
-    if (role === "faculty") return <FacultyDashboard />;
+    if (effectiveRole === "admin") return <AdminDashboard />;
+    if (effectiveRole === "faculty") return <FacultyDashboard />;
     return <StudentDashboard />;
   }
 
