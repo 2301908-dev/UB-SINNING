@@ -4,7 +4,6 @@ import LoginPage from "./pages/LoginPage";
 import SignInPage from "./pages/SignInPage";
 import StudentDashboard from "./pages/StudentDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
-import TotalUploads from "./pages/TotalUploads";
 
 function AppContent() {
   const { role } = useAuth();
