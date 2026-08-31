@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useAuth } from "../context/AuthContext";
 import UBLogo from "../components/UBLogo";
+import GeneralSettings from "./GeneralSettings";
 import { mockFilms } from "../data/mockFilms";
 import { ArrowLeft } from 'lucide-react';
 import TotalUploadsIcon from "../assets/icons/camera.png";
@@ -32,6 +33,7 @@ import {
   Edit2
 } from "lucide-react";
 
+{/*list of users for the user management section*/}
 const mockUsers = [
   { id: 1, name: "John Manuel Policarpio III", email: "2301565@ub.edu.ph", created: "2025-08-12", role: "Professor", canEnter: true },
   { id: 2, name: "Brent Joseph M. Pagcaliwagan", email: "2301687@ub.edu.ph", created: "2025-08-22", role: "Student", canEnter: true },
@@ -43,6 +45,7 @@ const mockUsers = [
 ];
 
 export default function AdminDashboard() {
+  
   const [isEditing, setIsEditing] = useState(false);
   const [adminData, setAdminData] = useState({
     firstName: "Brent Joseph",
@@ -129,25 +132,25 @@ export default function AdminDashboard() {
             <div className="relative" ref={notificationRef}>
               <button
                 onClick={() => setNotificationsOpen(!notificationsOpen)}
-                className={`p-2 rounded-xl transition shadow-md relative transition-all duration-300 ease-in-out hover:-translate-y-1.5 cursor-pointer ${isDark
-                  ? 'bg-white/10 text-white border border-white/10 hover:bg-white/20'
+                className={`p-2.5 rounded-lg transition shadow-lg relative transition-all duration-300 ease-in-out hover:-translate-y-1 cursor-pointer group ${isDark
+                  ? 'bg-white/8 text-white border border-[#D4AF37]/20 hover:bg-white/12 hover:border-[#D4AF37]/40'
                   : 'bg-white/10 text-slate-900 border border-slate-200 hover:bg-slate-100'
                   }`}
               >
-                <Bell className="w-4 h-4" />
+                <Bell className="w-4 h-4 group-hover:text-[#D4AF37] transition" />
                 {/*Notification dot indicator*/}
-                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#FF0000] rounded-full ring-2 ring-white/20"></span>
+                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#FF0000] rounded-full ring-2 ring-[#FF0000]/40 animate-pulse"></span>
               </button>
 
               {/* Notification Dropdown */}
               {notificationsOpen && (
-                <div className={`absolute right-0 mt-3 w-80 rounded-xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 ${isDark ? 'bg-[#17141f] text-[#E8EDF2] ring-1 ring-white/10' : 'bg-white text-[#080616] ring-1 ring-black/5'
+                <div className={`absolute right-0 mt-3 w-80 rounded-xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 ${isDark ? 'bg-[#15131f]/98 text-[#E8EDF2] ring-1 ring-[#D4AF37]/20 backdrop-blur-xl' : 'bg-white text-[#080616] ring-1 ring-black/5'
                   }`}>
 
                   {/* Header */}
-                  <div className={`px-4 py-3 flex justify-between items-center ${isDark ? 'border-b border-white/10 bg-[#1d1a2b]' : 'border-b border-gray-100 bg-gray-50/50'
+                  <div className={`px-4 py-3 flex justify-between items-center ${isDark ? 'border-b border-[#D4AF37]/10 bg-[#1a1728]/60' : 'border-b border-gray-100 bg-gray-50/50'
                     }`}>
-                    <p className={`text-xs font-bold uppercase tracking-wider ${isDark ? 'text-[#FFFFFF]/90' : 'text-[#FF0000]'}`}>
+                    <p className={`text-xs font-extrabold uppercase tracking-widest ${isDark ? 'text-[#D4AF37]' : 'text-[#FF0000]'}`}>
                       Notifications
                     </p>
                     <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${isDark ? 'bg-red-100/10 text-red-300' : 'bg-red-100 text-[#8B0000]'
@@ -250,11 +253,11 @@ export default function AdminDashboard() {
 
                 {/* Admin Profile Dropdown */}
                 {profileDropdownOpen && (
-                  <div className={`absolute right-0 mt-3 w-56 rounded-xl overflow-visible cursor-pointer transition-all shadow-2xl ${isDark ? 'bg-[#17141f] text-[#E8EDF2] ring-1 ring-white/10' : 'bg-white text-[#080616] ring-1 ring-black/5'}`}>
+                  <div className={`absolute right-0 mt-3 w-56 rounded-xl overflow-visible cursor-pointer transition-all shadow-2xl ${isDark ? 'bg-[#15131f]/98 text-[#E8EDF2] ring-1 ring-[#D4AF37]/20 backdrop-blur-xl' : 'bg-white text-[#080616] ring-1 ring-black/5'}`}>
 
-                    <div className={`px-4 py-4 rounded-t-xl ${isDark ? 'border-b border-white/10 bg-[#1d1a2b]' : 'border-b border-gray-100 bg-gray-50/50'}`}>
-                      <p className={`text-sm font-bold ${isDark ? 'text-white' : 'text-[#8B0000]'}`}>{adminData.firstName} {adminData.lastName}</p>
-                      <p className={`text-xs truncate ${isDark ? 'text-white/60' : 'text-gray-500'}`}>{adminData.email}</p>
+                    <div className={`px-5 py-4 rounded-t-xl ${isDark ? 'border-b border-[#D4AF37]/10 bg-[#1a1728]/60' : 'border-b border-gray-100 bg-gray-50/50'}`}>
+                      <p className={`text-sm font-bold tracking-tight ${isDark && 'text-[#D4AF37]'}`}>{adminData.firstName} {adminData.lastName}</p>
+                      <p className={`text-xs truncate ${isDark && 'text-white/60'}`}>{adminData.email}</p>
                     </div>
 
                     <div className="py-1 relative">
@@ -266,10 +269,10 @@ export default function AdminDashboard() {
                           setProfileDropdownOpen(false);
                           setLanguageMenuOpen(false);
                         }}
-                        className="flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm transition text-white/80 hover:bg-white/5 hover:text-[#FFFFFF]"
+                        className="flex items-center gap-3 w-full px-4 py-3 text-left text-sm transition text-white/80 hover:bg-[#D4AF37]/10 hover:text-[#D4AF37] font-medium"
                       >
-                        <User className="w-4 h-4 transition-colors text-white/50" />
-                        <span className="font-medium">My Profile</span>
+                        <User className="w-4 h-4 transition-colors text-[#D4AF37]/70" />
+                        <span>My Profile</span>
                       </button>
 
                       {/* Language Selector Option */}
@@ -289,7 +292,7 @@ export default function AdminDashboard() {
                         </button>
 
                         {languageMenuOpen && (
-                          <div className="absolute right-full top-0 mr-2 w-48 rounded-xl border border-white/10 bg-[#17141f] shadow-2xl py-1 animate-in slide-in-from-right-2 duration-150 z-50">
+                          <div className="absolute right-full top-0 mr-2 w-48 rounded-xl border border-[#D4AF37]/20 bg-[#15131f]/98 shadow-2xl py-1 animate-in slide-in-from-right-2 duration-150 z-50 backdrop-blur-xl">
                             {[
                               { label: "English (US)", code: "EN" },
                               { label: "Filipino", code: "TL" },
@@ -302,7 +305,7 @@ export default function AdminDashboard() {
                                     setLanguage(option);
                                     setLanguageMenuOpen(false);
                                   }}
-                                  className={`flex items-center justify-between w-full px-4 py-2 text-left text-sm transition hover:bg-white/5 ${isSelected ? "text-[#D4AF37] font-bold bg-white/5" : "text-white/80"
+                                  className={`flex items-center justify-between w-full px-4 py-2.5 text-left text-sm transition hover:bg-[#D4AF37]/10 ${isSelected ? "text-[#D4AF37] font-bold bg-[#D4AF37]/5" : "text-white/80 hover:text-[#D4AF37]"
                                     }`}
                                 >
                                   <span className="flex items-center gap-2">
@@ -327,24 +330,23 @@ export default function AdminDashboard() {
                       {/* Settings Option */}
                       <button
                         onClick={() => { setSection("settings"); setProfileDropdownOpen(false); setLanguageMenuOpen(false); }}
-                        className={`flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm transition ${isDark
-                          ? 'text-white/80 hover:bg-white/5 hover:text-white'
+                        className={`flex items-center gap-3 w-full px-4 py-3 text-left text-sm transition font-medium ${isDark
+                          ? 'text-white/80 hover:bg-[#D4AF37]/10 hover:text-[#D4AF37]'
                           : 'text-gray-700 hover:bg-gray-100 hover:text-[#FF0000]'
                           }`}
                       >
-                        <Settings className={`w-4 h-4 transition-colors ${isDark ? 'text-white/50' : 'text-gray-500'}`} />
-                        <span className="font-medium">Settings</span>
+                        <Settings className={`w-4 h-4 transition-colors ${isDark ? 'text-[#D4AF37]/70' : 'text-gray-500'}`} />
+                        <span>Settings</span>
                       </button>
 
                       {/* Help Center Option */}
                       <button
-                        className={`flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm transition ${isDark
-                          ? 'text-white/80 hover:bg-white/5 hover:text-white'
-                          : 'text-gray-700 hover:bg-gray-100 hover:text-[#8B0000]'
+                        className={`flex items-center gap-3 w-full px-4 py-3 text-left text-sm transition font-medium ${isDark
+                          && 'text-white/80 hover:bg-[#D4AF37]/10 hover:text-[#D4AF37]'
                           }`}
                       >
-                        <HelpCircle className={`w-4 h-4 transition-colors ${isDark ? 'text-white/50' : 'text-gray-500'}`} />
-                        <span className="font-medium">Help Center</span>
+                        <HelpCircle className={`w-4 h-4 transition-colors ${isDark && 'text-[#D4AF37]/70' }`} />
+                        <span>Help Center</span>
                       </button>
                       <div className="border-t border-gray-100 my-1"></div>
 
@@ -365,14 +367,14 @@ export default function AdminDashboard() {
         </header>
 
         {/* Dynamic Section Content Viewport */}
-        <main className="flex-1 p-8 overflow-y-auto text-white">
+        <main className="flex-1 p-8 overflow-y-auto text-white bg-gradient-to-br from-[#0d0c15] via-[#0f0e17]/50 to-[#0d0c15]">
           <div className="animate-in fade-in duration-500">
 
             {/* DYNAMIC SECTION RENDERING */}
             <div className="animate-in fade-in duration-500">
               {section !== "edit-profile" && (
-                <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                  <h1 className="text-3xl font-bold text-[#D4AF37]">
+                <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <h1 className="text-4xl font-black bg-gradient-to-r from-[#D4AF37] to-[#EAB308] bg-clip-text text-transparent">
                     {section === "overview"
                       ? "Dashboard Overview"
                       : section === "content"
@@ -478,7 +480,7 @@ export default function AdminDashboard() {
                   >
                     {/* Avatar Uploader Wrapper */}
                     <div className="relative group shrink-0">
-                      <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full p-1 bg-gradient-to-tr from-[#8B0000] to-rose-400 shadow-xl">
+                      <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full p-1 bg-[#F59E0B] shadow-xl">
                         <img
                           src={isEditing ? editForm.avatar : adminData.avatar}
                           alt="User Avatar"
@@ -718,9 +720,9 @@ export default function AdminDashboard() {
 /* ------------ SUB-PAGES (INTEGRATED) ------------------ */
 function KPI({ title, value, change, iconSrc, isDark, titleClassName = "" }) {
   return (
-    <div className={`rounded-2xl p-6 border transition-all duration-300 ease-in-out hover:-translate-y-1.5 cursor-pointer ${isDark ? 'bg-[#1a1728] border-white/10 shadow-xl shadow-black/20' : 'bg-white rounded-2xl border border-gray-100/50 shadow-sm hover:shadow-xl'}`}>
+    <div className={`rounded-2xl p-7 border transition-all duration-300 ease-in-out hover:-translate-y-2 cursor-pointer group ${isDark ? 'bg-gradient-to-br from-[#1a1728]/60 to-[#15131f]/40 border-[#D4AF37]/20 shadow-xl shadow-[#D4AF37]/10 hover:border-[#D4AF37]/40 hover:shadow-2xl hover:shadow-[#D4AF37]/20' : 'bg-white rounded-2xl border border-gray-100/50 shadow-sm hover:shadow-xl'}`}>
 
-      <div className="w-11 h-11 rounded-lg bg-[#8B0000]/10 backdrop-blur-sm flex items-center justify-center p-2.5 shadow-inner border border-white/20">
+      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#D4AF37]/20 to-[#D4AF37]/5 backdrop-blur-sm flex items-center justify-center p-2.5 shadow-lg border border-[#D4AF37]/20 group-hover:border-[#D4AF37]/40 transition">
         <img
           src={iconSrc}
           alt={`${title} icon`}
@@ -728,15 +730,15 @@ function KPI({ title, value, change, iconSrc, isDark, titleClassName = "" }) {
         />
       </div>
 
-      <p className={`text-sm ${titleClassName || (isDark ? "text-gray-300" : "text-gray-600")}`}>
+      <p className={`text-sm font-semibold tracking-wide mt-3 ${titleClassName || (isDark ? "text-white/70" : "text-gray-600")}`}>
         {title}
       </p>
 
-      <p className={`text-3xl font-bold ${isDark ? "text-white" : "text-[#080616]"}`}>
+      <p className={`text-4xl font-black mt-2 ${isDark ? "text-white" : "text-[#080616]"}`}>
         {value}
       </p>
 
-      <p className="text-green-600 text-xs font-bold">{change}</p>
+      <p className="text-green-500/80 text-xs font-bold tracking-widest mt-2 uppercase">{change}</p>
     </div>
   );
 }
@@ -791,7 +793,7 @@ function AdminOverview({ isDark, navigateTo }) {
           <KPI
             title="Total Uploads"
             value="38"
-            change="+12"
+            change="+12 this Month"
             iconSrc={TotalUploadsIcon}
             isDark={isDark}
           />
@@ -805,7 +807,7 @@ function AdminOverview({ isDark, navigateTo }) {
           <KPI
             title="Pending Review"
             value="12"
-            change="+3"
+            change="+3 this week"
             iconSrc={PendingReviewsIcon}
             isDark={isDark}
           />
@@ -813,8 +815,8 @@ function AdminOverview({ isDark, navigateTo }) {
 
         <KPI
           title="Total Views"
-          value="332"
-          change="+8"
+          value="9,600"
+          change="+8 this day"
           iconSrc={ActiveUsersIcon}
           isDark={isDark}
         />
@@ -822,7 +824,7 @@ function AdminOverview({ isDark, navigateTo }) {
         <KPI
           title="Total Users"
           value="4.7k"
-          change="+4"
+          change="+4 This Month"
           iconSrc={AvgRatingIcon}
           isDark={isDark}
         />
@@ -830,20 +832,19 @@ function AdminOverview({ isDark, navigateTo }) {
 
       {/* Total Views Analytics */}
       <div
-        className={`backdrop-blur-md p-6 rounded-xl shadow-lg border transition-all duration-300 ease-in-out hover:-translate-y-1.5 cursor-pointer ${isDark
-          ? "bg-[#1e1b29]/90 border-white/10 text-white"
-          : "bg-white/80 border-gray-200 text-[#080616]"
+        className={`backdrop-blur-md p-7 rounded-2xl shadow-2xl border transition-all duration-300 ease-in-out hover:-translate-y-1 cursor-pointer ${isDark
+          && "bg-gradient-to-br from-[#1a1728]/60 to-[#15131f]/40 border-[#D4AF37]/20 text-white hover:border-[#D4AF37]/40 shadow-[#D4AF37]/10"
           }`}
       >
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
           <div>
-            <h2 className="text-xl font-bold text-[#D4AF37]">Total Views Analytics</h2>
-            <p className={`font-sans ${isDark ? "text-white/80" : "text-gray-500"} text-xs mt-1.5`}>
+            <h2 className="text-2xl font-black bg-gradient-to-r from-[#D4AF37] to-[#EAB308] bg-clip-text text-transparent">Total Views Analytics</h2>
+            <p className={`font-sans text-sm ${isDark ? "text-white/70" : "text-gray-500"} mt-1`}>
               Track presentation audience engagement cycles
             </p>
           </div>
 
-          <div className="flex p-1 rounded-xl border self-start sm:self-auto bg-white/10 border-white/10">
+          <div className="flex p-1.5 rounded-lg border self-start sm:self-auto bg-[#15131f]/50 border-[#D4AF37]/20 backdrop-blur-sm">
             {[
               { id: "days", label: "Days" },
               { id: "week", label: "Weeks" },
@@ -852,9 +853,9 @@ function AdminOverview({ isDark, navigateTo }) {
               <button
                 key={tab.id}
                 onClick={() => setTimeframe(tab.id)}
-                className={`px-4 py-1.5 rounded-lg text-xs font-semibold transition ${timeframe === tab.id
-                  ? "bg-[#D4AF37] text-[#080616] shadow-sm"
-                  : "text-[#FFFFFF] hover:text-[#D4AF37]"
+                className={`px-4 py-2 rounded-md text-xs font-bold transition duration-300 ${timeframe === tab.id
+                  ? "bg-gradient-to-r from-[#D4AF37] to-[#EAB308] text-[#080616] shadow-lg shadow-[#D4AF37]/30 font-black"
+                  : "text-white/70 hover:text-[#D4AF37] hover:bg-[#D4AF37]/10"
                   }`}
               >
                 {tab.label}
@@ -889,7 +890,7 @@ function AdminOverview({ isDark, navigateTo }) {
 
                 {/*Bar Element*/}
                 <div
-                  className={`w-full max-w-[30px] rounded-t-lg bg-gradient-to-t from-[#8B0000] via-[#D4AF37]/80 to-[#EAB308] transition-all duration-300 ease-out group-hover:brightness-125 group-hover:shadow-[0_0_15px_rgba(234,179,8,0.5)] ${data.height}`}
+                  className={`w-full max-w-[30px] rounded-t-lg bg-gradient-to-t from-[#D4AF37]/80 via-[#D4AF37]/60 to-[#EAB308] transition-all duration-300 ease-out group-hover:brightness-125 group-hover:shadow-[0_0_20px_rgba(212,175,55,0.6)] ${data.height}`}
                 ></div>
 
                 {/*Label*/}
@@ -1492,14 +1493,8 @@ function SettingsPage({ isDark, setSection }) {
         {/* MAIN CONTENT AREA */}
         <div className="flex-1 p-6">
 
-          {/* Placeholder for General Tab Content */}
           {activeTab === 'general' && (
-            <div>
-              <h2 className={`text-xl font-bold mb-4 ${isDark ? 'text-white' : 'text-gray-800'}`}>General Settings</h2>
-              <p className={`text-sm mb-6 ${isDark ? 'text-white/70' : 'text-gray-600'}`}>Manage your overall preferences here.</p>
-
-              <hr className={`my-6 ${isDark ? 'border-gray-700' : 'border-gray-200'}`} />
-            </div>
+            <GeneralSettings />
           )}
 
           {/* Placeholder for Account Tab Content */}
