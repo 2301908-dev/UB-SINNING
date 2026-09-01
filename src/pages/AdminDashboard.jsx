@@ -701,7 +701,7 @@ export default function AdminDashboard() {
 
                       <button
                         onClick={handleSave}
-                        className="px-6 py-2.5 text-xs font-bold rounded-2xl bg-[#D4AF37] hover:bg-[#E5C158] text-[#080616] shadow-lg shadow-[#D4AF37]/25 hover:shadow-xl hover:shadow-[#D4AF37]/30 transition-all duration-200 active:scale-95"
+                        className="px-6 py-2.5 text-xs font-medium rounded-2xl bg-[#D4AF37] hover:bg-[#E5C158] text-[#080616] shadow-lg shadow-[#D4AF37]/25 hover:shadow-xl hover:shadow-[#D4AF37]/30 transition-all duration-200 active:scale-95"
                       >
                         Save Changes
                       </button>
