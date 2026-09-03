@@ -33,7 +33,7 @@ import {
   Edit2
 } from "lucide-react";
 
-{/*list of users for the user management section*/}
+{/*list of users for the user management section*/ }
 const mockUsers = [
   { id: 1, name: "John Manuel Policarpio III", email: "2301565@ub.edu.ph", created: "2025-08-12", role: "Professor", canEnter: true },
   { id: 2, name: "Brent Joseph M. Pagcaliwagan", email: "2301687@ub.edu.ph", created: "2025-08-22", role: "Student", canEnter: true },
@@ -45,7 +45,7 @@ const mockUsers = [
 ];
 
 export default function AdminDashboard() {
-  
+
   const [isEditing, setIsEditing] = useState(false);
   const [adminData, setAdminData] = useState({
     firstName: "Brent Joseph",
@@ -66,6 +66,12 @@ export default function AdminDashboard() {
     setIsEditing(false);
   };
 
+  const handleConfirmLogout = () => {
+    setShowModal(false);
+    setProfileDropdownOpen(false);
+    logout();
+  };
+
   const { logout } = useAuth();
   const [section, setSection] = useState("overview");
   const [prevSection, setPrevSection] = useState("overview");
@@ -75,6 +81,7 @@ export default function AdminDashboard() {
   const isDark = true;
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [globalSearch, setGlobalSearch] = useState("");
+  const [showModal, setShowModal] = useState(false);
   const dropdownRef = useRef(null);
   const notificationRef = useRef(null);
 
@@ -345,19 +352,52 @@ export default function AdminDashboard() {
                           && 'text-white/80 hover:bg-[#D4AF37]/10 hover:text-[#D4AF37]'
                           }`}
                       >
-                        <HelpCircle className={`w-4 h-4 transition-colors ${isDark && 'text-[#D4AF37]/70' }`} />
+                        <HelpCircle className={`w-4 h-4 transition-colors ${isDark && 'text-[#D4AF37]/70'}`} />
                         <span>Help Center</span>
                       </button>
                       <div className="border-t border-gray-100 my-1"></div>
 
-                      {/* Logout Option */}
                       <button
-                        onClick={() => { logout(); setProfileDropdownOpen(false); }}
+                        onClick={() => setShowModal(true)}
                         className="flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm text-red-600 hover:bg-red-50 transition"
                       >
                         <LogOut className="w-4 h-4" />
-                        <span className="font-medium">Logout</span>
+                        Logout
                       </button>
+
+                      {/* Confirmation Logout Notice */}
+                      {showModal && (
+                        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+                          <div className="w-full max-w-xs sm:max-w-sm rounded-xl bg-white p-5 shadow-xl dark:bg-slate-900 border border-slate-100 dark:border-slate-800">
+                            <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
+                              Confirm Logout
+                            </h3>
+
+                            <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
+                              Are you sure you want to end your current session?
+                            </p>
+
+                            {/* Stacked Full-Width Buttons Layout */}
+                            <div className="mt-6 flex flex-col-reverse sm:flex-row sm:justify-end gap-2.5">
+                              <button
+                                type="button"
+                                onClick={() => setShowModal(false)}
+                                className="w-full sm:w-auto rounded-lg border border-slate-300 dark:border-slate-700 px-4 py-2 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition text-center"
+                              >
+                                Cancel
+                              </button>
+
+                              <button
+                                type="button"
+                                onClick={handleConfirmLogout}
+                                className="w-full sm:w-auto rounded-lg bg-red-600 px-4 py-2 text-xs font-medium text-white hover:bg-red-700 transition shadow-sm text-center"
+                              >
+                                Yes, Logout
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}

@@ -13,7 +13,7 @@ import {
     Unlock,
 } from "lucide-react";
 
-const MAROON = "#8B0000";
+const MAROON = "#D4AF37";
 
 function SectionCard({ eyebrow, title, description, children }) {
     return (
